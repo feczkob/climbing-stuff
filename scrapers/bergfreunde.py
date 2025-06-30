@@ -51,8 +51,7 @@ def check_discounts():
                 "url": product_url
             })
 
-    selected_subcategory_discounts = check_selected_categories()
-    return discounts + selected_subcategory_discounts
+    return discounts
 
 def check_selected_categories():
     urls = [
