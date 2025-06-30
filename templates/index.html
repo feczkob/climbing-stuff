@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Climbing Equipment Discounts by Category</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; }
+        h2 { margin-top: 2em; }
+        .product { display: flex; align-items: center; margin-bottom: 1em; border-bottom: 1px solid #eee; padding-bottom: 1em; }
+        .product img { width: 100px; height: auto; margin-right: 1em; border: 1px solid #ccc; background: #fafafa; }
+        .product-info { flex: 1; }
+        .product a { text-decoration: none; color: #0074d9; font-weight: bold; font-size: 1.1em; }
+        .prices { margin-top: 0.5em; }
+        .orig-price { text-decoration: line-through; color: #888; margin-right: 1em; }
+        .disc-price { color: #d32f2f; font-weight: bold; }
+        #category-select { font-size: 1.1em; margin-bottom: 2em; }
+    </style>
+</head>
+<body>
+    <h1>Climbing Equipment Discounts</h1>
+    <label for="category-select"><b>Select category:</b></label>
+    <select id="category-select">
+        {% for cat in categories %}
+            <option value="{{ cat }}">{{ cat }}</option>
+        {% endfor %}
+    </select>
+    <div id="discounts-container">
+        <!-- Products will be rendered here by JS -->
+    </div>
+    <script>
+        const allDiscounts = {{ all_discounts|tojson }};
+        const container = document.getElementById('discounts-container');
+        const select = document.getElementById('category-select');
+
+        function renderProducts(category) {
+            container.innerHTML = '';
+            const discounts = allDiscounts[category] || [];
+            if (discounts.length === 0) {
+                container.innerHTML = '<p>No discounts found.</p>';
+                return;
+            }
+            discounts.forEach(d => {
+                const div = document.createElement('div');
+                div.className = 'product';
+                let imgHtml = d.image_url ? `<a href="${d.url}" target="_blank"><img src="${d.image_url}" alt="Product image"></a>` : '';
+                let name = d.product.split('(')[0].trim();
+                let priceInfo = d.product.split('-').slice(-1)[0].replace(')', '').trim();
+                let priceHtml = '';
+                if (priceInfo.includes('was')) {
+                    let discPrice = priceInfo.split('(')[0].trim();
+                    let origPrice = priceInfo.split('was').slice(-1)[0].trim();
+                    priceHtml = `<span class="disc-price">${discPrice}</span> <span class="orig-price">${origPrice}</span>`;
+                } else {
+                    priceHtml = `<span>${priceInfo}</span>`;
+                }
+                div.innerHTML = `
+                    ${imgHtml}
+                    <div class="product-info">
+                        <a href="${d.url}" target="_blank">${name}</a>
+                        <div class="prices">${priceHtml}</div>
+                        <div class="site">${d.site}</div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Initial render
+        renderProducts(select.value);
+        select.addEventListener('change', function() {
+            renderProducts(this.value);
+        });
+    </script>
+</body>
+</html> 
