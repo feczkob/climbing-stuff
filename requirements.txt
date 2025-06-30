@@ -1,0 +1,9 @@
+scrapy
+beautifulsoup4
+requests
+twilio
+PyYAML
+APScheduler
+python-telegram-bot
+requests
+selenium
