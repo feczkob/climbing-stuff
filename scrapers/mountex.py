@@ -1,10 +1,15 @@
 import time
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 
 def check_discounts():
     url = "https://mountex.hu"
-    driver = webdriver.Chrome()  # Or use webdriver.Firefox()
+    options = Options()
+    options.add_argument("--headless=new")  # Use new headless mode
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    driver = webdriver.Chrome(options=options)
     driver.get(url)
     time.sleep(5)  # Wait for JS to load content
 
