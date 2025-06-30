@@ -1,7 +1,7 @@
 sites:
   - name: bergfreunde
     url: https://www.bergfreunde.eu/
-    enabled: false
+    enabled: true
   - name: mountex
     url: https://mountex.hu/
-    enabled: true 
+    enabled: false
