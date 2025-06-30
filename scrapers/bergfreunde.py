@@ -1,3 +1,5 @@
+from urllib.parse import urljoin
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -49,4 +51,54 @@ def check_discounts():
                 "url": product_url
             })
 
+    selected_subcategory_discounts = check_selected_categories()
+    return discounts + selected_subcategory_discounts
+
+def check_selected_categories():
+    urls = [
+        "https://www.bergfreunde.eu/camming-devices-friends/",
+        "https://www.bergfreunde.eu/slings-cord/",
+        "https://www.bergfreunde.eu/climbing-ropes/",
+        "https://www.bergfreunde.eu/carabiners-quickdraws/",
+    ]
+    all_discounts = []
+    for url in urls:
+        all_discounts.extend(extract_discounts_from_category(url))
+    return all_discounts
+
+def extract_discounts_from_category(url):
+    response = requests.get(url)
+    response.raise_for_status()
+    soup = BeautifulSoup(response.text, "html.parser")
+    discounts = []
+
+    for product in soup.select("li.product-item.product-fallback"):
+        # Discount percent
+        discount_tag = product.select_one("span.js-special-discount-percent")
+        discount_percent = discount_tag.get_text(strip=True) if discount_tag else ""
+
+        # Brand
+        brand_tag = product.select_one("div.manufacturer-title")
+        brand = brand_tag.get_text(strip=True) if brand_tag else ""
+
+        # Product name (concatenate all text in product-title)
+        name_tag = product.select_one("div.product-title")
+        product_name = " ".join(name_tag.stripped_strings) if name_tag else "Unknown Product"
+
+        # Prices
+        orig_price_tag = product.select_one("span.uvp")
+        orig_price = orig_price_tag.get_text(strip=True) if orig_price_tag else ""
+        disc_price_tag = product.select_one("span.price.high-light")
+        disc_price = disc_price_tag.get_text(strip=True) if disc_price_tag else ""
+
+        # Product URL
+        link_tag = product.select_one("a.product-link")
+        product_url = urljoin(url, link_tag["href"]) if link_tag and link_tag.has_attr("href") else None
+
+        # Only add if there is a discount and a product URL
+        if orig_price and disc_price and product_url:
+            discounts.append({
+                "product": f"{brand} {product_name} ({discount_percent}) - {disc_price} (was {orig_price})",
+                "url": product_url
+            })
     return discounts
