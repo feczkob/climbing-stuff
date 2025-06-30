@@ -47,10 +47,15 @@ class BergfreundeScraper:
             link_tag = product.find("a", class_="teaser-full-link")
             product_url = link_tag["href"] if link_tag and link_tag.has_attr("href") else None
 
+            # Extract image URL for general discounts
+            img_tag = product.find('img', class_='product-image')
+            image_url = img_tag['src'] if img_tag and img_tag.has_attr('src') else None
+
             if product_url:
                 discounts.append({
                     "product": f"{brand} {product_name} ({discount_percent}) - {disc_price} (was {orig_price})",
-                    "url": product_url
+                    "url": product_url,
+                    "image_url": image_url
                 })
 
         return discounts
@@ -84,10 +89,15 @@ class BergfreundeScraper:
             link_tag = product.select_one("a.product-link")
             product_url = urljoin(url, link_tag["href"]) if link_tag and link_tag.has_attr("href") else None
 
+            # Extract image URL
+            img_tag = product.select_one('a.product-link img.product-image')
+            image_url = img_tag['src'] if img_tag and img_tag.has_attr('src') else None
+
             # Only add if there is a discount and a product URL
             if orig_price and disc_price and product_url:
                 discounts.append({
                     "product": f"{brand} {product_name} ({discount_percent}) - {disc_price} (was {orig_price})",
-                    "url": product_url
+                    "url": product_url,
+                    "image_url": image_url
                 })
         return discounts

@@ -38,6 +38,9 @@ class MountexScraper:
                 full_product_name = f"{brand} {product_name}" if brand else product_name
                 product_link = card.find('a', href=True)
                 product_url = f"{url}{product_link['href']}" if product_link else None
+                # Extract image URL using CSS selector
+                img_tag = card.select_one('a[href] img')
+                image_url = img_tag['src'] if img_tag and img_tag.has_attr('src') else None
                 original_price_elem = card.find('div', class_='originalPrice')
                 discounted_price_elem = card.find('div', class_='inActionPrice')
                 price_info = ""
@@ -48,7 +51,8 @@ class MountexScraper:
                 if product_url:
                     discounts.append({
                         'product': f"{full_product_name} ({discount_percent}){price_info}",
-                        'url': product_url
+                        'url': product_url,
+                        'image_url': image_url
                     })
 
         return discounts
@@ -87,11 +91,16 @@ class MountexScraper:
             disc_price_tag = product.select_one("div.inActionPrice")
             disc_price = disc_price_tag.get_text(strip=True) if disc_price_tag else ""
 
+            # Extract image URL using CSS selector
+            img_tag = product.select_one('a[href] img')
+            image_url = img_tag['src'] if img_tag and img_tag.has_attr('src') else None
+
             product_url = urljoin("https://mountex.hu", name_link["href"]) if name_link and name_link.has_attr("href") else None
 
             if orig_price and disc_price and product_url:
                 discounts.append({
                     "product": f"{brand} {product_name} ({discount_percent}) - {disc_price} (was {orig_price})",
-                    "url": product_url
+                    "url": product_url,
+                    "image_url": image_url
                 })
         return discounts

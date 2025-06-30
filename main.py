@@ -19,14 +19,14 @@ def print_discounts(site_name, discounts):
         return
     print(f"\nDiscounts found on {site_name}:")
     for discount in discounts:
-        print(f"- {discount['product']}\n  URL: {discount['url']}")
+        print(f"- {discount['product']}\n  URL: {discount['url']} \n  Image: {discount['image_url']}")
 
 def print_discounts_category(category, site_name, discounts):
     if not discounts:
         return
     print(f"\n[{category}] Discounts found on {site_name}:")
     for discount in discounts:
-        print(f"- {discount['product']}\n  URL: {discount['url']}")
+        print(f"- {discount['product']}\n  URL: {discount['url']} \n  Image: {discount['image_url']}")
 
 def instantiate_scrapers(sites):
     scraper_instances = {}
@@ -42,9 +42,10 @@ def main():
     sites, categories = load_config()
     scraper_instances = instantiate_scrapers(sites)
 
-    for site_name, scraper in scraper_instances.items():
-        discounts = scraper.check_discounts()
-        print_discounts(site_name, discounts)
+# Fetch general discounts from all sites
+    # for site_name, scraper in scraper_instances.items():
+    #     discounts = scraper.check_discounts()
+    #     print_discounts(site_name, discounts)
 
     for category, urls in categories.items():
         for site_name, scraper in scraper_instances.items():
