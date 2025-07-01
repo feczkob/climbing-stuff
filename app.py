@@ -1,21 +1,31 @@
-from flask import Flask, render_template, abort, jsonify
+import atexit
 
-from scrapers.service import fetch_all_discounts, DISCOUNTS_LOADED, ALL_DISCOUNTS, CATEGORIES
+from flask import Flask, render_template, abort, jsonify
+from flask_apscheduler import APScheduler
+
+from scrapers.service import fetch_all_discounts, DISCOUNTS_LOADED, ALL_DISCOUNTS, CATEGORIES, refresh_discounts_job
 
 app = Flask(__name__)
 
-@app.before_request
-def load_discounts_to_memory():
-    global ALL_DISCOUNTS, DISCOUNTS_LOADED, CATEGORIES
-    if not DISCOUNTS_LOADED:
-        ALL_DISCOUNTS, CATEGORIES = fetch_all_discounts()
-        DISCOUNTS_LOADED = True
+def start_scheduler():
+    refresh_discounts_job()
+    scheduler = APScheduler()
+    scheduler.init_app(app)  # No Flask app context needed here
+    scheduler.start()
+    scheduler.add_job(
+        id='refresh_discounts',
+        func=refresh_discounts_job,
+        trigger='interval',
+        minutes=5,
+        replace_existing=True
+    )
+    # Ensure scheduler shuts down cleanly
+    atexit.register(lambda: scheduler.shutdown(wait=False))
 
 @app.route("/")
 def index():
     return render_template(
         "index.html",
-        all_discounts=ALL_DISCOUNTS,
         categories=CATEGORIES,
     )
 
@@ -27,4 +37,5 @@ def get_discounts_by_category(category):
     return jsonify(discounts)
 
 if __name__ == "__main__":
+    start_scheduler()
     app.run(debug=True)

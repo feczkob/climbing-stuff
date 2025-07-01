@@ -9,3 +9,4 @@ requests
 selenium
 urllib3
 Flask
+flask-apscheduler

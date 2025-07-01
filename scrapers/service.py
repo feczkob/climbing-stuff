@@ -16,12 +16,12 @@ SCRAPER_MAP = {
 
 ALL_DISCOUNTS = {}
 DISCOUNTS_LOADED = False
-CATEGORIES = []
 
 def load_categories():
     with open(CATEGORIES_FILE, 'r') as f:
         categories_yaml = yaml.safe_load(f)
     return categories_yaml['categories']
+CATEGORIES = load_categories()
 
 def load_sites():
     with open(SITES_FILE, 'r') as f:
@@ -39,7 +39,8 @@ def fetch_discounts_for_site_category(site_name, cat_name, url):
     return cat_name, discounts
 
 def fetch_all_discounts():
-    categories = load_categories()
+    with open(CATEGORIES_FILE, 'r') as f:
+        categories = yaml.safe_load(f)['categories']
     category_list = list(categories.keys())
     sites = load_sites()
     discounts_by_category = {cat: [] for cat in category_list}
@@ -54,4 +55,10 @@ def fetch_all_discounts():
         for future in concurrent.futures.as_completed(futures):
             cat_name, discounts = future.result()
             discounts_by_category[cat_name].extend(discounts)
-    return discounts_by_category, category_list
+    return discounts_by_category
+
+def refresh_discounts_job():
+    global ALL_DISCOUNTS
+    discounts = fetch_all_discounts()
+    ALL_DISCOUNTS.clear()
+    ALL_DISCOUNTS.update(discounts)
