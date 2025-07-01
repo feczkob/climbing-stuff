@@ -2,6 +2,7 @@ import yaml
 import os
 import concurrent.futures
 from scrapers.bergfreunde import BergfreundeScraper
+from scrapers.fourcamping import FourcampingScraper
 from scrapers.mountex import MountexScraper
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -12,6 +13,7 @@ SITES_FILE = os.path.join(CONFIG_DIR, 'sites.yaml')
 SCRAPER_MAP = {
     'bergfreunde': BergfreundeScraper(),
     'mountex': MountexScraper(),
+    '4camping': FourcampingScraper(),
 }
 
 ALL_DISCOUNTS = {}
