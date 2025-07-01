@@ -6,13 +6,15 @@
     <style>
         body { font-family: Arial, sans-serif; margin: 2em; }
         h2 { margin-top: 2em; }
-        .product { display: flex; align-items: center; margin-bottom: 1em; border-bottom: 1px solid #eee; padding-bottom: 1em; }
-        .product img { width: 100px; height: auto; margin-right: 1em; border: 1px solid #ccc; background: #fafafa; }
-        .product-info { flex: 1; }
-        .product a { text-decoration: none; color: #0074d9; font-weight: bold; font-size: 1.1em; }
-        .prices { margin-top: 0.5em; }
+        .product { margin-bottom: 1em; border-bottom: 1px solid #eee; padding-bottom: 1em; display: flex; align-items: flex-start; }
+        .product-img { margin-right: 1em; }
+        .product-img img { max-width: 90px; max-height: 90px; border-radius: 6px; background: #f8f8f8; }
+        .product-details { flex: 1; }
+        .product-name { font-weight: bold; font-size: 1.1em; }
+        .discount-percent { color: #388e3c; font-weight: bold; margin-left: 0.5em; }
         .orig-price { text-decoration: line-through; color: #888; margin-right: 1em; }
         .disc-price { color: #d32f2f; font-weight: bold; }
+        .shop { color: #0074d9; margin-top: 0.3em; }
         #category-select { font-size: 1.1em; margin-bottom: 2em; }
     </style>
 </head>
@@ -20,16 +22,29 @@
     <h1>Climbing Equipment Discounts</h1>
     <label for="category-select"><b>Select category:</b></label>
     <select name="category" id="category-select">
-  {% for category in categories %}
-    <option value="{{ category }}">{{ category.capitalize() }}</option>
-  {% endfor %}
-</select>
-    <div id="discounts-container">
-        <!-- Products will be rendered here by JS -->
-    </div>
+      {% for category in categories %}
+        <option value="{{ category }}">{{ category.capitalize() }}</option>
+      {% endfor %}
+    </select>
+    <div id="discounts-container"></div>
     <script>
     const container = document.getElementById('discounts-container');
     const select = document.getElementById('category-select');
+
+    function parseProductInfo(productStr) {
+        // Example: "Brand Model (10%) (€100 → €80)"
+        const nameMatch = productStr.match(/^(.+?)\s*\(([^)]+%)\)\s*\(([^→]+)→([^)]+)\)/);
+        if (nameMatch) {
+            return {
+                name: nameMatch[1].trim(),
+                discount: nameMatch[2].trim(),
+                orig: nameMatch[3].trim(),
+                disc: nameMatch[4].trim()
+            };
+        }
+        // Fallback: just show the string
+        return { name: productStr, discount: '', orig: '', disc: '' };
+    }
 
     async function renderProducts(category) {
         container.innerHTML = '<p>Loading...</p>';
@@ -46,25 +61,25 @@
             }
             container.innerHTML = '';
             discounts.forEach(d => {
+                const info = parseProductInfo(d.product);
                 const div = document.createElement('div');
                 div.className = 'product';
-                let imgHtml = d.image_url ? `<a href="${d.url}" target="_blank"><img src="${d.image_url}" alt="Product image"></a>` : '';
-                let name = d.product.split('(')[0].trim();
-                let priceInfo = d.product.split('-').slice(-1)[0].replace(')', '').trim();
-                let priceHtml = '';
-                if (priceInfo.includes('was')) {
-                    let discPrice = priceInfo.split('(')[0].trim();
-                    let origPrice = priceInfo.split('was').slice(-1)[0].trim();
-                    priceHtml = `<span class="disc-price">${discPrice}</span> <span class="orig-price">${origPrice}</span>`;
-                } else {
-                    priceHtml = `<span>${priceInfo}</span>`;
-                }
                 div.innerHTML = `
-                    ${imgHtml}
-                    <div class="product-info">
-                        <a href="${d.url}" target="_blank">${name}</a>
-                        <div class="prices">${priceHtml}</div>
-                        <div class="site">${d.site}</div>
+                    <div class="product-img">
+                        <a href="${d.url}" target="_blank">
+                            <img src="${d.image_url || ''}" alt="${info.name}">
+                        </a>
+                    </div>
+                    <div class="product-details">
+                        <div class="product-name">
+                            <a href="${d.url}" target="_blank">${info.name}</a>
+                            <span class="discount-percent">${info.discount}</span>
+                        </div>
+                        <div>
+                            <span class="orig-price">${info.orig}</span>
+                            <span class="disc-price">${info.disc}</span>
+                        </div>
+                        <div class="shop">${d.site}</div>
                     </div>
                 `;
                 container.appendChild(div);
@@ -74,11 +89,10 @@
         }
     }
 
-    // Initial render
     renderProducts(select.value);
     select.addEventListener('change', function() {
         renderProducts(this.value);
     });
-</script>
+    </script>
 </body>
-</html> 
+</html>

@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from scrapers.discount_scraper import DiscountScraper
+import re
 
 class FourCampingScraper(DiscountScraper):
     BASE_URL = "https://www.4camping.hu"
@@ -45,7 +46,22 @@ class FourCampingScraper(DiscountScraper):
             new_price_tag = card.select_one(".card-price__full strong")
             new_price = new_price_tag.get_text(strip=True) if new_price_tag else ""
 
-            product = f"{full_name} ({old_price} → {new_price})"
+            # Parse prices as numbers for calculation
+            def parse_price(price_str):
+                price_str = re.sub(r"[^\d]", "", price_str)
+                return int(price_str) if price_str else 0
+
+            old_price_num = parse_price(old_price)
+            new_price_num = parse_price(new_price)
+
+            # Calculate discount percent
+            discount_percent = ""
+            if old_price_num > 0 and new_price_num > 0 and old_price_num > new_price_num:
+                percent = round(100 * (old_price_num - new_price_num) / old_price_num)
+                discount_percent = f"-{percent}%"
+
+            # Format prices for display (keep original formatting)
+            product = f"{full_name} ({discount_percent}) ({old_price} → {new_price})"
 
             discounts.append({
                 "product": product,
