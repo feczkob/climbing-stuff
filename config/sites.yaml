@@ -4,7 +4,7 @@ sites:
     enabled: false
   - name: mountex
     url: https://mountex.hu/
-    enabled: false
+    enabled: true
   - name: 4camping
     url: https://www.4camping.hu/
-    enabled: true
+    enabled: false

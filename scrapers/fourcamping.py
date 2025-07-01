@@ -2,11 +2,10 @@ import requests
 from bs4 import BeautifulSoup
 from scrapers.discount_scraper import DiscountScraper
 
-class FourcampingScraper(DiscountScraper):
+class FourCampingScraper(DiscountScraper):
     BASE_URL = "https://www.4camping.hu"
 
     def check_discounts(self):
-        # Not used in this context
         pass
 
     def extract_discounts_from_category(self, url):
@@ -25,7 +24,6 @@ class FourcampingScraper(DiscountScraper):
                 continue
             product_url = self.BASE_URL + link_tag["href"]
 
-            # Extract name parts
             variant_tag = card.select_one(".product-card__heading-type")
             variant = variant_tag.get_text(strip=True) if variant_tag else ""
             producer = link_tag.select_one(".product-card__heading-producer")
@@ -35,9 +33,8 @@ class FourcampingScraper(DiscountScraper):
             else:
                 base_name = link_tag.get_text(strip=True)
 
-            # Compose product name with variant if present
             if variant:
-                full_name = f"{variant} {base_name}"
+                full_name = f"{base_name} {variant}"
             else:
                 full_name = base_name
 
@@ -48,12 +45,14 @@ class FourcampingScraper(DiscountScraper):
             new_price_tag = card.select_one(".card-price__full strong")
             new_price = new_price_tag.get_text(strip=True) if new_price_tag else ""
 
-            product = f"{full_name} {old_price} → {new_price}"
+            product = f"{full_name} ({old_price} → {new_price})"
 
             discounts.append({
                 "product": product,
                 "url": product_url,
-                "image_url": image_url
+                "image_url": image_url,
+                "originalPrice": old_price,
+                "discountedPrice": new_price
             })
 
         return discounts

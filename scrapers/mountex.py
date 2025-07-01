@@ -1,7 +1,6 @@
 import time
 from urllib.parse import urljoin
 
-import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
@@ -10,12 +9,12 @@ class MountexScraper:
     def check_discounts(self):
         url = "https://mountex.hu"
         options = Options()
-        options.add_argument("--headless=new")  # Use new headless mode
+        options.add_argument("--headless=new")
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
         driver = webdriver.Chrome(options=options)
         driver.get(url)
-        time.sleep(5)  # Wait for JS to load content
+        time.sleep(2)
 
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         driver.quit()
@@ -29,31 +28,28 @@ class MountexScraper:
         product_cards = container.find_all('div', id=lambda x: x and x.startswith('product-'), recursive=False)
         for card in product_cards:
             discount_tag = card.find('span', class_='bg-brand-highlight')
-            if discount_tag:
-                discount_percent = discount_tag.text.strip()
-                brand_elem = card.find('div', class_='font-bold font-lora')
-                brand = brand_elem.text.strip() if brand_elem else ""
-                product_name_elem = card.select('h2 div:not(.font-bold)')
-                product_name = product_name_elem[0].text.strip() if product_name_elem else "Unknown Product"
-                full_product_name = f"{brand} {product_name}" if brand else product_name
-                product_link = card.find('a', href=True)
-                product_url = f"{url}{product_link['href']}" if product_link else None
-                # Extract image URL using CSS selector
-                img_tag = card.select_one('a[href] img')
-                image_url = img_tag['src'] if img_tag and img_tag.has_attr('src') else None
-                original_price_elem = card.find('div', class_='originalPrice')
-                discounted_price_elem = card.find('div', class_='inActionPrice')
-                price_info = ""
-                if original_price_elem and discounted_price_elem:
-                    original_price = original_price_elem.text.strip()
-                    discounted_price = discounted_price_elem.text.strip()
-                    price_info = f" - {discounted_price} (was {original_price})"
-                if product_url:
-                    discounts.append({
-                        'product': f"{full_product_name} ({discount_percent}){price_info}",
-                        'url': product_url,
-                        'image_url': image_url
-                    })
+            discount_percent = discount_tag.text.strip() if discount_tag else ""
+            brand_elem = card.find('div', class_='font-bold font-lora')
+            brand = brand_elem.text.strip() if brand_elem else ""
+            product_name_elem = card.select('h2 div:not(.font-bold)')
+            product_name = product_name_elem[0].text.strip() if product_name_elem else "Unknown Product"
+            full_product_name = f"{brand} {product_name}" if brand else product_name
+            product_link = card.find('a', href=True)
+            product_url = f"{url}{product_link['href']}" if product_link else None
+            img_tag = card.select_one('a[href] img')
+            image_url = img_tag['src'] if img_tag and img_tag.has_attr('src') else None
+            original_price_elem = card.find('div', class_='originalPrice')
+            discounted_price_elem = card.find('div', class_='inActionPrice')
+            original_price = original_price_elem.text.strip() if original_price_elem else ""
+            discounted_price = discounted_price_elem.text.strip() if discounted_price_elem else ""
+            if product_url:
+                discounts.append({
+                    'product': f"{full_product_name} ({discount_percent}) ({original_price} → {discounted_price})",
+                    'url': product_url,
+                    'image_url': image_url,
+                    'originalPrice': original_price,
+                    'discountedPrice': discounted_price
+                })
 
         return discounts
 
@@ -64,7 +60,7 @@ class MountexScraper:
         options.add_argument("--no-sandbox")
         driver = webdriver.Chrome(options=options)
         driver.get(url)
-        time.sleep(5)  # Wait for JS to load content
+        time.sleep(2)
 
         soup = BeautifulSoup(driver.page_source, "html.parser")
         driver.quit()
@@ -73,7 +69,6 @@ class MountexScraper:
         for product in soup.select("div.bg-white.rounded-16"):
             discount_tag = product.select_one("span.bg-brand-highlight")
             discount_percent = discount_tag.get_text(strip=True) if discount_tag else ""
-
             name_link = product.select_one("a.text-black.unstyled")
             brand = ""
             product_name = ""
@@ -91,7 +86,6 @@ class MountexScraper:
             disc_price_tag = product.select_one("div.inActionPrice")
             disc_price = disc_price_tag.get_text(strip=True) if disc_price_tag else ""
 
-            # Extract image URL using CSS selector
             img_tag = product.select_one('a[href] img')
             image_url = img_tag['src'] if img_tag and img_tag.has_attr('src') else None
 
@@ -99,8 +93,10 @@ class MountexScraper:
 
             if orig_price and disc_price and product_url:
                 discounts.append({
-                    "product": f"{brand} {product_name} ({discount_percent}) - {disc_price} (was {orig_price})",
+                    "product": f"{brand} {product_name} ({discount_percent}) ({orig_price} → {disc_price})",
                     "url": product_url,
-                    "image_url": image_url
+                    "image_url": image_url,
+                    "originalPrice": orig_price,
+                    "discountedPrice": disc_price
                 })
         return discounts
