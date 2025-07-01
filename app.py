@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, abort, jsonify
 from scrapers.bergfreunde import BergfreundeScraper
 from scrapers.mountex import MountexScraper
 import yaml
@@ -26,10 +26,6 @@ def load_categories():
         categories_yaml = yaml.safe_load(f)
     return categories_yaml['categories']
 
-def load_category_list():
-    categories = load_categories()
-    return list(categories.keys())
-
 def load_sites():
     with open(SITES_FILE, 'r') as f:
         sites_yaml = yaml.safe_load(f)
@@ -50,7 +46,6 @@ def fetch_all_discounts():
     category_list = list(categories.keys())
     sites = load_sites()
     discounts_by_category = {cat: [] for cat in category_list}
-    tasks = []
     with concurrent.futures.ThreadPoolExecutor() as executor:
         futures = []
         for cat_name, site_urls in categories.items():
@@ -76,8 +71,16 @@ def index():
     return render_template(
         "index.html",
         all_discounts=ALL_DISCOUNTS,
-        categories=CATEGORIES
+        categories=CATEGORIES,
     )
+
+@app.route('/discounts/<category>', methods=['GET'])
+def get_discounts_by_category(category):
+    # Use the global ALL_DISCOUNTS loaded in memory
+    discounts = ALL_DISCOUNTS.get(category)
+    if discounts is None:
+        abort(404, description="Category not found")
+    return jsonify(discounts)
 
 if __name__ == "__main__":
     app.run(debug=True) 

@@ -19,26 +19,32 @@
 <body>
     <h1>Climbing Equipment Discounts</h1>
     <label for="category-select"><b>Select category:</b></label>
-    <select id="category-select">
-        {% for cat in categories %}
-            <option value="{{ cat }}">{{ cat }}</option>
-        {% endfor %}
-    </select>
+    <select name="category" id="category-select">
+  {% for category in categories %}
+    <option value="{{ category }}">{{ category.capitalize() }}</option>
+  {% endfor %}
+</select>
     <div id="discounts-container">
         <!-- Products will be rendered here by JS -->
     </div>
     <script>
-        const allDiscounts = {{ all_discounts|tojson }};
-        const container = document.getElementById('discounts-container');
-        const select = document.getElementById('category-select');
+    const container = document.getElementById('discounts-container');
+    const select = document.getElementById('category-select');
 
-        function renderProducts(category) {
-            container.innerHTML = '';
-            const discounts = allDiscounts[category] || [];
+    async function renderProducts(category) {
+        container.innerHTML = '<p>Loading...</p>';
+        try {
+            const resp = await fetch(`/discounts/${category}`);
+            if (!resp.ok) {
+                container.innerHTML = '<p>No discounts found.</p>';
+                return;
+            }
+            const discounts = await resp.json();
             if (discounts.length === 0) {
                 container.innerHTML = '<p>No discounts found.</p>';
                 return;
             }
+            container.innerHTML = '';
             discounts.forEach(d => {
                 const div = document.createElement('div');
                 div.className = 'product';
@@ -63,13 +69,16 @@
                 `;
                 container.appendChild(div);
             });
+        } catch (e) {
+            container.innerHTML = '<p>Error loading discounts.</p>';
         }
+    }
 
-        // Initial render
-        renderProducts(select.value);
-        select.addEventListener('change', function() {
-            renderProducts(this.value);
-        });
-    </script>
+    // Initial render
+    renderProducts(select.value);
+    select.addEventListener('change', function() {
+        renderProducts(this.value);
+    });
+</script>
 </body>
 </html> 
