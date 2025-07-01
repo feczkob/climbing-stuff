@@ -1,6 +1,8 @@
 categories:
-  friends:
-    bergfreunde: https://www.bergfreunde.eu/camming-devices-friends/
+  friends-nuts:
+    bergfreunde:
+      - https://www.bergfreunde.eu/camming-devices-friends/
+      - https://www.bergfreunde.eu/nuts/
     mountex: https://mountex.hu/sziklamaszas-hegymaszas?v=115
     4camping: https://www.4camping.hu/c/hegymaszo-felszerelesek/friendek-es-ekek/
   slings:
@@ -11,7 +13,7 @@ categories:
     bergfreunde: https://www.bergfreunde.eu/climbing-ropes/
     mountex: https://mountex.hu/sziklamaszas-hegymaszas?v=109
     4camping: https://www.4camping.hu/c/maszokoetelek/
-  carabiners:
+  carabiners-quickdraws:
     bergfreunde: https://www.bergfreunde.eu/carabiners-quickdraws/
     mountex: https://mountex.hu/sziklamaszas-hegymaszas?v=107
     4camping: https://www.4camping.hu/c/hegymaszo-felszerelesek/karabinerek-expresszek/

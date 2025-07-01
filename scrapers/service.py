@@ -31,13 +31,17 @@ def load_sites():
     return [site for site in sites_yaml['sites'] if site.get('enabled', True)]
 
 def fetch_discounts_for_site_category(site_name, cat_name, url):
-    try:
-        discounts = SCRAPER_MAP[site_name].extract_discounts_from_category(url)
-    except Exception:
-        discounts = []
-    for d in discounts:
-        d['site'] = site_name.capitalize()
-        d['category'] = cat_name
+    discounts = []
+    urls = url if isinstance(url, list) else [url]
+    for single_url in urls:
+        try:
+            site_discounts = SCRAPER_MAP[site_name].extract_discounts_from_category(single_url)
+        except Exception:
+            site_discounts = []
+        for d in site_discounts:
+            d['site'] = site_name.capitalize()
+            d['category'] = cat_name
+        discounts.extend(site_discounts)
     return cat_name, discounts
 
 def fetch_all_discounts():

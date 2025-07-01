@@ -16,7 +16,7 @@ def start_scheduler():
         id='refresh_discounts',
         func=refresh_discounts_job,
         trigger='interval',
-        minutes=5,
+        hours=12,
         replace_existing=True
     )
     # Ensure scheduler shuts down cleanly
