@@ -1,0 +1,40 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build Docker image
+        run: |
+          echo "Building docker image with version"
+          docker build . --tag climbing-equipment:latest
+
+  clear-docker:
+    runs-on: self-hosted
+    steps:
+      - name: Delete unused Docker images
+        run: docker system prune -f
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Kill running container
+        run: |
+          echo "Killing running container"
+          docker rm -f climbing-equipment_app_1 || true
+
+      - name: Deploy
+        run: |
+          echo "Deploying climbing-equipment"
+          docker run -d --name climbing-equipment_app_1 --restart always climbing-equipment:latest
