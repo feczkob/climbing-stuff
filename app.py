@@ -22,6 +22,8 @@ def start_scheduler():
     # Ensure scheduler shuts down cleanly
     atexit.register(lambda: scheduler.shutdown(wait=False))
 
+start_scheduler()
+
 @app.route("/")
 def index():
     return render_template(
@@ -37,5 +39,4 @@ def get_discounts_by_category(category):
     return jsonify(discounts)
 
 if __name__ == "__main__":
-    start_scheduler()
     app.run(debug=True)
