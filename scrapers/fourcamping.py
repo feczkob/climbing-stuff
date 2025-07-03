@@ -1,5 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
+
+from logging_config import logger
 from scrapers.discount_scraper import DiscountScraper
 import re
 
@@ -71,4 +73,5 @@ class FourCampingScraper(DiscountScraper):
                 "discountedPrice": new_price
             })
 
+        logger.info(f"[FourCampingScraper] Found {len(discounts)} discounts.")
         return discounts

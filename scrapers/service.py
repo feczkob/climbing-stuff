@@ -1,6 +1,8 @@
 import yaml
 import os
 import concurrent.futures
+
+from logging_config import logger
 from scrapers.bergfreunde import BergfreundeScraper
 from scrapers.fourcamping import FourCampingScraper
 from scrapers.mountex import MountexScraper
@@ -68,3 +70,5 @@ def refresh_discounts_job():
     discounts = fetch_all_discounts()
     ALL_DISCOUNTS.clear()
     ALL_DISCOUNTS.update(discounts)
+
+    logger.info(f"Discounts refreshed.")

@@ -1,9 +1,13 @@
 import time
+from unicodedata import category
 from urllib.parse import urljoin
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
+
+from logging_config import logger
+
 
 class MountexScraper:
     def check_discounts(self):
@@ -14,7 +18,7 @@ class MountexScraper:
         options.add_argument("--no-sandbox")
         driver = webdriver.Chrome(options=options)
         driver.get(url)
-        time.sleep(2)
+        time.sleep(5)
 
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         driver.quit()
@@ -60,7 +64,7 @@ class MountexScraper:
         options.add_argument("--no-sandbox")
         driver = webdriver.Chrome(options=options)
         driver.get(url)
-        time.sleep(2)
+        time.sleep(5)
 
         soup = BeautifulSoup(driver.page_source, "html.parser")
         driver.quit()
@@ -99,4 +103,6 @@ class MountexScraper:
                     "originalPrice": orig_price,
                     "discountedPrice": disc_price
                 })
+
+        logger.info(f"[MountexScraper] Found {len(discounts)} discounts.")
         return discounts

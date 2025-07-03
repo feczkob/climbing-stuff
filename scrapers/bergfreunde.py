@@ -3,6 +3,9 @@ from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
 
+from logging_config import logger
+
+
 class BergfreundeScraper:
     def check_discounts(self):
         url = "https://www.bergfreunde.eu/"
@@ -101,4 +104,6 @@ class BergfreundeScraper:
                     "originalPrice": orig_price,
                     "discountedPrice": disc_price
                 })
+
+        logger.info(f"[BergfreundeScraper] Found {len(discounts)} discounts.")
         return discounts
