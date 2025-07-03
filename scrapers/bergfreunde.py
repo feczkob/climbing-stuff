@@ -53,12 +53,12 @@ class BergfreundeScraper:
 
             if product_url:
                 discounts.append({
-                    "product": f"{full_product_name}\n{orig_price} {disc_price}\nBergfreunde",
+                    "product": full_product_name,
                     "url": product_url,
                     "image_url": image_url,
                     "originalPrice": orig_price,
                     "discountedPrice": disc_price,
-                    "discountPercent": discount_percent
+                    "site": "Bergfreunde"
                 })
 
         return discounts
@@ -97,12 +97,12 @@ class BergfreundeScraper:
 
             if orig_price and disc_price and product_url:
                 discounts.append({
-                    "product": f"{full_product_name}\n{orig_price} {disc_price}\nBergfreunde",
+                    "product": full_product_name,
                     "url": product_url,
                     "image_url": image_url,
                     "originalPrice": orig_price,
                     "discountedPrice": disc_price,
-                    "discountPercent": discount_percent
+                    "site": "Bergfreunde"
                 })
 
         logger.info(f"[BergfreundeScraper] Found {len(discounts)} discounts.")

@@ -31,16 +31,6 @@
     const container = document.getElementById('discounts-container');
     const select = document.getElementById('category-select');
 
-    function parseProductInfo(productStr) {
-        const lines = productStr.split('\n');
-        return {
-            name: lines[0].split(' -')[0].trim(),
-            orig: lines[1].split(' ')[0].trim(),
-            disc: lines[1].split(' ')[1].trim(),
-            shop: lines[2] || ''
-        };
-    }
-
     async function renderProducts(category) {
         container.innerHTML = '<p>Loading...</p>';
         try {
@@ -56,31 +46,29 @@
             }
             container.innerHTML = '';
             discounts.forEach(d => {
-                const info = parseProductInfo(d.product);
                 const div = document.createElement('div');
                 div.className = 'product';
                 div.innerHTML = `
                     <div class="product-img">
                         <a href="${d.url}" target="_blank">
-                            <img src="${d.image_url || ''}" alt="${info.name}">
+                            <img src="${d.image_url || ''}" alt="${d.product}">
                         </a>
                     </div>
                     <div class="product-details">
                         <div class="product-name">
-                            <a href="${d.url}" target="_blank">${info.name}</a>
-                            <span class="discount-percent">${d.discountPercent}</span>
+                            <a href="${d.url}" target="_blank">${d.product}</a>
                         </div>
                         <div>
                             <span class="orig-price">${d.originalPrice}</span>
                             <span class="disc-price">${d.discountedPrice}</span>
                         </div>
-                        <div class="shop">${info.shop}</div>
+                        <div class="shop">${d.site}</div>
                     </div>
                 `;
                 container.appendChild(div);
             });
         } catch (e) {
-            console.error('asd', e)
+            console.error(e)
             container.innerHTML = '<p>Error loading discounts.</p>';
         }
     }

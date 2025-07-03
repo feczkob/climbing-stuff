@@ -48,12 +48,12 @@ class MountexScraper:
             discounted_price = discounted_price_elem.text.strip() if discounted_price_elem else ""
             if product_url:
                 discounts.append({
-                    'product': f"{full_product_name} ({discount_percent}) ({original_price} → {discounted_price})",
+                    'product': full_product_name,
                     'url': product_url,
                     'image_url': image_url,
                     'originalPrice': original_price,
                     'discountedPrice': discounted_price,
-                    'discountPercent': discount_percent
+                    'site': 'Mountex'
                 })
 
         return discounts
@@ -100,12 +100,12 @@ class MountexScraper:
 
             if orig_price and disc_price and product_url:
                 discounts.append({
-                    "product": f"{brand} {product_name} ({discount_percent}) ({orig_price} → {disc_price})",
+                    "product": f"{brand} {product_name}".strip(),
                     "url": product_url,
                     "image_url": image_url,
                     "originalPrice": orig_price,
                     "discountedPrice": disc_price,
-                    "discountPercent": discount_percent
+                    "site": "Mountex"
                 })
 
         logger.info("[MountexScraper] Found %d discounts.", len(discounts))

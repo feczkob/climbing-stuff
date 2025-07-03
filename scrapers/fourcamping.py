@@ -62,16 +62,13 @@ class FourCampingScraper(DiscountScraper):
                 percent = round(100 * (old_price_num - new_price_num) / old_price_num)
                 discount_percent = f"-{percent}%"
 
-            # Format prices for display (keep original formatting)
-            product = f"{full_name} ({discount_percent}) ({old_price} → {new_price})"
-
             discounts.append({
-                "product": product,
+                "product": full_name,
                 "url": product_url,
                 "image_url": image_url,
                 "originalPrice": old_price,
                 "discountedPrice": new_price,
-                "discountPercent": discount_percent
+                "site": "4Camping"
             })
 
         logger.info(f"[FourCampingScraper] Found {len(discounts)} discounts.")
