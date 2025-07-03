@@ -70,7 +70,8 @@ class FourCampingScraper(DiscountScraper):
                 "url": product_url,
                 "image_url": image_url,
                 "originalPrice": old_price,
-                "discountedPrice": new_price
+                "discountedPrice": new_price,
+                "discountPercent": discount_percent
             })
 
         logger.info(f"[FourCampingScraper] Found {len(discounts)} discounts.")

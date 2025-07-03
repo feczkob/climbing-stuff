@@ -52,7 +52,8 @@ class MountexScraper:
                     'url': product_url,
                     'image_url': image_url,
                     'originalPrice': original_price,
-                    'discountedPrice': discounted_price
+                    'discountedPrice': discounted_price,
+                    'discountPercent': discount_percent
                 })
 
         return discounts
@@ -103,7 +104,8 @@ class MountexScraper:
                     "url": product_url,
                     "image_url": image_url,
                     "originalPrice": orig_price,
-                    "discountedPrice": disc_price
+                    "discountedPrice": disc_price,
+                    "discountPercent": discount_percent
                 })
 
         logger.info("[MountexScraper] Found %d discounts.", len(discounts))

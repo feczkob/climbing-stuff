@@ -32,18 +32,13 @@
     const select = document.getElementById('category-select');
 
     function parseProductInfo(productStr) {
-        // Example: "Brand Model (10%) (€100 → €80)"
-        const nameMatch = productStr.match(/^(.+?)\s*\(([^)]+%)\)\s*\(([^→]+)→([^)]+)\)/);
-        if (nameMatch) {
-            return {
-                name: nameMatch[1].trim(),
-                discount: nameMatch[2].trim(),
-                orig: nameMatch[3].trim(),
-                disc: nameMatch[4].trim()
-            };
-        }
-        // Fallback: just show the string
-        return { name: productStr, discount: '', orig: '', disc: '' };
+        const lines = productStr.split('\n');
+        return {
+            name: lines[0].split(' -')[0].trim(),
+            orig: lines[1].split(' ')[0].trim(),
+            disc: lines[1].split(' ')[1].trim(),
+            shop: lines[2] || ''
+        };
     }
 
     async function renderProducts(category) {
@@ -73,18 +68,19 @@
                     <div class="product-details">
                         <div class="product-name">
                             <a href="${d.url}" target="_blank">${info.name}</a>
-                            <span class="discount-percent">${info.discount}</span>
+                            <span class="discount-percent">${d.discountPercent}</span>
                         </div>
                         <div>
-                            <span class="orig-price">${info.orig}</span>
-                            <span class="disc-price">${info.disc}</span>
+                            <span class="orig-price">${d.originalPrice}</span>
+                            <span class="disc-price">${d.discountedPrice}</span>
                         </div>
-                        <div class="shop">${d.site}</div>
+                        <div class="shop">${info.shop}</div>
                     </div>
                 `;
                 container.appendChild(div);
             });
         } catch (e) {
+            console.error('asd', e)
             container.innerHTML = '<p>Error loading discounts.</p>';
         }
     }
