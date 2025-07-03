@@ -41,8 +41,8 @@ def fetch_discounts_for_site_category(site_name, cat_name, url):
         except Exception:
             site_discounts = []
         for d in site_discounts:
-            d['site'] = site_name.capitalize()
-            d['category'] = cat_name
+            d.site = site_name.capitalize()
+            d.category = cat_name
         discounts.extend(site_discounts)
     return cat_name, discounts
 
@@ -62,13 +62,26 @@ def fetch_all_discounts():
                     futures.append(executor.submit(fetch_discounts_for_site_category, site_name, cat_name, url))
         for future in concurrent.futures.as_completed(futures):
             cat_name, discounts = future.result()
-            discounts_by_category[cat_name].extend(discounts)
+            # Convert Discount objects to dictionaries
+            discount_dicts = [d.to_dict() for d in discounts]
+            discounts_by_category[cat_name].extend(discount_dicts)
     return discounts_by_category
 
 def refresh_discounts_job():
     global ALL_DISCOUNTS
     discounts = fetch_all_discounts()
+
+    # Convert all Discount objects to dictionaries
+    converted_discounts = {}
+    for category, category_discounts in discounts.items():
+        converted_discounts[category] = []
+        for discount in category_discounts:
+            if hasattr(discount, 'to_dict'):
+                converted_discounts[category].append(discount.to_dict())
+            else:
+                converted_discounts[category].append(discount)
+
     ALL_DISCOUNTS.clear()
-    ALL_DISCOUNTS.update(discounts)
+    ALL_DISCOUNTS.update(converted_discounts)
 
     logger.info(f"Discounts refreshed.")

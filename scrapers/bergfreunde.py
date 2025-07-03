@@ -4,9 +4,11 @@ import requests
 from bs4 import BeautifulSoup
 
 from logging_config import logger
+from scrapers.discount_scraper import DiscountScraper
+from scrapers.discount_dto import Discount
 
 
-class BergfreundeScraper:
+class BergfreundeScraper(DiscountScraper):
     def check_discounts(self):
         url = "https://www.bergfreunde.eu/"
         response = requests.get(url)
@@ -52,14 +54,15 @@ class BergfreundeScraper:
             image_url = img_tag['src'] if img_tag and img_tag.has_attr('src') else None
 
             if product_url:
-                discounts.append({
-                    "product": full_product_name,
-                    "url": product_url,
-                    "image_url": image_url,
-                    "originalPrice": orig_price,
-                    "discountedPrice": disc_price,
-                    "site": "Bergfreunde"
-                })
+                discounts.append(Discount(
+                    product=full_product_name,
+                    url=product_url,
+                    image_url=image_url,
+                    original_price=orig_price,
+                    discounted_price=disc_price,
+                    site="Bergfreunde",
+                    discount_percent=discount_percent
+                ))
 
         return discounts
 
@@ -96,14 +99,15 @@ class BergfreundeScraper:
             image_url = img_tag['src'] if img_tag and img_tag.has_attr('src') else None
 
             if orig_price and disc_price and product_url:
-                discounts.append({
-                    "product": full_product_name,
-                    "url": product_url,
-                    "image_url": image_url,
-                    "originalPrice": orig_price,
-                    "discountedPrice": disc_price,
-                    "site": "Bergfreunde"
-                })
+                discounts.append(Discount(
+                    product=full_product_name,
+                    url=product_url,
+                    image_url=image_url,
+                    original_price=orig_price,
+                    discounted_price=disc_price,
+                    site="Bergfreunde",
+                    discount_percent=discount_percent
+                ))
 
         logger.info(f"[BergfreundeScraper] Found {len(discounts)} discounts.")
         return discounts

@@ -7,9 +7,11 @@ from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 
 from logging_config import logger
+from scrapers.discount_scraper import DiscountScraper
+from scrapers.discount_dto import Discount
 
 
-class MountexScraper:
+class MountexScraper(DiscountScraper):
     def check_discounts(self):
         url = "https://mountex.hu"
         options = Options()
@@ -47,14 +49,15 @@ class MountexScraper:
             original_price = original_price_elem.text.strip() if original_price_elem else ""
             discounted_price = discounted_price_elem.text.strip() if discounted_price_elem else ""
             if product_url:
-                discounts.append({
-                    'product': full_product_name,
-                    'url': product_url,
-                    'image_url': image_url,
-                    'originalPrice': original_price,
-                    'discountedPrice': discounted_price,
-                    'site': 'Mountex'
-                })
+                discounts.append(Discount(
+                    product=full_product_name,
+                    url=product_url,
+                    image_url=image_url,
+                    original_price=original_price,
+                    discounted_price=discounted_price,
+                    site='Mountex',
+                    discount_percent=discount_percent
+                ))
 
         return discounts
 
@@ -99,14 +102,15 @@ class MountexScraper:
             product_url = urljoin("https://mountex.hu", name_link["href"]) if name_link and name_link.has_attr("href") else None
 
             if orig_price and disc_price and product_url:
-                discounts.append({
-                    "product": f"{brand} {product_name}".strip(),
-                    "url": product_url,
-                    "image_url": image_url,
-                    "originalPrice": orig_price,
-                    "discountedPrice": disc_price,
-                    "site": "Mountex"
-                })
+                discounts.append(Discount(
+                    product=f"{brand} {product_name}".strip(),
+                    url=product_url,
+                    image_url=image_url,
+                    original_price=orig_price,
+                    discounted_price=disc_price,
+                    site="Mountex",
+                    discount_percent=discount_percent
+                ))
 
         logger.info("[MountexScraper] Found %d discounts.", len(discounts))
         return discounts
