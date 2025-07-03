@@ -1,6 +1,6 @@
-# Climbing Equipment Discount Aggregator
+# Climbing stuff discount Aggregator
 
-This app aggregates discounts on climbing equipment from multiple e-commerce sites using pluggable scrapers. It provides a simple web UI and a REST API for browsing discounts by category.
+This app aggregates discounts on climbing stuffs from multiple e-commerce sites using pluggable scrapers. It provides a simple web UI and a REST API for browsing discounts by category.
 
 ## Features
 
@@ -11,21 +11,26 @@ This app aggregates discounts on climbing equipment from multiple e-commerce sit
 
 ## Setup
 
-1. **Install dependencies:**
+1. **Create a virtual environment:**
+   ```bash
+   python3 -m venv climbing-stuff
+   source climbing-stuff/bin/activate
+
+2. **Install dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
 
-2. **Configure sites and categories:**
+3. **Configure sites and categories:**
    - Edit `config/sites.yaml` to enable/disable sites.
    - Edit `config/categories.yaml` to manage categories and their URLs per site.
 
-3. **Run the app:**
+4. **Run the app:**
    ```bash
    python app.py
    ```
 
-4. **Browse the UI:**
+5. **Browse the UI:**
    - Open [http://localhost:5000](http://localhost:5000) in your browser.
 
 ## REST API

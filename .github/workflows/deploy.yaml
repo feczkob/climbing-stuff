@@ -12,6 +12,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy
+      - name: Kill running container
         run: |
-          docker-compose -f docker-compose.yaml up -d --build --force-recreate
+          echo "Killing running container"
+          docker rm -f climbing-stuff_app || true
+
+      - name: Build and start containers
+        run: |
+          echo "Building and starting containers"
+          docker-compose up -d --build

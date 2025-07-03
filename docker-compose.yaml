@@ -1,8 +1,9 @@
 version: "3.9"
 
 services:
-  climbing-equipment:
+  climbing-stuff:
     build: .
+    container_name: climbing-stuff_app
     ports:
       - "8000:8000"
     environment:
