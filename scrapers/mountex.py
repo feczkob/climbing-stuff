@@ -62,15 +62,25 @@ class MountexScraper:
         options.add_argument("--headless=new")
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
-        driver = webdriver.Chrome(options=options)
-        driver.get(url)
-        time.sleep(5)
-
-        soup = BeautifulSoup(driver.page_source, "html.parser")
-        driver.quit()
+        logger.info("[MountexScraper] Starting Chrome WebDriver for category URL: %s", url)
+        try:
+            driver = webdriver.Chrome(options=options)
+            logger.info("[MountexScraper] Chrome WebDriver started")
+            driver.get(url)
+            logger.info("[MountexScraper] Page loaded")
+            time.sleep(5)
+            soup = BeautifulSoup(driver.page_source, 'html.parser')
+            driver.quit()
+            logger.info("[MountexScraper] Page parsed and driver quit")
+        except Exception as e:
+            logger.exception("[MountexScraper] Exception occurred: %s", e)
+            return []
+        logger.info("[MountexScraper] Category page parsed with BeautifulSoup.")
         discounts = []
 
-        for product in soup.select("div.bg-white.rounded-16"):
+        products = soup.select("div.bg-white.rounded-16")
+        logger.info("[MountexScraper] Found %d products in category.", len(products))
+        for product in products:
             discount_tag = product.select_one("span.bg-brand-highlight")
             discount_percent = discount_tag.get_text(strip=True) if discount_tag else ""
             name_link = product.select_one("a.text-black.unstyled")
@@ -103,6 +113,8 @@ class MountexScraper:
                     "originalPrice": orig_price,
                     "discountedPrice": disc_price
                 })
+            else:
+                logger.warning("[MountexScraper] Missing data for product: brand=%s, name=%s, url=%s", brand, product_name, product_url)
 
-        logger.info(f"[MountexScraper] Found {len(discounts)} discounts.")
+        logger.info("[MountexScraper] Found %d discounts.", len(discounts))
         return discounts

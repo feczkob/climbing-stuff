@@ -10,6 +10,11 @@ COPY requirements.txt .
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+RUN apt-get update && \
+    apt-get install -y wget gnupg2 ca-certificates chromium chromium-driver && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 # Copy app code
 COPY . .
 
