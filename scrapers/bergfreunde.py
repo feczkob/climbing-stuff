@@ -4,9 +4,11 @@ import requests
 from bs4 import BeautifulSoup
 
 from logging_config import logger
+from scrapers.discount_scraper import DiscountScraper
+from scrapers.discount_dto import Discount
 
 
-class BergfreundeScraper:
+class BergfreundeScraper(DiscountScraper):
     def check_discounts(self):
         url = "https://www.bergfreunde.eu/"
         response = requests.get(url)
@@ -21,7 +23,7 @@ class BergfreundeScraper:
 
         for product in teaser.find_all("div", class_="product-container"):
             discount_tag = product.find("span", class_="special_discount_percent")
-            discount_percent = discount_tag.text.strip() if discount_tag else ""
+            discount_percent = "-" + discount_tag.text.strip().replace("to", "").replace("from", "") if discount_tag else ""
 
             brand = ""
             brand_tag = product.find("div", class_="manufacturer-title")
@@ -35,16 +37,15 @@ class BergfreundeScraper:
             name_tag = product.find("div", class_="product-title")
             product_name = name_tag.text.strip() if name_tag else "Unknown Product"
 
-            # Improved duplication check (case-insensitive, stripped)
             if brand and not product_name.lower().startswith(brand.lower()):
                 full_product_name = f"{brand} {product_name}"
             else:
                 full_product_name = product_name
 
             orig_price_tag = product.find("span", class_="strike-price")
-            orig_price = orig_price_tag.text.strip() if orig_price_tag else ""
+            orig_price = orig_price_tag.text.strip().replace("from ", "") if orig_price_tag else ""
             disc_price_tag = product.find("span", class_="price")
-            disc_price = disc_price_tag.text.strip() if disc_price_tag else ""
+            disc_price = disc_price_tag.text.strip().replace("from ", "") if disc_price_tag else ""
 
             link_tag = product.find("a", class_="teaser-full-link")
             product_url = link_tag["href"] if link_tag and link_tag.has_attr("href") else None
@@ -53,13 +54,15 @@ class BergfreundeScraper:
             image_url = img_tag['src'] if img_tag and img_tag.has_attr('src') else None
 
             if product_url:
-                discounts.append({
-                    "product": f"{full_product_name} (-{discount_percent}) ({orig_price} → {disc_price})",
-                    "url": product_url,
-                    "image_url": image_url,
-                    "originalPrice": orig_price,
-                    "discountedPrice": disc_price
-                })
+                discounts.append(Discount(
+                    product=full_product_name,
+                    url=product_url,
+                    image_url=image_url,
+                    original_price=orig_price,
+                    discounted_price=disc_price,
+                    site="Bergfreunde",
+                    discount_percent=discount_percent
+                ))
 
         return discounts
 
@@ -71,7 +74,7 @@ class BergfreundeScraper:
 
         for product in soup.select("li.product-item.product-fallback"):
             discount_tag = product.select_one("span.js-special-discount-percent")
-            discount_percent = discount_tag.get_text(strip=True) if discount_tag else ""
+            discount_percent = "-" + discount_tag.get_text(strip=True).replace("to", "").replace("from", "") if discount_tag else ""
 
             brand_tag = product.select_one("div.manufacturer-title")
             brand = brand_tag.get_text(strip=True) if brand_tag else ""
@@ -79,16 +82,15 @@ class BergfreundeScraper:
             name_tag = product.select_one("div.product-title")
             product_name = " ".join(name_tag.stripped_strings) if name_tag else "Unknown Product"
 
-            # Improved duplication check (case-insensitive, stripped)
             if brand and not product_name.lower().startswith(brand.lower()):
                 full_product_name = f"{brand} {product_name}"
             else:
                 full_product_name = product_name
 
             orig_price_tag = product.select_one("span.uvp")
-            orig_price = orig_price_tag.get_text(strip=True) if orig_price_tag else ""
+            orig_price = orig_price_tag.get_text(strip=True).replace("from ", "") if orig_price_tag else ""
             disc_price_tag = product.select_one("span.price.high-light")
-            disc_price = disc_price_tag.get_text(strip=True) if disc_price_tag else ""
+            disc_price = disc_price_tag.get_text(strip=True).replace("from ", "") if disc_price_tag else ""
 
             link_tag = product.select_one("a.product-link")
             product_url = urljoin(url, link_tag["href"]) if link_tag and link_tag.has_attr("href") else None
@@ -97,13 +99,15 @@ class BergfreundeScraper:
             image_url = img_tag['src'] if img_tag and img_tag.has_attr('src') else None
 
             if orig_price and disc_price and product_url:
-                discounts.append({
-                    "product": f"{full_product_name} (-{discount_percent}) ({orig_price} → {disc_price})",
-                    "url": product_url,
-                    "image_url": image_url,
-                    "originalPrice": orig_price,
-                    "discountedPrice": disc_price
-                })
+                discounts.append(Discount(
+                    product=full_product_name,
+                    url=product_url,
+                    image_url=image_url,
+                    original_price=orig_price,
+                    discounted_price=disc_price,
+                    site="Bergfreunde",
+                    discount_percent=discount_percent
+                ))
 
         logger.info(f"[BergfreundeScraper] Found {len(discounts)} discounts.")
         return discounts

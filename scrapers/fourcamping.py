@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 
 from logging_config import logger
 from scrapers.discount_scraper import DiscountScraper
+from scrapers.discount_dto import Discount
 import re
 
 class FourCampingScraper(DiscountScraper):
@@ -62,16 +63,15 @@ class FourCampingScraper(DiscountScraper):
                 percent = round(100 * (old_price_num - new_price_num) / old_price_num)
                 discount_percent = f"-{percent}%"
 
-            # Format prices for display (keep original formatting)
-            product = f"{full_name} ({discount_percent}) ({old_price} → {new_price})"
-
-            discounts.append({
-                "product": product,
-                "url": product_url,
-                "image_url": image_url,
-                "originalPrice": old_price,
-                "discountedPrice": new_price
-            })
+            discounts.append(Discount(
+                product=full_name,
+                url=product_url,
+                image_url=image_url,
+                original_price=old_price,
+                discounted_price=new_price,
+                site="4Camping",
+                discount_percent=discount_percent
+            ))
 
         logger.info(f"[FourCampingScraper] Found {len(discounts)} discounts.")
         return discounts
