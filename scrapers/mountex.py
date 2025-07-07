@@ -34,7 +34,7 @@ class MountexScraper(DiscountScraper):
         product_cards = container.find_all('div', id=lambda x: x and x.startswith('product-'), recursive=False)
         for card in product_cards:
             discount_tag = card.find('span', class_='bg-brand-highlight')
-            discount_percent = discount_tag.text.strip() if discount_tag else ""
+            discount_percent = discount_tag.text.strip().replace('%', '') if discount_tag else ""
             brand_elem = card.find('div', class_='font-bold font-lora')
             brand = brand_elem.text.strip() if brand_elem else ""
             product_name_elem = card.select('h2 div:not(.font-bold)')
@@ -78,7 +78,7 @@ class MountexScraper(DiscountScraper):
         
         for product in products:
             discount_tag = product.select_one("span.bg-brand-highlight")
-            discount_percent = discount_tag.get_text(strip=True) if discount_tag else ""
+            discount_percent = discount_tag.get_text(strip=True).replace(' %', '') if discount_tag else ""
             name_link = product.select_one("a.text-black.unstyled")
             brand = ""
             product_name = ""

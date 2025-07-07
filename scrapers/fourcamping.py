@@ -61,7 +61,7 @@ class FourCampingScraper(DiscountScraper):
             discount_percent = ""
             if old_price_num > 0 and new_price_num > 0 and old_price_num > new_price_num:
                 percent = round(100 * (old_price_num - new_price_num) / old_price_num)
-                discount_percent = f"-{percent}%"
+                discount_percent = f"-{percent}"
 
             discounts.append(Discount(
                 product=full_name,

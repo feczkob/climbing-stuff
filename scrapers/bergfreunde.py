@@ -23,7 +23,7 @@ class BergfreundeScraper(DiscountScraper):
 
         for product in teaser.find_all("div", class_="product-container"):
             discount_tag = product.find("span", class_="special_discount_percent")
-            discount_percent = "-" + discount_tag.text.strip().replace("to", "").replace("from", "") if discount_tag else ""
+            discount_percent = "-" + discount_tag.text.strip().replace("to", "").replace("from", "").replace("%", "") if discount_tag else ""
 
             brand = ""
             brand_tag = product.find("div", class_="manufacturer-title")
@@ -74,7 +74,7 @@ class BergfreundeScraper(DiscountScraper):
 
         for product in soup.select("li.product-item.product-fallback"):
             discount_tag = product.select_one("span.js-special-discount-percent")
-            discount_percent = "-" + discount_tag.get_text(strip=True).replace("to", "").replace("from", "") if discount_tag else ""
+            discount_percent = "-" + discount_tag.get_text(strip=True).replace("to", "").replace("from", "").replace("%", "") if discount_tag else ""
 
             brand_tag = product.select_one("div.manufacturer-title")
             brand = brand_tag.get_text(strip=True) if brand_tag else ""
