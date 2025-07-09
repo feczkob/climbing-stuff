@@ -17,12 +17,10 @@ def test_discount_url_creation():
     
     # Test basic DiscountUrl creation
     discount_url = DiscountUrl(
-        site="bergfreunde",
         category="friends-nuts",
         url="https://www.bergfreunde.eu/camming-devices-friends/"
     )
     
-    assert discount_url.site == "bergfreunde"
     assert discount_url.category == "friends-nuts"
     assert discount_url.url == "https://www.bergfreunde.eu/camming-devices-friends/"
     
@@ -99,7 +97,7 @@ def main():
         print("=" * 60)
         print("🎉 All tests passed! The refactoring is working correctly.")
         print("\nKey improvements implemented:")
-        print("✓ DiscountUrl class created with site, category, and url fields")
+        print("✓ DiscountUrl class created with category and url fields")
         print("✓ Scrapers now configured with URLs upon instantiation")
         print("✓ Service can invoke discount fetching by category")
         print("✓ Scrapers know internally which URLs to call for each category")

@@ -31,9 +31,9 @@ def load_sites() -> List[Dict[str, Any]]:
         sites_yaml = yaml.safe_load(f)
     return [site for site in sites_yaml['sites'] if site.get('enabled', True)]
 
-def create_discount_urls() -> List[DiscountUrl]:
-    """Create DiscountUrl objects from the categories configuration."""
-    discount_urls = []
+def create_discount_urls_by_site() -> Dict[str, List[DiscountUrl]]:
+    """Create DiscountUrl objects grouped by site from the categories configuration."""
+    urls_by_site = {}
     categories = load_categories()
     sites = load_sites()
     
@@ -45,26 +45,21 @@ def create_discount_urls() -> List[DiscountUrl]:
                 # Handle both single URLs and lists of URLs
                 urls = url if isinstance(url, list) else [url]
                 for single_url in urls:
-                    discount_urls.append(DiscountUrl(
-                        site=site_name,
+                    discount_url = DiscountUrl(
                         category=category_name,
                         url=single_url
-                    ))
+                    )
+                    if site_name not in urls_by_site:
+                        urls_by_site[site_name] = []
+                    urls_by_site[site_name].append(discount_url)
     
-    return discount_urls
+    return urls_by_site
 
 def initialize_scrapers():
     """Initialize scrapers with their respective DiscountUrl objects."""
     global SCRAPER_MAP
     
-    discount_urls = create_discount_urls()
-    
-    # Group URLs by site
-    urls_by_site = {}
-    for discount_url in discount_urls:
-        if discount_url.site not in urls_by_site:
-            urls_by_site[discount_url.site] = []
-        urls_by_site[discount_url.site].append(discount_url)
+    urls_by_site = create_discount_urls_by_site()
     
     # Initialize scrapers with their URLs
     scraper_classes = {

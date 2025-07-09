@@ -4,14 +4,9 @@ from typing import Optional, List
 
 @dataclass
 class DiscountUrl:
-    """Represents a URL for scraping discounts from a specific site and category."""
-    site: str
+    """Represents a URL for scraping discounts from a specific category."""
     category: str
     url: str
-    
-    def __post_init__(self):
-        # Ensure site name is properly formatted
-        self.site = self.site.lower()
 
 
 class Discount:
