@@ -3,13 +3,6 @@ from typing import Optional
 
 
 @dataclass
-class DiscountUrl:
-    """Represents a URL for scraping discounts from a specific category."""
-    category: str
-    url: str
-
-
-@dataclass
 class Discount:
     product: str
     url: str
