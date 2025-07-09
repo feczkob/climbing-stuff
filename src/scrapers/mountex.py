@@ -15,12 +15,8 @@ class MountexScraper(DiscountScraper):
     def __init__(self, discount_urls=None):
         super().__init__(discount_urls)
 
-    def check_discounts(self):
-        pass
 
     def extract_discounts_from_category(self, url):
-        logger.info(f"[MountexScraper] Fetching from URL: {url}")
-        
         options = Options()
         options.add_argument("--headless=new")
         options.add_argument("--disable-gpu")
@@ -34,27 +30,8 @@ class MountexScraper(DiscountScraper):
 
         discounts = []
         
-        # Debug: Check for product items
+        # Get product items
         products = soup.select("div.bg-white.rounded-16")
-        logger.info(f"[MountexScraper] Found {len(products)} product items with selector 'div.bg-white.rounded-16'")
-        
-        # Debug: Print first few product items HTML if any found
-        if products:
-            logger.info(f"[MountexScraper] First product item HTML: {str(products[0])[:500]}...")
-        else:
-            # Try alternative selectors
-            alt_selectors = [
-                ".bg-white",
-                ".rounded-16",
-                ".product-card",
-                ".product-item",
-                ".product"
-            ]
-            for selector in alt_selectors:
-                items = soup.select(selector)
-                logger.info(f"[MountexScraper] Found {len(items)} items with selector '{selector}'")
-                if items:
-                    logger.info(f"[MountexScraper] First item with '{selector}': {str(items[0])[:300]}...")
         
         for product in products:
             discount_tag = product.select_one("span.bg-brand-highlight")

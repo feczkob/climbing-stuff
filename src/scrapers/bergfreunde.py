@@ -22,31 +22,8 @@ class BergfreundeScraper(DiscountScraper):
         soup = BeautifulSoup(response.text, "html.parser")
         discounts = []
 
-        # Debug: Check if we're getting any content
-        logger.info(f"[BergfreundeScraper] Fetching from URL: {url}")
-        logger.info(f"[BergfreundeScraper] Response status: {response.status_code}")
-        
-        # Debug: Check for product items
+        # Get product items
         product_items = soup.select("li.product-item.product-fallback")
-        logger.info(f"[BergfreundeScraper] Found {len(product_items)} product items with selector 'li.product-item.product-fallback'")
-        
-        # Debug: Print first few product items HTML if any found
-        if product_items:
-            logger.info(f"[BergfreundeScraper] First product item HTML: {str(product_items[0])[:500]}...")
-        else:
-            # Try alternative selectors
-            alt_selectors = [
-                ".product-item",
-                "li.product-item",
-                ".product-fallback",
-                ".product-list__item",
-                ".product-card"
-            ]
-            for selector in alt_selectors:
-                items = soup.select(selector)
-                logger.info(f"[BergfreundeScraper] Found {len(items)} items with selector '{selector}'")
-                if items:
-                    logger.info(f"[BergfreundeScraper] First item with '{selector}': {str(items[0])[:300]}...")
 
         for product in product_items:
             discount_tag = product.select_one("span.js-special-discount-percent")
