@@ -8,6 +8,9 @@ import re
 
 class FourCampingScraper(DiscountScraper):
     BASE_URL = "https://www.4camping.hu"
+    
+    def __init__(self, discount_urls=None):
+        super().__init__(discount_urls)
 
     def check_discounts(self):
         pass

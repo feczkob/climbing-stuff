@@ -9,6 +9,9 @@ from scrapers.discount_dto import Discount
 
 
 class BergfreundeScraper(DiscountScraper):
+    def __init__(self, discount_urls=None):
+        super().__init__(discount_urls)
+        
     def check_discounts(self):
         url = "https://www.bergfreunde.eu/"
         response = requests.get(url)
