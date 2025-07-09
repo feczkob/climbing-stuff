@@ -27,13 +27,13 @@ async function renderProducts(category) {
                 <div class="product-details">
                     <div class="product-name">
                         <a href="${d.url}" target="_blank">${d.product}</a>
-                        <span class="discount-percent">${d.discount_percent ? d.discount_percent + '%' : ''}</span>
+                        <span class="discount-percent">${d.discount_percent ? d.discount_percent : ''}${d.discount_percent ? '%' : ''}</span>
                     </div>
                     <div>
-                        <span class="orig-price">${d.original_price}</span>
-                        <span class="disc-price">${d.discounted_price}</span>
+                        <span class="orig-price">${d.old_price || ''}</span>
+                        <span class="disc-price">${d.new_price || ''}</span>
                     </div>
-                    <div class="shop">${d.site}</div>
+                    <div class="shop">${d.site || ''}</div>
                 </div>
             `;
             container.appendChild(div);

@@ -1,3 +1,4 @@
+from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
 
@@ -16,40 +17,73 @@ class BergfreundeScraper(DiscountScraper):
         pass
 
     def extract_discounts_from_category(self, url):
-        resp = requests.get(url)
-        resp.raise_for_status()
-        soup = BeautifulSoup(resp.text, "html.parser")
+        response = requests.get(url)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, "html.parser")
         discounts = []
 
-        for card in soup.select(".product-list__item"):
-            old_price_tag = card.select_one(".product-list__price--old")
-            if not old_price_tag:
-                continue
-
-            link_tag = card.select_one(".product-list__link")
-            if not link_tag:
-                continue
-            product_url = self.BASE_URL + link_tag["href"]
-
-            name_tag = card.select_one(".product-list__title")
-            full_name = name_tag.get_text(strip=True) if name_tag else ""
-
-            img_tag = card.select_one(".product-list__image img")
-            image_url = img_tag["src"] if img_tag else ""
-
-            old_price = old_price_tag.get_text(strip=True)
-            new_price_tag = card.select_one(".product-list__price--final")
-            new_price = new_price_tag.get_text(strip=True) if new_price_tag else ""
-
-            discount = Discount(
-                product=full_name,
-                url=product_url,
-                image_url=image_url,
-                old_price=old_price,
-                new_price=new_price,
-                category=None  # Will be set by the service layer
-            )
-            discounts.append(discount)
+        # Debug: Check if we're getting any content
+        logger.info(f"[BergfreundeScraper] Fetching from URL: {url}")
+        logger.info(f"[BergfreundeScraper] Response status: {response.status_code}")
         
+        # Debug: Check for product items
+        product_items = soup.select("li.product-item.product-fallback")
+        logger.info(f"[BergfreundeScraper] Found {len(product_items)} product items with selector 'li.product-item.product-fallback'")
+        
+        # Debug: Print first few product items HTML if any found
+        if product_items:
+            logger.info(f"[BergfreundeScraper] First product item HTML: {str(product_items[0])[:500]}...")
+        else:
+            # Try alternative selectors
+            alt_selectors = [
+                ".product-item",
+                "li.product-item",
+                ".product-fallback",
+                ".product-list__item",
+                ".product-card"
+            ]
+            for selector in alt_selectors:
+                items = soup.select(selector)
+                logger.info(f"[BergfreundeScraper] Found {len(items)} items with selector '{selector}'")
+                if items:
+                    logger.info(f"[BergfreundeScraper] First item with '{selector}': {str(items[0])[:300]}...")
+
+        for product in product_items:
+            discount_tag = product.select_one("span.js-special-discount-percent")
+            discount_percent = "-" + discount_tag.get_text(strip=True).replace("to", "").replace("from", "") if discount_tag else ""
+
+            brand_tag = product.select_one("div.manufacturer-title")
+            brand = brand_tag.get_text(strip=True) if brand_tag else ""
+
+            name_tag = product.select_one("div.product-title")
+            product_name = " ".join(name_tag.stripped_strings) if name_tag else "Unknown Product"
+
+            if brand and not product_name.lower().startswith(brand.lower()):
+                full_product_name = f"{brand} {product_name}"
+            else:
+                full_product_name = product_name
+
+            orig_price_tag = product.select_one("span.uvp")
+            orig_price = orig_price_tag.get_text(strip=True).replace("from ", "") if orig_price_tag else ""
+            disc_price_tag = product.select_one("span.price.high-light")
+            disc_price = disc_price_tag.get_text(strip=True).replace("from ", "") if disc_price_tag else ""
+
+            link_tag = product.select_one("a.product-link")
+            product_url = urljoin(url, link_tag["href"]) if link_tag and link_tag.has_attr("href") else None
+
+            img_tag = product.select_one('a.product-link img.product-image')
+            image_url = img_tag['src'] if img_tag and img_tag.has_attr('src') else None
+
+            if orig_price and disc_price and product_url:
+                discounts.append(Discount(
+                    product=full_product_name,
+                    url=product_url,
+                    image_url=image_url,
+                    old_price=orig_price,
+                    new_price=disc_price,
+                    category=None,  # Will be set by the service layer
+                    discount_percent=discount_percent
+                ))
+
         logger.info(f"[BergfreundeScraper] Found {len(discounts)} discounts.")
         return discounts
