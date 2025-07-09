@@ -35,7 +35,8 @@ class MountexScraper(DiscountScraper):
         for product in products:
             discount_tag = product.select_one("span.bg-brand-highlight")
             if discount_tag:
-                raw_discount = discount_tag.get_text(strip=True).replace("%", "")
+                raw_discount = discount_tag.get_text(strip=True).replace("%", "").strip()
+                raw_discount = raw_discount.lstrip('-')
                 discount_percent = f"-{raw_discount}" if raw_discount else ""
             else:
                 discount_percent = ""

@@ -26,7 +26,9 @@ class BergfreundeScraper(DiscountScraper):
         for product in product_items:
             discount_tag = product.select_one("span.js-special-discount-percent")
             if discount_tag:
-                raw_discount = discount_tag.get_text(strip=True).replace("to", "").replace("from", "").replace("%", "")
+                raw_discount = discount_tag.get_text(strip=True).replace("to", "").replace("from", "").replace("%", "").strip()
+                # Remove any leading minus signs, then add one
+                raw_discount = raw_discount.lstrip('-')
                 discount_percent = f"-{raw_discount}" if raw_discount else ""
             else:
                 discount_percent = ""

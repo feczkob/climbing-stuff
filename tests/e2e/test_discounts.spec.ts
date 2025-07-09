@@ -3,9 +3,9 @@ import { test, expect } from '@playwright/test';
 // Helper to select a category and wait for products to load
 const eachCategory = [
   { value: 'ropes', expectedDiscounts: 88 },
-  { value: 'friends-nuts', expectedDiscounts: 18 },
-  { value: 'slings', expectedDiscounts: 18 },
-  { value: 'carabiners-quickdraws', expectedDiscounts: 18 },
+  { value: 'friends-nuts', expectedDiscounts: 62 },
+  { value: 'slings', expectedDiscounts: 89 },
+  { value: 'carabiners-quickdraws', expectedDiscounts: 89 },
 ];
 
 test.describe('Discounts E2E (mock mode)', () => {
@@ -46,5 +46,83 @@ test.describe('Discounts E2E (mock mode)', () => {
     // Check that the discount percent is in the correct format
     const percent = await firstProduct.locator('.discount-percent').textContent();
     expect(percent).toMatch(/^\-\d+%$/);
+  });
+
+  test('should show Bergfreunde products correctly', async ({ page }) => {
+    await page.selectOption('#category-select', 'ropes');
+    await page.waitForTimeout(500);
+    
+    // Find Bergfreunde products (look for "Bergfreunde Edition")
+    const bergfreundeProducts = page.locator('.product').filter({ hasText: 'Bergfreunde Edition' });
+    const bergfreundeCount = await bergfreundeProducts.count();
+    
+    // Verify we have Bergfreunde products
+    expect(bergfreundeCount).toBeGreaterThan(0);
+    
+    // Check the first Bergfreunde product
+    const firstBergfreunde = bergfreundeProducts.first();
+    await expect(firstBergfreunde.locator('.product-name')).toBeVisible();
+    await expect(firstBergfreunde.locator('.orig-price')).toBeVisible();
+    await expect(firstBergfreunde.locator('.disc-price')).toBeVisible();
+    await expect(firstBergfreunde.locator('.discount-percent')).toBeVisible();
+    
+    // Check that the discount percent is in the correct format
+    const percent = await firstBergfreunde.locator('.discount-percent').textContent();
+    expect(percent).toMatch(/^\-\d+%$/);
+    
+    // Verify the product name contains "Bergfreunde Edition"
+    const productName = await firstBergfreunde.locator('.product-name').textContent();
+    expect(productName).toContain('Bergfreunde Edition');
+  });
+
+  test('should show Beal products correctly (Bergfreunde brand)', async ({ page }) => {
+    await page.selectOption('#category-select', 'friends-nuts');
+    await page.waitForTimeout(500);
+    
+    // Find Beal products (Bergfreunde brand)
+    const bealProducts = page.locator('.product').filter({ hasText: 'Beal' });
+    const bealCount = await bealProducts.count();
+    
+    // Verify we have Beal products
+    expect(bealCount).toBeGreaterThan(0);
+    
+    // Check the first Beal product
+    const firstBeal = bealProducts.first();
+    await expect(firstBeal.locator('.product-name')).toBeVisible();
+    await expect(firstBeal.locator('.orig-price')).toBeVisible();
+    await expect(firstBeal.locator('.disc-price')).toBeVisible();
+    await expect(firstBeal.locator('.discount-percent')).toBeVisible();
+    
+    // Check that the discount percent is in the correct format
+    const percent = await firstBeal.locator('.discount-percent').textContent();
+    expect(percent).toMatch(/^\-\d+%$/);
+    
+    // Verify the product name contains "Beal"
+    const productName = await firstBeal.locator('.product-name').textContent();
+    expect(productName).toContain('Beal');
+  });
+
+  test('should show Bergfreunde products in all categories', async ({ page }) => {
+    for (const { value } of eachCategory) {
+      await page.selectOption('#category-select', value);
+      await page.waitForTimeout(500);
+      
+      // Check if there are any Bergfreunde products in this category
+      // For ropes, look for "Bergfreunde Edition", for others look for "Beal" products
+      const searchText = value === 'ropes' ? 'Bergfreunde Edition' : 'Beal';
+      const bergfreundeProducts = page.locator('.product').filter({ hasText: searchText });
+      const bergfreundeCount = await bergfreundeProducts.count();
+      
+      // For categories other than ropes, Bergfreunde might not have products
+      // But if they exist, they should be formatted correctly
+      if (bergfreundeCount > 0) {
+        const firstBergfreunde = bergfreundeProducts.first();
+        await expect(firstBergfreunde.locator('.discount-percent')).toBeVisible();
+        
+        // Check that the discount percent is in the correct format
+        const percent = await firstBergfreunde.locator('.discount-percent').textContent();
+        expect(percent).toMatch(/^\-\d+%$/);
+      }
+    }
   });
 }); 

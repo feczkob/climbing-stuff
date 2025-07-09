@@ -2,4 +2,4 @@
 alwaysApply: true
 ---
 Always use the BeautifulSoup library for extracting value from the retrieved HTML files.
-Run the E2E tests always to verify your changes.
+Run the E2E tests always to verify your changes. When running the E2E tests, never show the HTML report.

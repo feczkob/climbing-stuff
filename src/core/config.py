@@ -30,16 +30,16 @@ class Config:
         # Map category names to URL path segments
         category_paths = {
             'ropes': 'climbing_ropes',
-            'friends-nuts': 'camming_devices_friends',  # This would need separate files for each
-            'slings': 'slings_cord',
-            'carabiners-quickdraws': 'carabiners_quickdraws'
+            'friends-nuts': 'camming-devices-friends',  # Use hyphens to match actual files
+            'slings': 'slings-cord',  # Use hyphens to match actual files
+            'carabiners-quickdraws': 'carabiners-quickdraws'  # Use hyphens to match actual files
         }
         
         path_segment = category_paths.get(category, category.replace('-', '_'))
         
         # Map site names to domain patterns
         site_patterns = {
-            'bergfreunde': f'bergfreunde_bergfreunde_eu_{path_segment}',
+            'bergfreunde': f'bergfreunde_bergfreunde_eu_{path_segment}' if category == 'ropes' else f'bergfreunde_www_bergfreunde_eu_{path_segment}',  # Special case for ropes
             'mountex': f'mountex_mountex_hu_sziklamaszas_hegymaszas',
             '4camping': f'4camping_4camping_hu_c_maszokoetelek'  # Fixed for ropes category
         }
