@@ -1,86 +1,25 @@
-import yaml
-import os
 import concurrent.futures
 from typing import List, Dict, Any
 
 from logging_config import logger
-from scrapers.bergfreunde import BergfreundeScraper
-from scrapers.fourcamping import FourCampingScraper
-from scrapers.mountex import MountexScraper
-from scrapers.discount_dto import DiscountUrl
+from core.manager import ScraperManager
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-CONFIG_DIR = os.path.join(BASE_DIR, 'config')
-CATEGORIES_FILE = os.path.join(CONFIG_DIR, 'categories.yaml')
-SITES_FILE = os.path.join(CONFIG_DIR, 'sites.yaml')
-
-# Global scraper instances - will be initialized with DiscountUrl objects
-SCRAPER_MAP = {}
+# Global instances
+scraper_manager = ScraperManager()
 ALL_DISCOUNTS = {}
 DISCOUNTS_LOADED = False
 
-def load_categories() -> Dict[str, Any]:
-    with open(CATEGORIES_FILE, 'r') as f:
-        categories_yaml = yaml.safe_load(f)
-    return categories_yaml['categories']
+# Load categories at module level
+CATEGORIES = scraper_manager.load_categories()
 
-CATEGORIES = load_categories()
-
-def load_sites() -> List[Dict[str, Any]]:
-    with open(SITES_FILE, 'r') as f:
-        sites_yaml = yaml.safe_load(f)
-    return [site for site in sites_yaml['sites'] if site.get('enabled', True)]
-
-def create_discount_urls_by_site() -> Dict[str, List[DiscountUrl]]:
-    """Create DiscountUrl objects grouped by site from the categories configuration."""
-    urls_by_site = {}
-    categories = load_categories()
-    sites = load_sites()
-    
-    for category_name, site_urls in categories.items():
-        for site in sites:
-            site_name = site['name']
-            url = site_urls.get(site_name)
-            if url and site_name in ['bergfreunde', 'mountex', '4camping']:
-                # Handle both single URLs and lists of URLs
-                urls = url if isinstance(url, list) else [url]
-                for single_url in urls:
-                    discount_url = DiscountUrl(
-                        category=category_name,
-                        url=single_url
-                    )
-                    if site_name not in urls_by_site:
-                        urls_by_site[site_name] = []
-                    urls_by_site[site_name].append(discount_url)
-    
-    return urls_by_site
-
-def initialize_scrapers():
-    """Initialize scrapers with their respective DiscountUrl objects."""
-    global SCRAPER_MAP
-    
-    urls_by_site = create_discount_urls_by_site()
-    
-    # Initialize scrapers with their URLs
-    scraper_classes = {
-        'bergfreunde': BergfreundeScraper,
-        'mountex': MountexScraper,
-        '4camping': FourCampingScraper,
-    }
-    
-    for site_name, urls in urls_by_site.items():
-        if site_name in scraper_classes:
-            SCRAPER_MAP[site_name] = scraper_classes[site_name](urls)
-            logger.info(f"Initialized {site_name} scraper with {len(urls)} URLs")
-
+# Public API methods
 def fetch_discounts_for_category(category: str) -> List[Dict[str, Any]]:
     """Fetch discounts for a specific category from all scrapers."""
-    if not SCRAPER_MAP:
-        initialize_scrapers()
+    scrapers = scraper_manager.get_scrapers()
     
     all_discounts = []
     
-    for site_name, scraper in SCRAPER_MAP.items():
+    for site_name, scraper in scrapers.items():
         try:
             discounts = scraper.extract_discounts_by_category(category)
             # Convert to dictionaries and add site information
@@ -94,10 +33,9 @@ def fetch_discounts_for_category(category: str) -> List[Dict[str, Any]]:
 
 def fetch_all_discounts() -> Dict[str, List[Dict[str, Any]]]:
     """Fetch all discounts using the new category-based architecture."""
-    if not SCRAPER_MAP:
-        initialize_scrapers()
+    scrapers = scraper_manager.get_scrapers()
     
-    categories = load_categories()
+    categories = scraper_manager.load_categories()
     discounts_by_category = {cat: [] for cat in categories.keys()}
     
     with concurrent.futures.ThreadPoolExecutor() as executor:

@@ -1,22 +1,34 @@
-from scrapers.service import load_sites, CATEGORIES, SCRAPER_MAP, fetch_discounts_for_site_category
+from scrapers.service import fetch_discounts_for_category, fetch_all_discounts
 
-def print_discounts_category(category, site_name, discounts):
+def print_discounts_category(category, discounts):
+    """Print discounts for a specific category."""
     if not discounts:
         return
-    print(f"\n[{category}] Discounts found on {site_name}:")
+    
+    print(f"\n[{category}] Discounts found:")
     for discount in discounts:
-        print(f"- {discount['product']}\n  URL: {discount['url']} \n  Image: {discount['image_url']}")
+        print(f"- {discount['product']}")
+        print(f"  Site: {discount['site']}")
+        print(f"  URL: {discount['url']}")
+        if discount.get('image_url'):
+            print(f"  Image: {discount['image_url']}")
+        print()
 
 def main():
-    sites = load_sites()
-    categories = CATEGORIES  # This is a dict: {category: {site: url, ...}, ...}
-    for category, urls in categories.items():
-        for site in sites:
-            site_name = site['name']
-            if site_name not in urls or site_name not in SCRAPER_MAP:
-                continue
-            _, discounts = fetch_discounts_for_site_category(site_name, category, urls[site_name])
-            print_discounts_category(category, site_name, discounts)
+    """Main function to fetch and display all discounts."""
+    print("Fetching all discounts...")
+    
+    # Option 1: Fetch all discounts at once
+    all_discounts = fetch_all_discounts()
+    
+    for category, discounts in all_discounts.items():
+        print_discounts_category(category, discounts)
+    
+    # Option 2: Fetch by category (uncomment to use this approach)
+    # categories = ['friends-nuts', 'slings', 'ropes', 'carabiners-quickdraws']
+    # for category in categories:
+    #     discounts = fetch_discounts_for_category(category)
+    #     print_discounts_category(category, discounts)
 
 if __name__ == "__main__":
     main()
