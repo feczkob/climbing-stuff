@@ -5,7 +5,6 @@ from bs4 import BeautifulSoup
 from src.core.logging_config import logger
 from src.scrapers.discount_scraper import DiscountScraper
 from src.scrapers.discount import Discount
-import re
 
 class BergfreundeScraper(DiscountScraper):
     BASE_URL = "https://www.bergfreunde.eu"
@@ -13,8 +12,7 @@ class BergfreundeScraper(DiscountScraper):
     def __init__(self, discount_urls=None):
         super().__init__(discount_urls)
 
-    def check_discounts(self):
-        pass
+
 
     def extract_discounts_from_category(self, url):
         response = requests.get(url)

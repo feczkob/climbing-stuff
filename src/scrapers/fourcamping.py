@@ -12,9 +12,6 @@ class FourCampingScraper(DiscountScraper):
     def __init__(self, discount_urls=None):
         super().__init__(discount_urls)
 
-    def check_discounts(self):
-        pass
-
     def extract_discounts_from_category(self, url):
         resp = requests.get(url)
         resp.raise_for_status()
