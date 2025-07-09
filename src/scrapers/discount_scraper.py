@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List, Dict
-from src.scrapers.discount_dto import Discount, DiscountUrl
+from src.scrapers.discount_url import DiscountUrl
 
 
 class DiscountScraper(ABC):
@@ -56,7 +56,7 @@ class DiscountScraper(ABC):
                 all_discounts.extend(discounts)
             except Exception as e:
                 # Log error but continue with other URLs
-                from logging_config import logger
+                from src.core.logging_config import logger
                 logger.error(f"Error extracting discounts from {url} for category {category}: {e}")
                 
         return all_discounts

@@ -11,8 +11,8 @@ import unittest
 # Add the project root to the path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.scrapers.service import fetch_discounts_for_category, fetch_all_discounts
-from src.scrapers.discount_dto import DiscountUrl
+from src.services.discount_service import fetch_discounts_for_category, fetch_all_discounts
+from src.scrapers.discount_url import DiscountUrl
 from src.core.manager import ScraperManager
 
 

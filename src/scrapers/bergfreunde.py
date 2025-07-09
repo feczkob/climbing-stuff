@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-from logging_config import logger
+from src.core.logging_config import logger
 from src.scrapers.discount_scraper import DiscountScraper
 from src.scrapers.discount_dto import Discount
 import re

@@ -2,11 +2,11 @@ import yaml
 import os
 from typing import List, Dict, Any
 
-from logging_config import logger
+from src.core.logging_config import logger
 from src.scrapers.bergfreunde import BergfreundeScraper
 from src.scrapers.fourcamping import FourCampingScraper
 from src.scrapers.mountex import MountexScraper
-from src.scrapers.discount_dto import DiscountUrl
+from src.scrapers.discount_url import DiscountUrl
 
 
 def get_project_root():

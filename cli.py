@@ -13,7 +13,7 @@ from typing import List, Dict, Any
 project_root = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, project_root)
 
-from src.scrapers.service import fetch_discounts_for_category, fetch_all_discounts
+from src.services.discount_service import fetch_discounts_for_category, fetch_all_discounts
 from src.core.manager import ScraperManager
 
 
