@@ -27,7 +27,7 @@ async function renderProducts(category) {
                 <div class="product-details">
                     <div class="product-name">
                         <a href="${d.url}" target="_blank">${d.product}</a>
-                        <span class="discount-percent">${d.discount_percent ? d.discount_percent : ''}${d.discount_percent ? '%' : ''}</span>
+                        <span class="discount-percent">${d.discount_percent ? d.discount_percent.replace(/\s+/g, '') + '%' : ''}</span>
                     </div>
                     <div>
                         <span class="orig-price">${d.old_price || ''}</span>

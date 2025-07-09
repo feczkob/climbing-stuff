@@ -3,9 +3,11 @@ import os
 from typing import List, Dict, Any
 
 from src.core.logging_config import logger
+from src.core.config import config
 from src.scrapers.bergfreunde import BergfreundeScraper
 from src.scrapers.fourcamping import FourCampingScraper
 from src.scrapers.mountex import MountexScraper
+from src.scrapers.mock_scraper import MockScraper
 from src.scrapers.discount_url import DiscountUrl
 
 
@@ -21,11 +23,22 @@ class ScraperManager:
         self.categories_file = os.path.join(self.config_dir, 'categories.yaml')
         
         self.scraper_map = {}
-        self.scraper_classes = {
-            'bergfreunde': BergfreundeScraper,
-            'mountex': MountexScraper,
-            '4camping': FourCampingScraper,
-        }
+        
+        # Choose scraper classes based on production mode
+        if config.is_production():
+            self.scraper_classes = {
+                'bergfreunde': BergfreundeScraper,
+                'mountex': MountexScraper,
+                '4camping': FourCampingScraper,
+            }
+            logger.info("Running in PRODUCTION mode - using real scrapers")
+        else:
+            self.scraper_classes = {
+                'bergfreunde': MockScraper,
+                'mountex': MockScraper,
+                '4camping': MockScraper,
+            }
+            logger.info("Running in DEVELOPMENT mode - using mock scrapers")
     
     def load_categories(self) -> Dict[str, Any]:
         """Load categories configuration from YAML file."""

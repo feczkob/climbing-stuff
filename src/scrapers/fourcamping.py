@@ -50,8 +50,13 @@ class FourCampingScraper(DiscountScraper):
             new_price = new_price_tag.get_text(strip=True) if new_price_tag else ""
 
             # Extract discount percentage
-            discount_percent_tag = card.select_one(".card-price__discount .card-price__discount-percent")
-            discount_percent = discount_percent_tag.get_text(strip=True) if discount_percent_tag else ""
+            discount_tag = card.select_one(".card-price__discount .card-price__discount-percent")
+            if discount_tag:
+                raw_discount = discount_tag.get_text(strip=True).replace("%", "").strip()
+                raw_discount = raw_discount.lstrip('-')
+                discount_percent = f"-{raw_discount}" if raw_discount else ""
+            else:
+                discount_percent = ""
             
             # If no discount percent tag found, try to calculate from prices
             if not discount_percent and old_price and new_price:
@@ -60,7 +65,9 @@ class FourCampingScraper(DiscountScraper):
                     old_num = float(re.sub(r'[^\d,.]', '', old_price).replace(',', '.'))
                     new_num = float(re.sub(r'[^\d,.]', '', new_price).replace(',', '.'))
                     if old_num > 0:
-                        discount_percent = f"-{int(((old_num - new_num) / old_num) * 100)}"
+                        calc_discount = str(int(((old_num - new_num) / old_num) * 100))
+                        calc_discount = calc_discount.lstrip('-')
+                        discount_percent = f"-{calc_discount}" if calc_discount else ""
                 except (ValueError, ZeroDivisionError):
                     discount_percent = ""
 

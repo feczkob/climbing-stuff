@@ -101,3 +101,7 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+node_modules/
+test-results/
+playwright-report/

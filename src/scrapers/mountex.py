@@ -2,6 +2,7 @@ import time
 from urllib.parse import urljoin
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 from bs4 import BeautifulSoup
 
 from src.core.logging_config import logger
@@ -21,7 +22,8 @@ class MountexScraper(DiscountScraper):
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
         
-        driver = webdriver.Chrome(options=options)
+        service = Service(executable_path="/usr/bin/chromedriver")
+        driver = webdriver.Chrome(service=service, options=options)
         driver.get(url)
         time.sleep(5)
         soup = BeautifulSoup(driver.page_source, "html.parser")
@@ -34,7 +36,12 @@ class MountexScraper(DiscountScraper):
         
         for product in products:
             discount_tag = product.select_one("span.bg-brand-highlight")
-            discount_percent = discount_tag.get_text(strip=True) if discount_tag else ""
+            if discount_tag:
+                raw_discount = discount_tag.get_text(strip=True).replace("%", "").strip()
+                raw_discount = raw_discount.lstrip('-')
+                discount_percent = f"-{raw_discount}" if raw_discount else ""
+            else:
+                discount_percent = ""
             name_link = product.select_one("a.text-black.unstyled")
             brand = ""
             product_name = ""
