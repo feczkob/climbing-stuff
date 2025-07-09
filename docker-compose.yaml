@@ -8,4 +8,5 @@ services:
       - "8000:8000"
     environment:
       - PYTHONUNBUFFERED=1
+      - PRODUCTION_MODE=true
     restart: unless-stopped

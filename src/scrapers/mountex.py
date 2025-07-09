@@ -2,6 +2,7 @@ import time
 from urllib.parse import urljoin
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 from bs4 import BeautifulSoup
 
 from src.core.logging_config import logger
@@ -21,7 +22,8 @@ class MountexScraper(DiscountScraper):
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
         
-        driver = webdriver.Chrome(options=options)
+        service = Service(executable_path="/usr/bin/chromedriver")
+        driver = webdriver.Chrome(service=service, options=options)
         driver.get(url)
         time.sleep(5)
         soup = BeautifulSoup(driver.page_source, "html.parser")
