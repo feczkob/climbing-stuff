@@ -1,13 +1,16 @@
 import requests
 from bs4 import BeautifulSoup
 
-from logging_config import logger
-from scrapers.discount_scraper import DiscountScraper
-from scrapers.discount_dto import Discount
+from src.core.logging_config import logger
+from src.scrapers.discount_scraper import DiscountScraper
+from src.scrapers.discount import Discount
 import re
 
 class FourCampingScraper(DiscountScraper):
     BASE_URL = "https://www.4camping.hu"
+    
+    def __init__(self, discount_urls=None):
+        super().__init__(discount_urls)
 
     def check_discounts(self):
         pass
@@ -49,29 +52,15 @@ class FourCampingScraper(DiscountScraper):
             new_price_tag = card.select_one(".card-price__full strong")
             new_price = new_price_tag.get_text(strip=True) if new_price_tag else ""
 
-            # Parse prices as numbers for calculation
-            def parse_price(price_str):
-                price_str = re.sub(r"[^\d]", "", price_str)
-                return int(price_str) if price_str else 0
-
-            old_price_num = parse_price(old_price)
-            new_price_num = parse_price(new_price)
-
-            # Calculate discount percent
-            discount_percent = ""
-            if old_price_num > 0 and new_price_num > 0 and old_price_num > new_price_num:
-                percent = round(100 * (old_price_num - new_price_num) / old_price_num)
-                discount_percent = f"-{percent}%"
-
-            discounts.append(Discount(
+            discount = Discount(
                 product=full_name,
                 url=product_url,
                 image_url=image_url,
-                original_price=old_price,
-                discounted_price=new_price,
-                site="4Camping",
-                discount_percent=discount_percent
-            ))
-
+                old_price=old_price,
+                new_price=new_price,
+                category=None  # Will be set by the service layer
+            )
+            discounts.append(discount)
+        
         logger.info(f"[FourCampingScraper] Found {len(discounts)} discounts.")
         return discounts

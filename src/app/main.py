@@ -3,7 +3,7 @@ import atexit
 from flask import Flask, render_template, abort, jsonify
 from flask_apscheduler import APScheduler
 
-from scrapers.service import fetch_all_discounts, DISCOUNTS_LOADED, ALL_DISCOUNTS, CATEGORIES, refresh_discounts_job
+from src.services.discount_service import fetch_all_discounts, DISCOUNTS_LOADED, ALL_DISCOUNTS, CATEGORIES, refresh_discounts_job
 
 app = Flask(__name__)
 

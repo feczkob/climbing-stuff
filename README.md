@@ -15,19 +15,19 @@ This app aggregates discounts on climbing stuffs from multiple e-commerce sites 
    ```bash
    python3 -m venv climbing-stuff
    source climbing-stuff/bin/activate
+   ```
 
 2. **Install dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
 
-3. **Configure sites and categories:**
-   - Edit `config/sites.yaml` to enable/disable sites.
+3. **Configure categories:**
    - Edit `config/categories.yaml` to manage categories and their URLs per site.
 
 4. **Run the app:**
    ```bash
-   python app.py
+   python src/app/main.py
    ```
 
 5. **Browse the UI:**
@@ -46,15 +46,17 @@ curl http://localhost:5000/discounts/friends
 
 ## Adding New Scrapers
 
-- Implement a new scraper class in the `scrapers/` directory.
-- Register it in the `SCRAPER_MAP` in `app.py`.
+- Implement a new scraper class in the `src/scrapers/` directory.
+- Register it in the `ScraperManager` in `src/core/manager.py`.
 - Add its URLs to the relevant categories in `config/categories.yaml`.
 
 ## Project Structure
 
-- `app.py` — Main Flask app (REST API & web UI)
-- `scrapers/` — Site-specific scrapers
-- `config/` — YAML config files for sites and categories
+- `src/app/main.py` — Main Flask app (REST API & web UI)
+- `src/scrapers/` — Site-specific scrapers
+- `src/core/` — Core business logic and management
+- `src/services/` — Service layer for discount operations
+- `config/` — YAML config files for categories
 - `templates/` — HTML templates for the web UI
 
 ---
