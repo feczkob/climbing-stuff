@@ -1,16 +1,41 @@
 import requests
 from bs4 import BeautifulSoup
+import html
+import re
 
 from src.core.logging_config import logger
 from src.scrapers.discount_scraper import DiscountScraper
 from src.scrapers.discount import Discount
-import re
 
 class FourCampingScraper(DiscountScraper):
     BASE_URL = "https://www.4camping.hu"
     
     def __init__(self, discount_urls=None):
         super().__init__(discount_urls)
+    
+    def _clean_discount_percent(self, text):
+        """Clean and normalize discount percentage text."""
+        if not text:
+            return ""
+        
+        # Decode HTML entities
+        text = html.unescape(text)
+        
+        # Remove unwanted words and whitespace
+        text = text.strip()
+        
+        # Remove multiple spaces and normalize
+        text = re.sub(r'\s+', ' ', text).strip()
+        
+        # Clean up any duplicate symbols or malformed characters
+        text = re.sub(r'[&]{2,}', '%', text)  # Replace && with %
+        text = re.sub(r'[%]{2,}', '%', text)  # Replace multiple % with single %
+        
+        # Ensure proper format: -XX% or XX%
+        if text and not text.startswith('-'):
+            text = f"-{text}"
+        
+        return text
 
     def extract_discounts_from_category(self, url):
         resp = requests.get(url)
@@ -51,7 +76,7 @@ class FourCampingScraper(DiscountScraper):
 
             # Extract discount percentage
             discount_percent_tag = card.select_one(".card-price__discount .card-price__discount-percent")
-            discount_percent = discount_percent_tag.get_text(strip=True) if discount_percent_tag else ""
+            discount_percent = self._clean_discount_percent(discount_percent_tag.get_text(strip=True) if discount_percent_tag else "")
             
             # If no discount percent tag found, try to calculate from prices
             if not discount_percent and old_price and new_price:
@@ -60,7 +85,7 @@ class FourCampingScraper(DiscountScraper):
                     old_num = float(re.sub(r'[^\d,.]', '', old_price).replace(',', '.'))
                     new_num = float(re.sub(r'[^\d,.]', '', new_price).replace(',', '.'))
                     if old_num > 0:
-                        discount_percent = f"-{int(((old_num - new_num) / old_num) * 100)}"
+                        discount_percent = f"-{int(((old_num - new_num) / old_num) * 100)}%"
                 except (ValueError, ZeroDivisionError):
                     discount_percent = ""
 

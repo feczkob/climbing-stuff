@@ -3,6 +3,8 @@ from urllib.parse import urljoin
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
+import html
+import re
 
 from src.core.logging_config import logger
 from src.scrapers.discount_scraper import DiscountScraper
@@ -13,6 +15,30 @@ class MountexScraper(DiscountScraper):
     
     def __init__(self, discount_urls=None):
         super().__init__(discount_urls)
+    
+    def _clean_discount_percent(self, text):
+        """Clean and normalize discount percentage text."""
+        if not text:
+            return ""
+        
+        # Decode HTML entities
+        text = html.unescape(text)
+        
+        # Remove unwanted words and whitespace
+        text = text.strip()
+        
+        # Remove multiple spaces and normalize
+        text = re.sub(r'\s+', ' ', text).strip()
+        
+        # Clean up any duplicate symbols or malformed characters
+        text = re.sub(r'[&]{2,}', '%', text)  # Replace && with %
+        text = re.sub(r'[%]{2,}', '%', text)  # Replace multiple % with single %
+        
+        # Ensure proper format: -XX% or XX%
+        if text and not text.startswith('-'):
+            text = f"-{text}"
+        
+        return text
 
 
     def extract_discounts_from_category(self, url):
@@ -34,7 +60,7 @@ class MountexScraper(DiscountScraper):
         
         for product in products:
             discount_tag = product.select_one("span.bg-brand-highlight")
-            discount_percent = discount_tag.get_text(strip=True) if discount_tag else ""
+            discount_percent = self._clean_discount_percent(discount_tag.get_text(strip=True) if discount_tag else "")
             name_link = product.select_one("a.text-black.unstyled")
             brand = ""
             product_name = ""
