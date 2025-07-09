@@ -1,0 +1,26 @@
+{
+  "name": "climbing-stuff",
+  "version": "1.0.0",
+  "description": "This app aggregates discounts on climbing stuffs from multiple e-commerce sites using pluggable scrapers. It provides a simple web UI and a REST API for browsing discounts by category.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/feczkob/climbing-equipment.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/feczkob/climbing-equipment/issues"
+  },
+  "homepage": "https://github.com/feczkob/climbing-equipment#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.53.2"
+  }
+}

@@ -1,0 +1,119 @@
+# Page snapshot
+
+```yaml
+- heading "Climbing stuff discounts" [level=1]
+- text: "Select category:"
+- combobox "Select category:":
+  - option "Friends-nuts" [selected]
+  - option "Slings"
+  - option "Ropes"
+  - option "Carabiners-quickdraws"
+- link "Tendon Kötélgyűrű 9 mm":
+  - /url: https://mountex.hu/termek/10098797/tendon-kotelgyuru-9-mm?color=piros-kék
+  - img "Tendon Kötélgyűrű 9 mm"
+- link "Tendon Kötélgyűrű 9 mm":
+  - /url: https://mountex.hu/termek/10098797/tendon-kotelgyuru-9-mm?color=piros-kék
+- text: "--46 % 560 Ft 300 Ft Mountex"
+- link "Tendon Kötélgyűrű 8 mm":
+  - /url: https://mountex.hu/termek/10098796/tendon-kotelgyuru-8-mm?color=kék-piros
+  - img "Tendon Kötélgyűrű 8 mm"
+- link "Tendon Kötélgyűrű 8 mm":
+  - /url: https://mountex.hu/termek/10098796/tendon-kotelgyuru-8-mm?color=kék-piros
+- text: "--42 % 500 Ft 290 Ft Mountex"
+- link "Tendon Kötélgyűrű 7 mm":
+  - /url: https://mountex.hu/termek/10098795/tendon-kotelgyuru-7-mm?color=sárga-piros
+  - img "Tendon Kötélgyűrű 7 mm"
+- link "Tendon Kötélgyűrű 7 mm":
+  - /url: https://mountex.hu/termek/10098795/tendon-kotelgyuru-7-mm?color=sárga-piros
+- text: "--27 % 410 Ft 300 Ft - 410 Ft Mountex"
+- link "Beal Zenith 9,5 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-kotel-beal-zenith-9-5-mm-60-m/#kek
+  - img "Beal Zenith 9,5 mm (60 m) Hegymászó kötél"
+- link "Beal Zenith 9,5 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-kotel-beal-zenith-9-5-mm-60-m/#kek
+- text: "-9% 52 700Ft 47 520Ft 4camping"
+- link "Beal Rope Brush Tisztító kefe":
+  - /url: https://www.4camping.hu/p/tisztito-kefe-beal-rope-brush/
+  - img "Beal Rope Brush Tisztító kefe"
+- link "Beal Rope Brush Tisztító kefe":
+  - /url: https://www.4camping.hu/p/tisztito-kefe-beal-rope-brush/
+- text: "-3% 7 720Ft 7 460Ft 4camping"
+- link "Beal Karma 9,8 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-koetel-beal-karma-9-8-mm-60-m/#narancs
+  - img "Beal Karma 9,8 mm (60 m) Hegymászó kötél"
+- link "Beal Karma 9,8 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-koetel-beal-karma-9-8-mm-60-m/#narancs
+- text: "-4% 55 110Ft 52 700Ft 4camping"
+- link "Beal Contract 10.5 mm (50 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/maszokotel-beal-contract-10-5-mm-50-m/#feher
+  - img "Beal Contract 10.5 mm (50 m) Hegymászó kötél"
+- link "Beal Contract 10.5 mm (50 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/maszokotel-beal-contract-10-5-mm-50-m/#feher
+- text: "-0% 35 100Ft 35 030Ft 4camping"
+- link "Beal Karma 9.8 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/maszokotel-beal-karma-9-8-mm-60-m/#sarga
+  - img "Beal Karma 9.8 mm (60 m) Hegymászó kötél"
+- link "Beal Karma 9.8 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/maszokotel-beal-karma-9-8-mm-60-m/#sarga
+- text: "-2% 53 950Ft 52 610Ft 4camping"
+- link "Beal Zenith 9.5 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-koetel-beal-zenith-9-5-mm-60-m/#rozsaszin
+  - img "Beal Zenith 9.5 mm (60 m) Hegymászó kötél"
+- link "Beal Zenith 9.5 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-koetel-beal-zenith-9-5-mm-60-m/#rozsaszin
+- text: "-0% 52 700Ft 52 660Ft 4camping"
+- link "Beal Contract 10.5 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-kotel-beal-contract-10-5-mm-60-m/#feher
+  - img "Beal Contract 10.5 mm (60 m) Hegymászó kötél"
+- link "Beal Contract 10.5 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-kotel-beal-contract-10-5-mm-60-m/#feher
+- text: "-3% 43 910Ft 42 590Ft 4camping"
+- link "Beal Virus 10 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-koetel-beal-virus-10-mm-60-m/#rozsaszin
+  - img "Beal Virus 10 mm (60 m) Hegymászó kötél"
+- link "Beal Virus 10 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-koetel-beal-virus-10-mm-60-m/#rozsaszin
+- text: "-0% 52 670Ft 52 610Ft 4camping"
+- link "Beal Virus 10 mm (50 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-koetel-beal-virus-10-mm-50-m/#rozsaszin
+  - img "Beal Virus 10 mm (50 m) Hegymászó kötél"
+- link "Beal Virus 10 mm (50 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-koetel-beal-virus-10-mm-50-m/#rozsaszin
+- text: "-5% 46 559Ft 43 850Ft 4camping"
+- link "Beal Booster Unicore Safe Control 9,7 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-koetel-beal-booster-unicore-safe-control-9-7-mm-60-m/#zoeld
+  - img "Beal Booster Unicore Safe Control 9,7 mm (60 m) Hegymászó kötél"
+- link "Beal Booster Unicore Safe Control 9,7 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-koetel-beal-booster-unicore-safe-control-9-7-mm-60-m/#zoeld
+- text: "-4% 85 410Ft 81 980Ft 4camping"
+- link "Beal Zenith 9,5 mm (50 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-kotel-beal-zenith-9-5-mm-50-m/#rozsaszin
+  - img "Beal Zenith 9,5 mm (50 m) Hegymászó kötél"
+- link "Beal Zenith 9,5 mm (50 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-kotel-beal-zenith-9-5-mm-50-m/#rozsaszin
+- text: "-6% 43 810Ft 40 990Ft 4camping"
+- link "Beal Rando GD 8 mm (30 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-kotel-beal-rando-gd-8-mm-30-m/#sarga
+  - img "Beal Rando GD 8 mm (30 m) Hegymászó kötél"
+- link "Beal Rando GD 8 mm (30 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-kotel-beal-rando-gd-8-mm-30-m/#sarga
+- text: "-11% 29 870Ft 26 340Ft 4camping"
+- link "Tendon Secure 10.5mm (60m) Statikus kötél":
+  - /url: https://www.4camping.hu/p/tendon-secure-10-5mm-60m-statikus-koetel/#piros
+  - img "Tendon Secure 10.5mm (60m) Statikus kötél"
+- link "Tendon Secure 10.5mm (60m) Statikus kötél":
+  - /url: https://www.4camping.hu/p/tendon-secure-10-5mm-60m-statikus-koetel/#piros
+- text: "-16% 57 680Ft 48 340Ft 4camping"
+- link "Beal Stinger 9.4 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/maszokotel-beal-stinger-9-4-mm-60-m/#vilagoszoeld
+  - img "Beal Stinger 9.4 mm (60 m) Hegymászó kötél"
+- link "Beal Stinger 9.4 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/maszokotel-beal-stinger-9-4-mm-60-m/#vilagoszoeld
+- text: "-0% 73 310Ft 73 260Ft 4camping"
+- link "Beal Zenith 9.5 mm (80m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/beal-zenith-9-5-mm-80m-hegymaszo-koetel/#rozsaszin
+  - img "Beal Zenith 9.5 mm (80m) Hegymászó kötél"
+- link "Beal Zenith 9.5 mm (80m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/beal-zenith-9-5-mm-80m-hegymaszo-koetel/#rozsaszin
+- text: "-1% 71 719Ft 70 360Ft 4camping"
+```

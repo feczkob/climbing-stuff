@@ -1,0 +1,539 @@
+# Page snapshot
+
+```yaml
+- heading "Climbing stuff discounts" [level=1]
+- text: "Select category:"
+- combobox "Select category:":
+  - option "Friends-nuts"
+  - option "Slings"
+  - option "Ropes" [selected]
+  - option "Carabiners-quickdraws"
+- link "Edelrid Perfect Alpine II Special Edition 8.3 mm Half rope":
+  - /url: https://www.bergfreunde.eu/edelrid-perfect-alpine-ii-special-edition-83-mm-half-rope/
+  - img "Edelrid Perfect Alpine II Special Edition 8.3 mm Half rope"
+- link "Edelrid Perfect Alpine II Special Edition 8.3 mm Half rope":
+  - /url: https://www.bergfreunde.eu/edelrid-perfect-alpine-ii-special-edition-83-mm-half-rope/
+- text: "-20% € 149,95 € 119,96 Bergfreunde"
+- link "Edelrid Daku 10.0 Single rope":
+  - /url: https://www.bergfreunde.eu/edelrid-daku-100-single-rope/
+  - img "Edelrid Daku 10.0 Single rope"
+- link "Edelrid Daku 10.0 Single rope":
+  - /url: https://www.bergfreunde.eu/edelrid-daku-100-single-rope/
+- text: "-20% € 104,95 € 83,96 Bergfreunde"
+- link "Beal Joker 9,1 mm Single rope":
+  - /url: https://www.bergfreunde.eu/beal-joker-91-mm-single-rope/
+  - img "Beal Joker 9,1 mm Single rope"
+- link "Beal Joker 9,1 mm Single rope":
+  - /url: https://www.bergfreunde.eu/beal-joker-91-mm-single-rope/
+- text: "-10% € 182,95 € 164,66 Bergfreunde"
+- link "Black Diamond Stone Duffel 42 Climbing backpack":
+  - /url: https://www.bergfreunde.eu/black-diamond-stone-duffel-42-climbing-backpack/
+  - img "Black Diamond Stone Duffel 42 Climbing backpack"
+- link "Black Diamond Stone Duffel 42 Climbing backpack":
+  - /url: https://www.bergfreunde.eu/black-diamond-stone-duffel-42-climbing-backpack/
+- text: "-15% € 99,95 € 89,96 Bergfreunde"
+- link "Beal Rope Cleaner":
+  - /url: https://www.bergfreunde.eu/beal-rope-cleaner/
+  - img "Beal Rope Cleaner"
+- link "Beal Rope Cleaner":
+  - /url: https://www.bergfreunde.eu/beal-rope-cleaner/
+- text: "-15% € 8,95 € 7,61 Bergfreunde"
+- link "Beal Booster III Golden Dry 9,7 mm Single rope":
+  - /url: https://www.bergfreunde.eu/beal-booster-iii-golden-dry-97-mm-single-rope/
+  - img "Beal Booster III Golden Dry 9,7 mm Single rope"
+- link "Beal Booster III Golden Dry 9,7 mm Single rope":
+  - /url: https://www.bergfreunde.eu/beal-booster-iii-golden-dry-97-mm-single-rope/
+- text: "-10% € 219,95 € 197,96 Bergfreunde"
+- link "Beal Zenith 9.5 Single rope":
+  - /url: https://www.bergfreunde.eu/beal-zenith-95-single-rope/
+  - img "Beal Zenith 9.5 Single rope"
+- link "Beal Zenith 9.5 Single rope":
+  - /url: https://www.bergfreunde.eu/beal-zenith-95-single-rope/
+- text: "-15% € 128,95 € 109,61 Bergfreunde"
+- link "Beal Rando Golden Dry 8 mm Twin rope":
+  - /url: https://www.bergfreunde.eu/beal-rando-golden-dry-8-mm-twin-rope/
+  - img "Beal Rando Golden Dry 8 mm Twin rope"
+- link "Beal Rando Golden Dry 8 mm Twin rope":
+  - /url: https://www.bergfreunde.eu/beal-rando-golden-dry-8-mm-twin-rope/
+- text: "-15% € 51,95 € 44,16 Bergfreunde"
+- link "Beal Opera 8,5 mm Single rope":
+  - /url: https://www.bergfreunde.eu/beal-opera-85-mm-single-rope/
+  - img "Beal Opera 8,5 mm Single rope"
+- link "Beal Opera 8,5 mm Single rope":
+  - /url: https://www.bergfreunde.eu/beal-opera-85-mm-single-rope/
+- text: "-15% € 182,95 € 155,51 Bergfreunde"
+- link "Beal Stinger III 9.4 mm Single rope":
+  - /url: https://www.bergfreunde.eu/beal-stinger-iii-94-mm-single-rope/
+  - img "Beal Stinger III 9.4 mm Single rope"
+- link "Beal Stinger III 9.4 mm Single rope":
+  - /url: https://www.bergfreunde.eu/beal-stinger-iii-94-mm-single-rope/
+- text: "-15% € 228,95 € 194,61 Bergfreunde"
+- link "Beal Escaper":
+  - /url: https://www.bergfreunde.eu/beal-escaper/
+  - img "Beal Escaper"
+- link "Beal Escaper":
+  - /url: https://www.bergfreunde.eu/beal-escaper/
+- text: "-15% € 54,95 € 46,71 Bergfreunde"
+- link "Beal Riser 9.9 MM Bergfreunde Edition Single rope":
+  - /url: https://www.bergfreunde.eu/beal-riser-99-mm-bergfreunde-edition-single-rope/
+  - img "Beal Riser 9.9 MM Bergfreunde Edition Single rope"
+- link "Beal Riser 9.9 MM Bergfreunde Edition Single rope":
+  - /url: https://www.bergfreunde.eu/beal-riser-99-mm-bergfreunde-edition-single-rope/
+- text: "-16% € 74,95 € 62,96 Bergfreunde"
+- link "Wild Country Rope Bag Rope bag":
+  - /url: https://www.bergfreunde.eu/wild-country-rope-bag-rope-bag/
+  - img "Wild Country Rope Bag Rope bag"
+- link "Wild Country Rope Bag Rope bag":
+  - /url: https://www.bergfreunde.eu/wild-country-rope-bag-rope-bag/
+- text: "-10% € 54,95 € 49,46 Bergfreunde"
+- link "Edelrid Drone II Rope bag":
+  - /url: https://www.bergfreunde.eu/edelrid-drone-ii-rope-bag/
+  - img "Edelrid Drone II Rope bag"
+- link "Edelrid Drone II Rope bag":
+  - /url: https://www.bergfreunde.eu/edelrid-drone-ii-rope-bag/
+- text: "-10% € 44,95 € 40,46 Bergfreunde"
+- link "Edelrid Heron Eco Dry 9,8 Single rope":
+  - /url: https://www.bergfreunde.eu/edelrid-heron-eco-dry-98-single-rope/
+  - img "Edelrid Heron Eco Dry 9,8 Single rope"
+- link "Edelrid Heron Eco Dry 9,8 Single rope":
+  - /url: https://www.bergfreunde.eu/edelrid-heron-eco-dry-98-single-rope/
+- text: "-10% € 229,95 € 206,96 Bergfreunde"
+- link "Beal Joker 9,1 mm Golden Dry Single rope":
+  - /url: https://www.bergfreunde.eu/beal-joker-91-mm-golden-dry-single-rope/
+  - img "Beal Joker 9,1 mm Golden Dry Single rope"
+- link "Beal Joker 9,1 mm Golden Dry Single rope":
+  - /url: https://www.bergfreunde.eu/beal-joker-91-mm-golden-dry-single-rope/
+- text: "-10% € 219,95 € 197,96 Bergfreunde"
+- link "Black Diamond Super Chute Rope Bag Rope bag":
+  - /url: https://www.bergfreunde.eu/black-diamond-super-chute-rope-bag-rope-bag/
+  - img "Black Diamond Super Chute Rope Bag Rope bag"
+- link "Black Diamond Super Chute Rope Bag Rope bag":
+  - /url: https://www.bergfreunde.eu/black-diamond-super-chute-rope-bag-rope-bag/
+- text: "-10% € 54,95 € 49,46 Bergfreunde"
+- link "Mammut 8.7 Alpine Sender Dry Rope Single rope":
+  - /url: https://www.bergfreunde.eu/mammut-87-alpine-sender-dry-rope-single-rope/
+  - img "Mammut 8.7 Alpine Sender Dry Rope Single rope"
+- link "Mammut 8.7 Alpine Sender Dry Rope Single rope":
+  - /url: https://www.bergfreunde.eu/mammut-87-alpine-sender-dry-rope-single-rope/
+- text: "-10% € 149,95 € 134,96 Bergfreunde"
+- link "DMM Pitcher Rope Bag 26 Rope bag":
+  - /url: https://www.bergfreunde.eu/dmm-pitcher-rope-bag-26-rope-bag/
+  - img "DMM Pitcher Rope Bag 26 Rope bag"
+- link "DMM Pitcher Rope Bag 26 Rope bag":
+  - /url: https://www.bergfreunde.eu/dmm-pitcher-rope-bag-26-rope-bag/
+- text: "-15% € 49,95 € 42,46 Bergfreunde"
+- link "DMM Classic Rope Bag 25 Rope bag":
+  - /url: https://www.bergfreunde.eu/dmm-classic-rope-bag-25-rope-bag/
+  - img "DMM Classic Rope Bag 25 Rope bag"
+- link "DMM Classic Rope Bag 25 Rope bag":
+  - /url: https://www.bergfreunde.eu/dmm-classic-rope-bag-25-rope-bag/
+- text: "-15% € 64,95 € 55,21 Bergfreunde"
+- link "Mammut 9.5 Gym Classic Rope Single rope":
+  - /url: https://www.bergfreunde.eu/mammut-95-gym-classic-rope-single-rope/
+  - img "Mammut 9.5 Gym Classic Rope Single rope"
+- link "Mammut 9.5 Gym Classic Rope Single rope":
+  - /url: https://www.bergfreunde.eu/mammut-95-gym-classic-rope-single-rope/
+- text: "-10% € 139,95 € 125,96 Bergfreunde"
+- link "Mammut 9.0 Alpine Sender Dry Rope Single rope":
+  - /url: https://www.bergfreunde.eu/mammut-90-alpine-sender-dry-rope-single-rope/
+  - img "Mammut 9.0 Alpine Sender Dry Rope Single rope"
+- link "Mammut 9.0 Alpine Sender Dry Rope Single rope":
+  - /url: https://www.bergfreunde.eu/mammut-90-alpine-sender-dry-rope-single-rope/
+- text: "-10% € 169,95 € 152,96 Bergfreunde"
+- link "Blue Ice Rope Tarp Rope bag":
+  - /url: https://www.bergfreunde.eu/blue-ice-rope-tarp-rope-bag/
+  - img "Blue Ice Rope Tarp Rope bag"
+- link "Blue Ice Rope Tarp Rope bag":
+  - /url: https://www.bergfreunde.eu/blue-ice-rope-tarp-rope-bag/
+- text: "-10% € 29,95 € 26,96 Bergfreunde"
+- link "DMM K-Pro Rope Protector":
+  - /url: https://www.bergfreunde.eu/dmm-k-pro-rope-protector/
+  - img "DMM K-Pro Rope Protector"
+- link "DMM K-Pro Rope Protector":
+  - /url: https://www.bergfreunde.eu/dmm-k-pro-rope-protector/
+- text: "-15% € 54,95 € 46,71 Bergfreunde"
+- link "Beal Cobra II 8,6mm Half rope":
+  - /url: https://www.bergfreunde.eu/beal-cobra-ii-86mm-half-rope/
+  - img "Beal Cobra II 8,6mm Half rope"
+- link "Beal Cobra II 8,6mm Half rope":
+  - /url: https://www.bergfreunde.eu/beal-cobra-ii-86mm-half-rope/
+- text: "-10% € 325,95 € 293,36 Bergfreunde"
+- link "Mammut 7.5 Alpine Sender Dry Rope Half rope":
+  - /url: https://www.bergfreunde.eu/mammut-75-alpine-sender-dry-rope-half-rope/
+  - img "Mammut 7.5 Alpine Sender Dry Rope Half rope"
+- link "Mammut 7.5 Alpine Sender Dry Rope Half rope":
+  - /url: https://www.bergfreunde.eu/mammut-75-alpine-sender-dry-rope-half-rope/
+- text: "-15% € 179,95 € 161,96 Bergfreunde"
+- link "DMM Porter Rope Bag 45 Climbing backpack":
+  - /url: https://www.bergfreunde.eu/dmm-porter-rope-bag-45-climbing-backpack/
+  - img "DMM Porter Rope Bag 45 Climbing backpack"
+- link "DMM Porter Rope Bag 45 Climbing backpack":
+  - /url: https://www.bergfreunde.eu/dmm-porter-rope-bag-45-climbing-backpack/
+- text: "-15% € 89,95 € 76,46 Bergfreunde"
+- link "Beal Booster III 9,7 mm Single rope":
+  - /url: https://www.bergfreunde.eu/beal-booster-iii-97-mm-single-rope/
+  - img "Beal Booster III 9,7 mm Single rope"
+- link "Beal Booster III 9,7 mm Single rope":
+  - /url: https://www.bergfreunde.eu/beal-booster-iii-97-mm-single-rope/
+- text: "-15% € 163,95 € 139,36 Bergfreunde"
+- link "Edelrid Swift 48 Eco Dry 8,9 Single rope":
+  - /url: https://www.bergfreunde.eu/edelrid-swift-48-eco-dry-89-single-rope/
+  - img "Edelrid Swift 48 Eco Dry 8,9 Single rope"
+- link "Edelrid Swift 48 Eco Dry 8,9 Single rope":
+  - /url: https://www.bergfreunde.eu/edelrid-swift-48-eco-dry-89-single-rope/
+- text: "-15% € 169,95 € 144,46 Bergfreunde"
+- link "Mammut Zopa 9.7 Single rope":
+  - /url: https://www.bergfreunde.eu/mammut-zopa-97-single-rope/
+  - img "Mammut Zopa 9.7 Single rope"
+- link "Mammut Zopa 9.7 Single rope":
+  - /url: https://www.bergfreunde.eu/mammut-zopa-97-single-rope/
+- text: "-19% € 76,95 € 62,33 Bergfreunde"
+- link "Edelrid Eagle Lite Eco Dry 9,5 mm Single rope":
+  - /url: https://www.bergfreunde.eu/edelrid-eagle-lite-eco-dry-95-mm-single-rope/
+  - img "Edelrid Eagle Lite Eco Dry 9,5 mm Single rope"
+- link "Edelrid Eagle Lite Eco Dry 9,5 mm Single rope":
+  - /url: https://www.bergfreunde.eu/edelrid-eagle-lite-eco-dry-95-mm-single-rope/
+- text: "-15% € 189,95 € 170,96 Bergfreunde"
+- link "Petzl Contact 9.8 Single rope":
+  - /url: https://www.bergfreunde.eu/petzl-contact-98-single-rope/
+  - img "Petzl Contact 9.8 Single rope"
+- link "Petzl Contact 9.8 Single rope":
+  - /url: https://www.bergfreunde.eu/petzl-contact-98-single-rope/
+- text: "-10% € 189,95 € 170,96 Bergfreunde"
+- link "Petzl Kliff Rope Bag Rope bag":
+  - /url: https://www.bergfreunde.eu/petzl-kliff-rope-bag-rope-bag/
+  - img "Petzl Kliff Rope Bag Rope bag"
+- link "Petzl Kliff Rope Bag Rope bag":
+  - /url: https://www.bergfreunde.eu/petzl-kliff-rope-bag-rope-bag/
+- text: "-10% € 54,95 € 49,46 Bergfreunde"
+- link "Black Diamond Full Rope Burrito Rope bag":
+  - /url: https://www.bergfreunde.eu/black-diamond-full-rope-burrito-rope-bag/
+  - img "Black Diamond Full Rope Burrito Rope bag"
+- link "Black Diamond Full Rope Burrito Rope bag":
+  - /url: https://www.bergfreunde.eu/black-diamond-full-rope-burrito-rope-bag/
+- text: "-15% € 29,95 € 25,46 Bergfreunde"
+- link "Edelrid Parrot 2R 9,6 Single rope":
+  - /url: https://www.bergfreunde.eu/edelrid-parrot-2r-96-single-rope/
+  - img "Edelrid Parrot 2R 9,6 Single rope"
+- link "Edelrid Parrot 2R 9,6 Single rope":
+  - /url: https://www.bergfreunde.eu/edelrid-parrot-2r-96-single-rope/
+- text: "-15% € 109,95 € 93,46 Bergfreunde"
+- link "Edelrid Caddy II Rope bag":
+  - /url: https://www.bergfreunde.eu/edelrid-caddy-ii-rope-bag/
+  - img "Edelrid Caddy II Rope bag"
+- link "Edelrid Caddy II Rope bag":
+  - /url: https://www.bergfreunde.eu/edelrid-caddy-ii-rope-bag/
+- text: "-15% € 54,95 € 46,71 Bergfreunde"
+- link "Edelrid Starling Protect Pro Dry 8,2 mm Half rope":
+  - /url: https://www.bergfreunde.eu/edelrid-starling-protect-pro-dry-82-mm-half-rope/
+  - img "Edelrid Starling Protect Pro Dry 8,2 mm Half rope"
+- link "Edelrid Starling Protect Pro Dry 8,2 mm Half rope":
+  - /url: https://www.bergfreunde.eu/edelrid-starling-protect-pro-dry-82-mm-half-rope/
+- text: "-15% € 189,95 € 161,46 Bergfreunde"
+- link "Edelrid Liner Rope bag":
+  - /url: https://www.bergfreunde.eu/edelrid-liner-rope-bag/
+  - img "Edelrid Liner Rope bag"
+- link "Edelrid Liner Rope bag":
+  - /url: https://www.bergfreunde.eu/edelrid-liner-rope-bag/
+- text: "-15% € 29,95 € 25,46 Bergfreunde"
+- link "Edelrid Kinglet 9,2 Single rope":
+  - /url: https://www.bergfreunde.eu/edelrid-kinglet-92-single-rope/
+  - img "Edelrid Kinglet 9,2 Single rope"
+- link "Edelrid Kinglet 9,2 Single rope":
+  - /url: https://www.bergfreunde.eu/edelrid-kinglet-92-single-rope/
+- text: "-15% € 199,95 € 169,96 Bergfreunde"
+- link "Beal Opera 8.5 Golden Dry Single rope":
+  - /url: https://www.bergfreunde.eu/beal-opera-85-golden-dry-single-rope/
+  - img "Beal Opera 8.5 Golden Dry Single rope"
+- link "Beal Opera 8.5 Golden Dry Single rope":
+  - /url: https://www.bergfreunde.eu/beal-opera-85-golden-dry-single-rope/
+- text: "-15% € 247,95 € 210,76 Bergfreunde"
+- link "Mammut 8.0 Alpine Classic Rope Half rope":
+  - /url: https://www.bergfreunde.eu/mammut-80-alpine-classic-rope-half-rope/
+  - img "Mammut 8.0 Alpine Classic Rope Half rope"
+- link "Mammut 8.0 Alpine Classic Rope Half rope":
+  - /url: https://www.bergfreunde.eu/mammut-80-alpine-classic-rope-half-rope/
+- text: "-15% € 99,95 € 84,96 Bergfreunde"
+- link "Tendon Pro Work 11 Static rope":
+  - /url: https://www.bergfreunde.eu/tendon-pro-work-11-static-rope/
+  - img "Tendon Pro Work 11 Static rope"
+- link "Tendon Pro Work 11 Static rope":
+  - /url: https://www.bergfreunde.eu/tendon-pro-work-11-static-rope/
+- text: "-20% € 61,95 € 52,66 Bergfreunde"
+- link "Beal Ice Line 8,1 mm Half rope":
+  - /url: https://www.bergfreunde.eu/beal-ice-line-81-mm-half-rope/
+  - img "Beal Ice Line 8,1 mm Half rope"
+- link "Beal Ice Line 8,1 mm Half rope":
+  - /url: https://www.bergfreunde.eu/beal-ice-line-81-mm-half-rope/
+- text: "-15% € 162,95 € 138,51 Bergfreunde"
+- link "Petzl Mambo 10.1 Single rope":
+  - /url: https://www.bergfreunde.eu/petzl-mambo-101-single-rope/
+  - img "Petzl Mambo 10.1 Single rope"
+- link "Petzl Mambo 10.1 Single rope":
+  - /url: https://www.bergfreunde.eu/petzl-mambo-101-single-rope/
+- text: "-15% € 149,95 € 134,96 Bergfreunde"
+- link "Mammut 9.5 Crag Dry Rope Single rope":
+  - /url: https://www.bergfreunde.eu/mammut-95-crag-dry-rope-single-rope/
+  - img "Mammut 9.5 Crag Dry Rope Single rope"
+- link "Mammut 9.5 Crag Dry Rope Single rope":
+  - /url: https://www.bergfreunde.eu/mammut-95-crag-dry-rope-single-rope/
+- text: "-15% € 159,95 € 135,96 Bergfreunde"
+- link "Mammut 9.0 Crag Sender Dry Rope Single rope":
+  - /url: https://www.bergfreunde.eu/mammut-90-crag-sender-dry-rope-single-rope/
+  - img "Mammut 9.0 Crag Sender Dry Rope Single rope"
+- link "Mammut 9.0 Crag Sender Dry Rope Single rope":
+  - /url: https://www.bergfreunde.eu/mammut-90-crag-sender-dry-rope-single-rope/
+- text: "-15% € 229,95 € 195,46 Bergfreunde"
+- link "Tendon Salamander 10.2 Static rope":
+  - /url: https://www.bergfreunde.eu/tendon-salamander-102-static-rope/
+  - img "Tendon Salamander 10.2 Static rope"
+- link "Tendon Salamander 10.2 Static rope":
+  - /url: https://www.bergfreunde.eu/tendon-salamander-102-static-rope/
+- text: "-15% € 123,95 € 105,36 Bergfreunde"
+- link "Petzl Club 10,0 Static rope":
+  - /url: https://www.bergfreunde.eu/petzl-club-100-static-rope/
+  - img "Petzl Club 10,0 Static rope"
+- link "Petzl Club 10,0 Static rope":
+  - /url: https://www.bergfreunde.eu/petzl-club-100-static-rope/
+- text: "-15% € 114,95 € 101,96 Bergfreunde"
+- link "Blue Ice Koala Rope bag":
+  - /url: https://www.bergfreunde.eu/blue-ice-koala-rope-bag/
+  - img "Blue Ice Koala Rope bag"
+- link "Blue Ice Koala Rope bag":
+  - /url: https://www.bergfreunde.eu/blue-ice-koala-rope-bag/
+- text: "-15% € 54,95 € 46,71 Bergfreunde"
+- link "Beal Ice Line Golden Dry 8,1 mm Half rope":
+  - /url: https://www.bergfreunde.eu/beal-ice-line-golden-dry-81-mm-half-rope/
+  - img "Beal Ice Line Golden Dry 8,1 mm Half rope"
+- link "Beal Ice Line Golden Dry 8,1 mm Half rope":
+  - /url: https://www.bergfreunde.eu/beal-ice-line-golden-dry-81-mm-half-rope/
+- text: "-15% € 190,95 € 162,31 Bergfreunde"
+- link "Beal Legend 8.3 Half rope":
+  - /url: https://www.bergfreunde.eu/beal-legend-83-half-rope/
+  - img "Beal Legend 8.3 Half rope"
+- link "Beal Legend 8.3 Half rope":
+  - /url: https://www.bergfreunde.eu/beal-legend-83-half-rope/
+- text: "-15% € 127,95 € 108,76 Bergfreunde"
+- link "Tendon Pro Work 10.5 Static rope":
+  - /url: https://www.bergfreunde.eu/tendon-pro-work-105-static-rope/
+  - img "Tendon Pro Work 10.5 Static rope"
+- link "Tendon Pro Work 10.5 Static rope":
+  - /url: https://www.bergfreunde.eu/tendon-pro-work-105-static-rope/
+- text: "-20% € 85,95 € 73,06 Bergfreunde"
+- link "Beal Top Gun II 10,5 mm Single rope":
+  - /url: https://www.bergfreunde.eu/beal-top-gun-ii-105-mm-single-rope/
+  - img "Beal Top Gun II 10,5 mm Single rope"
+- link "Beal Top Gun II 10,5 mm Single rope":
+  - /url: https://www.bergfreunde.eu/beal-top-gun-ii-105-mm-single-rope/
+- text: "-15% € 186,95 € 158,91 Bergfreunde"
+- link "Petzl Split Rope bag":
+  - /url: https://www.bergfreunde.eu/petzl-split-rope-bag/
+  - img "Petzl Split Rope bag"
+- link "Petzl Split Rope bag":
+  - /url: https://www.bergfreunde.eu/petzl-split-rope-bag/
+- text: "-15% € 49,95 € 42,46 Bergfreunde"
+- link "Beal Tiger 10 mm Single rope":
+  - /url: https://www.bergfreunde.eu/beal-tiger-10-mm-single-rope/
+  - img "Beal Tiger 10 mm Single rope"
+- link "Beal Tiger 10 mm Single rope":
+  - /url: https://www.bergfreunde.eu/beal-tiger-10-mm-single-rope/
+- text: "-15% € 167,95 € 142,76 Bergfreunde"
+- link "Petzl Volta Guide Single rope":
+  - /url: https://www.bergfreunde.eu/petzl-volta-guide-single-rope/
+  - img "Petzl Volta Guide Single rope"
+- link "Petzl Volta Guide Single rope":
+  - /url: https://www.bergfreunde.eu/petzl-volta-guide-single-rope/
+- text: "-15% € 124,95 € 106,21 Bergfreunde"
+- link "Petzl Tango 8,5 Half rope":
+  - /url: https://www.bergfreunde.eu/petzl-tango-85-half-rope/
+  - img "Petzl Tango 8,5 Half rope"
+- link "Petzl Tango 8,5 Half rope":
+  - /url: https://www.bergfreunde.eu/petzl-tango-85-half-rope/
+- text: "-15% € 124,95 € 106,21 Bergfreunde"
+- link "Petzl Volta 9,2 Single rope":
+  - /url: https://www.bergfreunde.eu/petzl-volta-92-single-rope/
+  - img "Petzl Volta 9,2 Single rope"
+- link "Petzl Volta 9,2 Single rope":
+  - /url: https://www.bergfreunde.eu/petzl-volta-92-single-rope/
+- text: "-15% € 124,95 € 106,21 Bergfreunde"
+- link "Beal Tiger 10 mm Golden Dry Single rope":
+  - /url: https://www.bergfreunde.eu/beal-tiger-10-mm-golden-dry-single-rope/
+  - img "Beal Tiger 10 mm Golden Dry Single rope"
+- link "Beal Tiger 10 mm Golden Dry Single rope":
+  - /url: https://www.bergfreunde.eu/beal-tiger-10-mm-golden-dry-single-rope/
+- text: "-15% € 263,95 € 224,36 Bergfreunde"
+- link "Petzl Contact Wall 9.8 Indoor rope":
+  - /url: https://www.bergfreunde.eu/petzl-contact-wall-98-indoor-rope/
+  - img "Petzl Contact Wall 9.8 Indoor rope"
+- link "Petzl Contact Wall 9.8 Indoor rope":
+  - /url: https://www.bergfreunde.eu/petzl-contact-wall-98-indoor-rope/
+- text: "-15% € 89,95 € 76,46 Bergfreunde"
+- link "Tendon Alpine 7.9 C.I.A.P Half rope":
+  - /url: https://www.bergfreunde.eu/tendon-alpine-79-ciap-half-rope/
+  - img "Tendon Alpine 7.9 C.I.A.P Half rope"
+- link "Tendon Alpine 7.9 C.I.A.P Half rope":
+  - /url: https://www.bergfreunde.eu/tendon-alpine-79-ciap-half-rope/
+- text: "-20% € 101,95 € 81,56 Bergfreunde"
+- link "Tendon Seilmarkierungsstift Ropemarker":
+  - /url: https://www.bergfreunde.eu/tendon-seilmarkierungsstift-ropemarker/
+  - img "Tendon Seilmarkierungsstift Ropemarker"
+- link "Tendon Seilmarkierungsstift Ropemarker":
+  - /url: https://www.bergfreunde.eu/tendon-seilmarkierungsstift-ropemarker/
+- text: "-10% € 4,20 € 3,78 Bergfreunde"
+- link "Tendon Master 7,8 mm Half rope":
+  - /url: https://www.bergfreunde.eu/tendon-master-78-mm-half-rope/
+  - img "Tendon Master 7,8 mm Half rope"
+- link "Tendon Master 7,8 mm Half rope":
+  - /url: https://www.bergfreunde.eu/tendon-master-78-mm-half-rope/
+- text: "-20% € 141,95 € 113,56 Bergfreunde"
+- link "Tendon Master 7,8 mm Shield Half rope":
+  - /url: https://www.bergfreunde.eu/tendon-master-78-mm-shield-half-rope/
+  - img "Tendon Master 7,8 mm Shield Half rope"
+- link "Tendon Master 7,8 mm Shield Half rope":
+  - /url: https://www.bergfreunde.eu/tendon-master-78-mm-shield-half-rope/
+- text: "-20% € 177,95 € 142,36 Bergfreunde"
+- link "Edelrid SE Priti 9,6 mm Single rope":
+  - /url: https://www.bergfreunde.eu/edelrid-se-priti-96-mm-single-rope/
+  - img "Edelrid SE Priti 9,6 mm Single rope"
+- link "Edelrid SE Priti 9,6 mm Single rope":
+  - /url: https://www.bergfreunde.eu/edelrid-se-priti-96-mm-single-rope/
+- text: "-20% € 89,95 € 71,96 Bergfreunde"
+- link "Edelrid Boa 9.8 mm + Liner Single rope":
+  - /url: https://www.bergfreunde.eu/edelrid-boa-98-mm-liner-single-rope/
+  - img "Edelrid Boa 9.8 mm + Liner Single rope"
+- link "Edelrid Boa 9.8 mm + Liner Single rope":
+  - /url: https://www.bergfreunde.eu/edelrid-boa-98-mm-liner-single-rope/
+- text: "-10% € 164,95 € 148,46 Bergfreunde"
+- link "Beal Stinger III Golden Dry 9.4 mm Single rope":
+  - /url: https://www.bergfreunde.eu/beal-stinger-iii-golden-dry-94-mm-single-rope/
+  - img "Beal Stinger III Golden Dry 9.4 mm Single rope"
+- link "Beal Stinger III Golden Dry 9.4 mm Single rope":
+  - /url: https://www.bergfreunde.eu/beal-stinger-iii-golden-dry-94-mm-single-rope/
+- text: "-15% € 219,95 € 186,96 Bergfreunde"
+- link "Beal Jampa Single rope":
+  - /url: https://www.bergfreunde.eu/beal-jampa-single-rope/
+  - img "Beal Jampa Single rope"
+- link "Beal Jampa Single rope":
+  - /url: https://www.bergfreunde.eu/beal-jampa-single-rope/
+- text: "-15% € 74,95 € 63,71 Bergfreunde"
+- link "Beal Wallmaster Indoor rope":
+  - /url: https://www.bergfreunde.eu/beal-wallmaster-indoor-rope/
+  - img "Beal Wallmaster Indoor rope"
+- link "Beal Wallmaster Indoor rope":
+  - /url: https://www.bergfreunde.eu/beal-wallmaster-indoor-rope/
+- text: "-15% € 64,95 € 55,21 Bergfreunde"
+- link "Salewa Ropebag XL Rope bag":
+  - /url: https://www.bergfreunde.eu/salewa-ropebag-xl-rope-bag/
+  - img "Salewa Ropebag XL Rope bag"
+- link "Salewa Ropebag XL Rope bag":
+  - /url: https://www.bergfreunde.eu/salewa-ropebag-xl-rope-bag/
+- text: "-35% € 94,95 € 61,72 Bergfreunde"
+- link "Tendon Kötélgyűrű 9 mm":
+  - /url: https://mountex.hu/termek/10098797/tendon-kotelgyuru-9-mm?color=piros-kék
+  - img "Tendon Kötélgyűrű 9 mm"
+- link "Tendon Kötélgyűrű 9 mm":
+  - /url: https://mountex.hu/termek/10098797/tendon-kotelgyuru-9-mm?color=piros-kék
+- text: "--46 % 560 Ft 300 Ft Mountex"
+- link "Tendon Kötélgyűrű 8 mm":
+  - /url: https://mountex.hu/termek/10098796/tendon-kotelgyuru-8-mm?color=kék-piros
+  - img "Tendon Kötélgyűrű 8 mm"
+- link "Tendon Kötélgyűrű 8 mm":
+  - /url: https://mountex.hu/termek/10098796/tendon-kotelgyuru-8-mm?color=kék-piros
+- text: "--42 % 500 Ft 290 Ft Mountex"
+- link "Tendon Kötélgyűrű 7 mm":
+  - /url: https://mountex.hu/termek/10098795/tendon-kotelgyuru-7-mm?color=sárga-piros
+  - img "Tendon Kötélgyűrű 7 mm"
+- link "Tendon Kötélgyűrű 7 mm":
+  - /url: https://mountex.hu/termek/10098795/tendon-kotelgyuru-7-mm?color=sárga-piros
+- text: "--27 % 410 Ft 300 Ft - 410 Ft Mountex"
+- link "Beal Zenith 9,5 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-kotel-beal-zenith-9-5-mm-60-m/#kek
+  - img "Beal Zenith 9,5 mm (60 m) Hegymászó kötél"
+- link "Beal Zenith 9,5 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-kotel-beal-zenith-9-5-mm-60-m/#kek
+- text: "-9% 52 700Ft 47 520Ft 4camping"
+- link "Beal Rope Brush Tisztító kefe":
+  - /url: https://www.4camping.hu/p/tisztito-kefe-beal-rope-brush/
+  - img "Beal Rope Brush Tisztító kefe"
+- link "Beal Rope Brush Tisztító kefe":
+  - /url: https://www.4camping.hu/p/tisztito-kefe-beal-rope-brush/
+- text: "-3% 7 720Ft 7 460Ft 4camping"
+- link "Beal Karma 9,8 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-koetel-beal-karma-9-8-mm-60-m/#narancs
+  - img "Beal Karma 9,8 mm (60 m) Hegymászó kötél"
+- link "Beal Karma 9,8 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-koetel-beal-karma-9-8-mm-60-m/#narancs
+- text: "-4% 55 110Ft 52 700Ft 4camping"
+- link "Beal Contract 10.5 mm (50 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/maszokotel-beal-contract-10-5-mm-50-m/#feher
+  - img "Beal Contract 10.5 mm (50 m) Hegymászó kötél"
+- link "Beal Contract 10.5 mm (50 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/maszokotel-beal-contract-10-5-mm-50-m/#feher
+- text: "-0% 35 100Ft 35 030Ft 4camping"
+- link "Beal Karma 9.8 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/maszokotel-beal-karma-9-8-mm-60-m/#sarga
+  - img "Beal Karma 9.8 mm (60 m) Hegymászó kötél"
+- link "Beal Karma 9.8 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/maszokotel-beal-karma-9-8-mm-60-m/#sarga
+- text: "-2% 53 950Ft 52 610Ft 4camping"
+- link "Beal Zenith 9.5 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-koetel-beal-zenith-9-5-mm-60-m/#rozsaszin
+  - img "Beal Zenith 9.5 mm (60 m) Hegymászó kötél"
+- link "Beal Zenith 9.5 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-koetel-beal-zenith-9-5-mm-60-m/#rozsaszin
+- text: "-0% 52 700Ft 52 660Ft 4camping"
+- link "Beal Contract 10.5 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-kotel-beal-contract-10-5-mm-60-m/#feher
+  - img "Beal Contract 10.5 mm (60 m) Hegymászó kötél"
+- link "Beal Contract 10.5 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-kotel-beal-contract-10-5-mm-60-m/#feher
+- text: "-3% 43 910Ft 42 590Ft 4camping"
+- link "Beal Virus 10 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-koetel-beal-virus-10-mm-60-m/#rozsaszin
+  - img "Beal Virus 10 mm (60 m) Hegymászó kötél"
+- link "Beal Virus 10 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-koetel-beal-virus-10-mm-60-m/#rozsaszin
+- text: "-0% 52 670Ft 52 610Ft 4camping"
+- link "Beal Virus 10 mm (50 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-koetel-beal-virus-10-mm-50-m/#rozsaszin
+  - img "Beal Virus 10 mm (50 m) Hegymászó kötél"
+- link "Beal Virus 10 mm (50 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-koetel-beal-virus-10-mm-50-m/#rozsaszin
+- text: "-5% 46 559Ft 43 850Ft 4camping"
+- link "Beal Booster Unicore Safe Control 9,7 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-koetel-beal-booster-unicore-safe-control-9-7-mm-60-m/#zoeld
+  - img "Beal Booster Unicore Safe Control 9,7 mm (60 m) Hegymászó kötél"
+- link "Beal Booster Unicore Safe Control 9,7 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-koetel-beal-booster-unicore-safe-control-9-7-mm-60-m/#zoeld
+- text: "-4% 85 410Ft 81 980Ft 4camping"
+- link "Beal Zenith 9,5 mm (50 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-kotel-beal-zenith-9-5-mm-50-m/#rozsaszin
+  - img "Beal Zenith 9,5 mm (50 m) Hegymászó kötél"
+- link "Beal Zenith 9,5 mm (50 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-kotel-beal-zenith-9-5-mm-50-m/#rozsaszin
+- text: "-6% 43 810Ft 40 990Ft 4camping"
+- link "Beal Rando GD 8 mm (30 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-kotel-beal-rando-gd-8-mm-30-m/#sarga
+  - img "Beal Rando GD 8 mm (30 m) Hegymászó kötél"
+- link "Beal Rando GD 8 mm (30 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/hegymaszo-kotel-beal-rando-gd-8-mm-30-m/#sarga
+- text: "-11% 29 870Ft 26 340Ft 4camping"
+- link "Tendon Secure 10.5mm (60m) Statikus kötél":
+  - /url: https://www.4camping.hu/p/tendon-secure-10-5mm-60m-statikus-koetel/#piros
+  - img "Tendon Secure 10.5mm (60m) Statikus kötél"
+- link "Tendon Secure 10.5mm (60m) Statikus kötél":
+  - /url: https://www.4camping.hu/p/tendon-secure-10-5mm-60m-statikus-koetel/#piros
+- text: "-16% 57 680Ft 48 340Ft 4camping"
+- link "Beal Stinger 9.4 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/maszokotel-beal-stinger-9-4-mm-60-m/#vilagoszoeld
+  - img "Beal Stinger 9.4 mm (60 m) Hegymászó kötél"
+- link "Beal Stinger 9.4 mm (60 m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/maszokotel-beal-stinger-9-4-mm-60-m/#vilagoszoeld
+- text: "-0% 73 310Ft 73 260Ft 4camping"
+- link "Beal Zenith 9.5 mm (80m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/beal-zenith-9-5-mm-80m-hegymaszo-koetel/#rozsaszin
+  - img "Beal Zenith 9.5 mm (80m) Hegymászó kötél"
+- link "Beal Zenith 9.5 mm (80m) Hegymászó kötél":
+  - /url: https://www.4camping.hu/p/beal-zenith-9-5-mm-80m-hegymaszo-koetel/#rozsaszin
+- text: "-1% 71 719Ft 70 360Ft 4camping"
+```
