@@ -2,7 +2,8 @@ import concurrent.futures
 from typing import List, Dict, Any
 
 from logging_config import logger
-from core.manager import ScraperManager
+from src.core.manager import ScraperManager
+from src.scrapers.discount_dto import DiscountUrl
 
 # Global instances
 scraper_manager = ScraperManager()

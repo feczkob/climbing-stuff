@@ -3,17 +3,20 @@ import os
 from typing import List, Dict, Any
 
 from logging_config import logger
-from scrapers.bergfreunde import BergfreundeScraper
-from scrapers.fourcamping import FourCampingScraper
-from scrapers.mountex import MountexScraper
-from scrapers.discount_dto import DiscountUrl
+from src.scrapers.bergfreunde import BergfreundeScraper
+from src.scrapers.fourcamping import FourCampingScraper
+from src.scrapers.mountex import MountexScraper
+from src.scrapers.discount_dto import DiscountUrl
 
+
+def get_project_root():
+    return os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 class ScraperManager:
     """Manages scraper initialization and configuration."""
     
     def __init__(self):
-        self.base_dir = os.path.dirname(os.path.dirname(__file__))
+        self.base_dir = get_project_root()
         self.config_dir = os.path.join(self.base_dir, 'config')
         self.categories_file = os.path.join(self.config_dir, 'categories.yaml')
         self.sites_file = os.path.join(self.config_dir, 'sites.yaml')

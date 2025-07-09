@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List, Dict
-from scrapers.discount_dto import DiscountUrl
+from src.scrapers.discount_dto import Discount, DiscountUrl
 
 
 class DiscountScraper(ABC):
@@ -12,12 +12,13 @@ class DiscountScraper(ABC):
             discount_urls: List of DiscountUrl objects containing URLs for each category
         """
         self.discount_urls = discount_urls or []
-        self._urls_by_category = {}
-        if discount_urls:
-            for discount_url in discount_urls:
-                if discount_url.category not in self._urls_by_category:
-                    self._urls_by_category[discount_url.category] = []
-                self._urls_by_category[discount_url.category].append(discount_url.url)
+        self._urls_by_category = self._group_urls_by_category()
+
+    def _group_urls_by_category(self):
+        urls_by_category = {}
+        for discount_url in self.discount_urls:
+            urls_by_category.setdefault(discount_url.category, []).append(discount_url.url)
+        return urls_by_category
 
     def get_urls_for_category(self, category: str) -> List[str]:
         """Get all URLs configured for a specific category."""
