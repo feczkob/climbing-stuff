@@ -44,10 +44,7 @@ def get_discounts_by_category(category):
         abort(404, description="Category not found")
     return jsonify(discounts)
 
-@app.route('/refresh', methods=['POST'])
-def refresh_discounts():
-    refresh_discounts_job()
-    return jsonify({"status": "success", "message": "Discounts refreshed"})
+
 
 if __name__ == "__main__":
     app.run(debug=True)

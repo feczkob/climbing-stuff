@@ -15,7 +15,7 @@ class BergfreundeScraper(DiscountScraper):
         super().__init__(discount_urls)
     
     def _clean_discount_percent(self, text):
-        """Clean and normalize discount percentage text."""
+        """Extract numeric discount percentage value, returning only the number with minus sign."""
         if not text:
             return ""
         
@@ -25,18 +25,12 @@ class BergfreundeScraper(DiscountScraper):
         # Remove unwanted words and whitespace
         text = text.replace("to", "").replace("from", "").strip()
         
-        # Remove multiple spaces and normalize
-        text = re.sub(r'\s+', ' ', text).strip()
+        # Extract the first number found in the text
+        number_match = re.search(r'\d+', text)
+        if number_match:
+            return f"-{number_match.group()}"
         
-        # Clean up any duplicate symbols or malformed characters
-        text = re.sub(r'[&]{2,}', '%', text)  # Replace && with %
-        text = re.sub(r'[%]{2,}', '%', text)  # Replace multiple % with single %
-        
-        # Ensure proper format: -XX% or XX%
-        if text and not text.startswith('-'):
-            text = f"-{text}"
-        
-        return text
+        return ""
 
 
 
