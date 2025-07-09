@@ -11,6 +11,7 @@ class Discount:
     new_price: Optional[str]
     category: Optional[str] = None
     site: Optional[str] = None
+    discount_percent: Optional[str] = None
 
     def to_dict(self):
         return {
@@ -21,4 +22,5 @@ class Discount:
             'new_price': self.new_price,
             'category': self.category,
             'site': self.site,
+            'discount_percent': self.discount_percent,
         }

@@ -12,9 +12,6 @@ class FourCampingScraper(DiscountScraper):
     def __init__(self, discount_urls=None):
         super().__init__(discount_urls)
 
-    def check_discounts(self):
-        pass
-
     def extract_discounts_from_category(self, url):
         resp = requests.get(url)
         resp.raise_for_status()
@@ -52,13 +49,29 @@ class FourCampingScraper(DiscountScraper):
             new_price_tag = card.select_one(".card-price__full strong")
             new_price = new_price_tag.get_text(strip=True) if new_price_tag else ""
 
+            # Extract discount percentage
+            discount_percent_tag = card.select_one(".card-price__discount .card-price__discount-percent")
+            discount_percent = discount_percent_tag.get_text(strip=True) if discount_percent_tag else ""
+            
+            # If no discount percent tag found, try to calculate from prices
+            if not discount_percent and old_price and new_price:
+                try:
+                    # Extract numbers from price strings (remove currency symbols and spaces)
+                    old_num = float(re.sub(r'[^\d,.]', '', old_price).replace(',', '.'))
+                    new_num = float(re.sub(r'[^\d,.]', '', new_price).replace(',', '.'))
+                    if old_num > 0:
+                        discount_percent = f"-{int(((old_num - new_num) / old_num) * 100)}"
+                except (ValueError, ZeroDivisionError):
+                    discount_percent = ""
+
             discount = Discount(
                 product=full_name,
                 url=product_url,
                 image_url=image_url,
                 old_price=old_price,
                 new_price=new_price,
-                category=None  # Will be set by the service layer
+                category=None,  # Will be set by the service layer
+                discount_percent=discount_percent
             )
             discounts.append(discount)
         
