@@ -17,7 +17,7 @@ from src.services.discount_service import fetch_discounts_for_category, fetch_al
 from src.core.manager import ScraperManager
 
 
-def print_discounts_category(category: str, discounts: List[Dict[str, Any]], show_images: bool = True):
+def print_discounts_category(category: str, discounts: List[Any], show_images: bool = True):
     """Print discounts for a specific category with improved formatting."""
     if not discounts:
         print(f"\n[{category}] No discounts found.")
@@ -27,24 +27,48 @@ def print_discounts_category(category: str, discounts: List[Dict[str, Any]], sho
     print("=" * 60)
     
     for i, discount in enumerate(discounts, 1):
-        print(f"{i:2d}. {discount['product']}")
-        print(f"    Site: {discount['site']}")
-        print(f"    URL: {discount['url']}")
-        if show_images and discount.get('image_url'):
-            print(f"    Image: {discount['image_url']}")
-        if discount.get('old_price') and discount.get('new_price'):
-            print(f"    Price: {discount['old_price']} → {discount['new_price']}")
+        # Handle both Discount objects and dictionaries
+        if hasattr(discount, 'product'):
+            # Discount object
+            product = discount.product
+            site = discount.site
+            url = discount.url
+            image_url = discount.image_url
+            old_price = discount.old_price
+            new_price = discount.new_price
+        else:
+            # Dictionary (fallback)
+            product = discount['product']
+            site = discount['site']
+            url = discount['url']
+            image_url = discount.get('image_url')
+            old_price = discount.get('old_price')
+            new_price = discount.get('new_price')
+        
+        print(f"{i:2d}. {product}")
+        print(f"    Site: {site}")
+        print(f"    URL: {url}")
+        if show_images and image_url:
+            print(f"    Image: {image_url}")
+        if old_price and new_price:
+            print(f"    Price: {old_price} → {new_price}")
         print()
 
 
-def print_summary(all_discounts: Dict[str, List[Dict[str, Any]]]):
+def print_summary(all_discounts: Dict[str, List[Any]]):
     """Print a summary of all discounts."""
     total_discounts = sum(len(discounts) for discounts in all_discounts.values())
     print(f"\n📊 SUMMARY: {total_discounts} total discounts across {len(all_discounts)} categories")
     
     for category, discounts in all_discounts.items():
         if discounts:
-            sites = set(discount['site'] for discount in discounts)
+            # Extract site names from Discount objects or dictionaries
+            sites = set()
+            for discount in discounts:
+                if hasattr(discount, 'site'):
+                    sites.add(discount.site)
+                else:
+                    sites.add(discount['site'])
             print(f"   {category}: {len(discounts)} discounts from {', '.join(sites)}")
 
 

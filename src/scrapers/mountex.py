@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 from src.core.logging_config import logger
 from src.scrapers.discount_scraper import DiscountScraper
-from src.scrapers.discount_dto import Discount
+from src.scrapers.discount import Discount
 import re
 
 class MountexScraper(DiscountScraper):

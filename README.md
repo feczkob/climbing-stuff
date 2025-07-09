@@ -22,8 +22,7 @@ This app aggregates discounts on climbing stuffs from multiple e-commerce sites 
    pip install -r requirements.txt
    ```
 
-3. **Configure sites and categories:**
-   - Edit `config/sites.yaml` to enable/disable sites.
+3. **Configure categories:**
    - Edit `config/categories.yaml` to manage categories and their URLs per site.
 
 4. **Run the app:**
@@ -56,7 +55,8 @@ curl http://localhost:5000/discounts/friends
 - `src/app/main.py` — Main Flask app (REST API & web UI)
 - `src/scrapers/` — Site-specific scrapers
 - `src/core/` — Core business logic and management
-- `config/` — YAML config files for sites and categories
+- `src/services/` — Service layer for discount operations
+- `config/` — YAML config files for categories
 - `templates/` — HTML templates for the web UI
 
 ---

@@ -54,18 +54,6 @@ class TestScraperManager(unittest.TestCase):
         self.assertIn('slings', categories)
         self.assertIn('ropes', categories)
         self.assertIn('carabiners-quickdraws', categories)
-    
-    def test_load_sites(self):
-        """Test that sites are loaded correctly."""
-        scraper_manager = ScraperManager()
-        sites = scraper_manager.load_sites()
-        
-        self.assertIsInstance(sites, list)
-        self.assertTrue(len(sites) > 0)
-        
-        for site in sites:
-            self.assertIn('name', site)
-            self.assertIn('enabled', site)
 
 
 class TestServiceLayer(unittest.TestCase):
@@ -81,15 +69,15 @@ class TestServiceLayer(unittest.TestCase):
                 
                 # Verify that all discounts have the correct category
                 for discount in discounts:
-                    self.assertEqual(discount['category'], category, 
-                                   f"Discount has wrong category: {discount['category']} != {category}")
+                    self.assertEqual(discount.category, category, 
+                                   f"Discount has wrong category: {discount.category} != {category}")
                 
                 # Verify that discounts have required fields
                 for discount in discounts:
-                    self.assertIn('product', discount)
-                    self.assertIn('url', discount)
-                    self.assertIn('site', discount)
-                    self.assertIn('category', discount)
+                    self.assertTrue(hasattr(discount, 'product'))
+                    self.assertTrue(hasattr(discount, 'url'))
+                    self.assertTrue(hasattr(discount, 'site'))
+                    self.assertTrue(hasattr(discount, 'category'))
     
     def test_all_discounts_fetching(self):
         """Test fetching all discounts."""
@@ -107,8 +95,8 @@ class TestServiceLayer(unittest.TestCase):
             
             # Verify that discounts in each category have the correct category field
             for discount in all_discounts[category]:
-                self.assertEqual(discount['category'], category, 
-                               f"Discount in {category} has wrong category: {discount['category']}")
+                self.assertEqual(discount.category, category, 
+                               f"Discount in {category} has wrong category: {discount.category}")
 
 
 def run_integration_tests():
@@ -149,7 +137,7 @@ def run_integration_tests():
             
             # Verify that all discounts have the correct category
             for discount in discounts:
-                assert discount['category'] == category
+                assert discount.category == category
             
             print(f"    ✓ Found {len(discounts)} discounts for {category}")
         

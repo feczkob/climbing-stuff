@@ -19,7 +19,6 @@ class ScraperManager:
         self.base_dir = get_project_root()
         self.config_dir = os.path.join(self.base_dir, 'config')
         self.categories_file = os.path.join(self.config_dir, 'categories.yaml')
-        self.sites_file = os.path.join(self.config_dir, 'sites.yaml')
         
         self.scraper_map = {}
         self.scraper_classes = {
@@ -34,23 +33,16 @@ class ScraperManager:
             categories_yaml = yaml.safe_load(f)
         return categories_yaml['categories']
     
-    def load_sites(self) -> List[Dict[str, Any]]:
-        """Load sites configuration from YAML file."""
-        with open(self.sites_file, 'r') as f:
-            sites_yaml = yaml.safe_load(f)
-        return [site for site in sites_yaml['sites'] if site.get('enabled', True)]
-    
     def create_discount_urls_by_site(self) -> Dict[str, List[DiscountUrl]]:
         """Create DiscountUrl objects grouped by site from the categories configuration."""
         urls_by_site = {}
         categories = self.load_categories()
-        sites = self.load_sites()
+        available_sites = self.scraper_classes.keys()
         
         for category_name, site_urls in categories.items():
-            for site in sites:
-                site_name = site['name']
+            for site_name in available_sites:
                 url = site_urls.get(site_name)
-                if url and site_name in self.scraper_classes:
+                if url:
                     # Handle both single URLs and lists of URLs
                     urls = url if isinstance(url, list) else [url]
                     for single_url in urls:
