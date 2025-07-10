@@ -76,3 +76,20 @@ curl http://localhost:5000/discounts/friends
 ---
 
 **Note:** Some scrapers use Selenium and require ChromeDriver installed.
+## Running Tests
+
+### E2E Tests
+
+To run the end-to-end tests, use the following command:
+
+```bash
+npx playwright test
+```
+
+This will run the tests and open an HTML report in your browser.
+
+To run the tests without opening the browser report and see the output directly in the terminal, use the `list` reporter:
+
+```bash
+npx playwright test --reporter=list
+```
