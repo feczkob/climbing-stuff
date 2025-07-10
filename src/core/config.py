@@ -27,25 +27,8 @@ class Config:
     
     def get_mock_file_path(self, site_name: str, category: str) -> str:
         """Get the expected mock file path for a given site and category."""
-        # Map category names to URL path segments
-        category_paths = {
-            'ropes': 'climbing_ropes',
-            'friends-nuts': 'camming-devices-friends',  # Use hyphens to match actual files
-            'slings': 'slings-cord',  # Use hyphens to match actual files
-            'carabiners-quickdraws': 'carabiners-quickdraws'  # Use hyphens to match actual files
-        }
-        
-        path_segment = category_paths.get(category, category.replace('-', '_'))
-        
-        # Map site names to domain patterns
-        site_patterns = {
-            'bergfreunde': f'bergfreunde_bergfreunde_eu_{path_segment}' if category == 'ropes' else f'bergfreunde_www_bergfreunde_eu_{path_segment}',  # Special case for ropes
-            'mountex': f'mountex_mountex_hu_sziklamaszas_hegymaszas',
-            '4camping': f'4camping_4camping_hu_c_maszokoetelek'  # Fixed for ropes category
-        }
-        
-        pattern = site_patterns.get(site_name, f'{site_name}_{path_segment}')
-        return os.path.join(self.mock_files_dir, f'{pattern}.html')
+        filename = f"{site_name}_{category}.html"
+        return os.path.join(self.mock_files_dir, filename)
 
 # Global config instance
 config = Config() 

@@ -14,14 +14,31 @@ class MockScraper(DiscountScraper):
     def __init__(self, discount_urls=None):
         super().__init__(discount_urls)
         self.mock_files_dir = config.get_mock_files_dir()
-    
+        self.site_name = self._get_site_name_from_urls()
+        self.category_by_url = {url.url: url.category for url in self.discount_urls}
+
+    def _get_site_name_from_urls(self) -> str:
+        """Determine site name from the provided discount URLs."""
+        if not self.discount_urls:
+            return 'unknown'
+        
+        first_url = self.discount_urls[0].url
+        if 'bergfreunde' in first_url:
+            return 'bergfreunde'
+        elif 'mountex' in first_url:
+            return 'mountex'
+        elif '4camping' in first_url:
+            return '4camping'
+        return 'unknown'
+
     def extract_discounts_from_category(self, url):
         """Extract discounts from a mock HTML file."""
-        # Determine which mock file to use based on the URL
-        site_name = self._get_site_name_from_url(url)
-        category = self._get_category_from_url(url)
-        
-        mock_file_path = config.get_mock_file_path(site_name, category)
+        category = self.category_by_url.get(url)
+        if not category:
+            logger.warning(f"Category not found for URL: {url}")
+            return []
+
+        mock_file_path = config.get_mock_file_path(self.site_name, category)
         
         if not os.path.exists(mock_file_path):
             logger.warning(f"Mock file not found: {mock_file_path}")
@@ -34,43 +51,19 @@ class MockScraper(DiscountScraper):
                 html_content = f.read()
             
             # Use the appropriate scraper logic based on the site
-            if site_name == 'bergfreunde':
+            if self.site_name == 'bergfreunde':
                 return self._extract_bergfreunde_discounts(html_content, url)
-            elif site_name == 'mountex':
+            elif self.site_name == 'mountex':
                 return self._extract_mountex_discounts(html_content, url)
-            elif site_name == '4camping':
+            elif self.site_name == '4camping':
                 return self._extract_4camping_discounts(html_content, url)
             else:
-                logger.warning(f"Unknown site for mock extraction: {site_name}")
+                logger.warning(f"Unknown site for mock extraction: {self.site_name}")
                 return []
                 
         except Exception as e:
             logger.error(f"Error reading mock file {mock_file_path}: {e}")
             return []
-    
-    def _get_site_name_from_url(self, url: str) -> str:
-        """Extract site name from URL."""
-        if 'bergfreunde.eu' in url:
-            return 'bergfreunde'
-        elif 'mountex.hu' in url:
-            return 'mountex'
-        elif '4camping.hu' in url:
-            return '4camping'
-        else:
-            return 'unknown'
-    
-    def _get_category_from_url(self, url: str) -> str:
-        """Extract category from URL."""
-        if 'climbing-ropes' in url:
-            return 'ropes'
-        elif 'camming-devices-friends' in url or 'nuts' in url:
-            return 'friends-nuts'
-        elif 'slings-cord' in url or 'hurkok-hevederek' in url:
-            return 'slings'
-        elif 'carabiners-quickdraws' in url or 'karabinerek-expresszek' in url:
-            return 'carabiners-quickdraws'
-        else:
-            return 'unknown'
     
     def _extract_bergfreunde_discounts(self, html_content: str, url: str) -> List[Discount]:
         """Extract discounts from Bergfreunde HTML using the same logic as the real scraper."""

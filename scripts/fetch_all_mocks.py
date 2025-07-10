@@ -43,13 +43,7 @@ def fetch_html(url, headers=None):
 
 def generate_mock_filename(site_name, url, category):
     """Generate mock filename based on site, URL, and category."""
-    parsed_url = urlparse(url)
-    domain = parsed_url.netloc.replace('.', '_').replace('-', '_')
-    path = parsed_url.path.strip('/').replace('/', '_')
-    if not path:
-        path = 'home'
-    
-    return f"{site_name}_{domain}_{path}.html"
+    return f"{site_name}_{category}.html"
 
 def main():
     """Main function to fetch all mock files."""
