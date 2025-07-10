@@ -139,7 +139,6 @@ class MockScraper(DiscountScraper):
                 discount_percent = f"-{raw_discount}" if raw_discount else ""
             else:
                 discount_percent = ""
-                
             name_link = product.select_one("a.text-black.unstyled")
             brand = ""
             product_name = ""
@@ -173,7 +172,7 @@ class MockScraper(DiscountScraper):
                     discount_percent=discount_percent
                 ))
 
-        logger.info(f"[MockScraper] Found {len(discounts)} Mountex discounts from mock file.")
+        logger.info(f"Found {len(discounts)} Mountex discounts from mock file.")
         return discounts
     
     def _extract_4camping_discounts(self, html_content: str, url: str) -> List[Discount]:

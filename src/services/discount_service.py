@@ -27,7 +27,7 @@ def fetch_discounts_for_category(category: str) -> List[Discount]:
             # Add site information to each discount
             for discount in discounts:
                 discount.site = site_name.capitalize()
-                all_discounts.append(discount)
+            all_discounts.extend(discounts)
         except Exception as e:
             logger.error(f"Error fetching discounts from {site_name} for category {category}: {e}")
     
