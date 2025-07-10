@@ -18,6 +18,7 @@ async function renderProducts(category) {
         discounts.forEach(d => {
             const div = document.createElement('div');
             div.className = 'product';
+            div.dataset.discountPercent = d.discount_percent ? parseInt(d.discount_percent.replace(/\s+/g, '')) : 0;
             div.innerHTML = `
                 <div class="product-img">
                     <a href="${d.url}" target="_blank">
@@ -47,4 +48,10 @@ async function renderProducts(category) {
 renderProducts(select.value);
 select.addEventListener('change', function() {
     renderProducts(this.value);
+});
+
+document.getElementById('sort-by-discount').addEventListener('click', () => {
+    const products = Array.from(container.getElementsByClassName('product'));
+    products.sort((a, b) => a.dataset.discountPercent - b.dataset.discountPercent);
+    products.forEach(p => container.appendChild(p));
 });

@@ -22,8 +22,7 @@ class MountexScraper(DiscountScraper):
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
         
-        service = Service(executable_path="/usr/bin/chromedriver")
-        driver = webdriver.Chrome(service=service, options=options)
+        driver = webdriver.Chrome(options=options)
         driver.get(url)
         time.sleep(5)
         soup = BeautifulSoup(driver.page_source, "html.parser")

@@ -25,13 +25,27 @@ This app aggregates discounts on climbing stuffs from multiple e-commerce sites 
 3. **Configure categories:**
    - Edit `config/categories.yaml` to manage categories and their URLs per site.
 
-4. **Run the app:**
-   ```bash
-   python src/app/main.py
-   ```
+## Running the Application
 
-5. **Browse the UI:**
-   - Open [http://localhost:5000](http://localhost:5000) in your browser.
+You can run the application in either development (non-production) or production mode.
+
+### Development Mode (Non-Production)
+
+In development mode, the application uses mock scrapers that read from local HTML files for faster testing and development. This is the default mode.
+
+To run in development mode:
+```bash
+python3 run_app.py
+```
+
+### Production Mode
+
+In production mode, the application uses live scrapers to fetch real-time data from the websites.
+
+To run in production mode, set the `PRODUCTION_MODE` environment variable to `true`:
+```bash
+PRODUCTION_MODE=true python3 run_app.py
+```
 
 ## REST API
 
@@ -62,3 +76,20 @@ curl http://localhost:5000/discounts/friends
 ---
 
 **Note:** Some scrapers use Selenium and require ChromeDriver installed.
+## Running Tests
+
+### E2E Tests
+
+To run the end-to-end tests, use the following command:
+
+```bash
+npx playwright test
+```
+
+This will run the tests and open an HTML report in your browser.
+
+To run the tests without opening the browser report and see the output directly in the terminal, use the `list` reporter:
+
+```bash
+npx playwright test --reporter=list
+```
