@@ -35,13 +35,13 @@ class MockScraper(DiscountScraper):
         """Extract discounts from a mock HTML file."""
         category = self.category_by_url.get(url)
         if not category:
-            logger.warning(f"Category not found for URL: {url}")
+            logger.warning(f"[MockScraper] Category not found for URL: {url}")
             return []
 
         mock_file_path = config.get_mock_file_path(self.site_name, category)
         
         if not os.path.exists(mock_file_path):
-            logger.warning(f"Mock file not found: {mock_file_path}")
+            logger.warning(f"[MockScraper] Mock file not found: {mock_file_path}")
             return []
         
         logger.info(f"[MockScraper] Reading from mock file: {mock_file_path}")
@@ -58,11 +58,11 @@ class MockScraper(DiscountScraper):
             elif self.site_name == '4camping':
                 return self._extract_4camping_discounts(html_content, url)
             else:
-                logger.warning(f"Unknown site for mock extraction: {self.site_name}")
+                logger.warning(f"[MockScraper] Unknown site for mock extraction: {self.site_name}")
                 return []
                 
         except Exception as e:
-            logger.error(f"Error reading mock file {mock_file_path}: {e}")
+            logger.error(f"[MockScraper] Error reading mock file {mock_file_path}: {e}")
             return []
     
     def _extract_bergfreunde_discounts(self, html_content: str, url: str) -> List[Discount]:
@@ -172,7 +172,7 @@ class MockScraper(DiscountScraper):
                     discount_percent=discount_percent
                 ))
 
-        logger.info(f"Found {len(discounts)} Mountex discounts from mock file.")
+        logger.info(f"[MockScraper] Found {len(discounts)} Mountex discounts from mock file.")
         return discounts
     
     def _extract_4camping_discounts(self, html_content: str, url: str) -> List[Discount]:
