@@ -1,5 +1,6 @@
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
+import requests
 
 from src.core.logging_config import logger
 from src.scrapers.discount_scraper import DiscountScraper
@@ -8,9 +9,22 @@ import re
 
 class MaszasScraper(DiscountScraper):
     BASE_URL = "https://www.maszas.hu"
+    HEADERS = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    }
 
     def __init__(self, discount_urls=None):
         super().__init__(discount_urls)
+
+    def get(self, url):
+        """Send an HTTP GET request with a user-agent header."""
+        try:
+            response = requests.get(url, headers=self.HEADERS)
+            response.raise_for_status()  # Raise an exception for bad status codes
+            return response.text
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error fetching {url}: {e}")
+            return None
 
     def _get_discounts(self, soup, url):
         discounts = []
@@ -58,3 +72,11 @@ class MaszasScraper(DiscountScraper):
                 discount_percent=discount_percent,
             ))
         return discounts
+
+    def extract_discounts_from_category(self, url):
+        html = self.get(url)
+        if not html:
+            return []
+        
+        soup = BeautifulSoup(html, 'html.parser')
+        return self._get_discounts(soup, url)
