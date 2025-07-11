@@ -85,6 +85,4 @@ class ScraperManager:
     
     def get_scrapers(self) -> Dict[str, Any]:
         """Get the initialized scrapers map."""
-        if not self.scraper_map:
-            self.initialize_scrapers()
-        return self.scraper_map 
+        return self.initialize_scrapers() 
