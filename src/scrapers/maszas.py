@@ -76,7 +76,7 @@ class MaszasScraper(DiscountScraper):
                     discount_percent=discount_percent
                 )
             )
-        logger.info(f"[MaszasScraper] Found {len(discounts)} discounts from {url}")
+        logger.info(f"[MaszasScraper] Found {len(discounts)} discounts.")
         return discounts
 
     def extract_discounts_from_category(self, url):
