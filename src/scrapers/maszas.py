@@ -1,4 +1,4 @@
-THIS SHOULD BE A LINTER ERRORfrom urllib.parse import urljoin
+from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 
 from src.core.logging_config import logger
@@ -48,14 +48,13 @@ class MaszasScraper(DiscountScraper):
                 logger.warning(f"Could not extract all details for a product on {url}")
                 continue
 
-            if original_price and discounted_price and product_url:
-                discounts.append(Discount(
-                    product=name,
-                    url=product_url,
-                    image_url=image_url,
-                    old_price=original_price,
-                    new_price=discounted_price,
-                    category=None,
-                    discount_percent=discount_percent,
-                ))
+            discounts.append(Discount(
+                product=name,
+                url=product_url,
+                image_url=image_url,
+                old_price=original_price,
+                new_price=discounted_price,
+                category=None,
+                discount_percent=discount_percent,
+            ))
         return discounts
