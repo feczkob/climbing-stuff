@@ -66,10 +66,7 @@ class ScraperManager:
 
     def get_scrapers(self) -> Dict[str, Any]:
         """Get the initialized scrapers map."""
-        if config.is_production():
-            return self.scraper_map
-        else:
-            return self._initialize_scrapers()
+        return self.scraper_map
 
     def load_categories(self) -> Dict[str, Any]:
         """Load categories configuration from YAML file."""
