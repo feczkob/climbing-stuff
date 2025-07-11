@@ -27,21 +27,24 @@ class MaszasScraper(DiscountScraper):
             return None
 
     def _get_discounts(self, soup, url):
-        discounts = []
         products = soup.select("div.product-snapshot.list_div_item")
+        discounts = []
 
         for product in products:
             name_tag = product.select_one("h2 a")
             name = name_tag.get_text(strip=True) if name_tag else ""
 
             original_price_tag = product.select_one("span.list_original")
+            if not original_price_tag:
+                continue
+
             original_price = original_price_tag.get_text(strip=True) if original_price_tag else None
 
             discounted_price_tag = product.select_one("span.list_special")
             discounted_price = discounted_price_tag.get_text(strip=True) if discounted_price_tag else None
 
             product_url_tag = product.select_one("a.img-thumbnail-link")
-            product_url = urljoin(self.BASE_URL, product_url_tag["href"]) if product_url_tag and product_url_tag.has_attr("href") else None
+            product_url = urljoin(self.BASE_URL, product_url_tag['href']) if product_url_tag else ""
             
             image_url_tag = product.select_one("a.img-thumbnail-link img")
             image_url = urljoin(self.BASE_URL, image_url_tag["src"]) if image_url_tag and image_url_tag.has_attr("src") else None
@@ -54,7 +57,7 @@ class MaszasScraper(DiscountScraper):
                     if old_num > 0:
                         calc_discount = str(int(((old_num - new_num) / old_num) * 100))
                         calc_discount = calc_discount.lstrip('-')
-                        discount_percent = f"-{calc_discount}%" if calc_discount else ""
+                        discount_percent = f"-{calc_discount}" if calc_discount else ""
                 except (ValueError, ZeroDivisionError):
                     discount_percent = ""
             
@@ -62,15 +65,18 @@ class MaszasScraper(DiscountScraper):
                 logger.warning(f"Could not extract all details for a product on {url}")
                 continue
 
-            discounts.append(Discount(
-                product=name,
-                url=product_url,
-                image_url=image_url,
-                old_price=original_price,
-                new_price=discounted_price,
-                category=None,
-                discount_percent=discount_percent,
-            ))
+            discounts.append(
+                Discount(
+                    product=name,
+                    url=product_url,
+                    image_url=image_url,
+                    old_price=original_price,
+                    new_price=discounted_price,
+                    category=None,
+                    discount_percent=discount_percent
+                )
+            )
+        logger.info(f"[MaszasScraper] Found {len(discounts)} discounts from {url}")
         return discounts
 
     def extract_discounts_from_category(self, url):

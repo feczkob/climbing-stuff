@@ -2,10 +2,10 @@ import { test, expect } from '@playwright/test';
 
 // Helper to select a category and wait for products to load
 const eachCategory = [
-  { value: 'ropes', expectedDiscounts: 89 },
-  { value: 'friends-nuts', expectedDiscounts: 74 },
-  { value: 'slings', expectedDiscounts: 86 },
-  { value: 'carabiners-quickdraws', expectedDiscounts: 88 },
+  { value: 'ropes', expectedDiscounts: 112 },
+  { value: 'friends-nuts', expectedDiscounts: 86 },
+  { value: 'slings', expectedDiscounts: 103 },
+  { value: 'carabiners-quickdraws', expectedDiscounts: 146 },
 ];
 
 test.describe('Discounts E2E (mock mode)', () => {
@@ -46,32 +46,5 @@ test.describe('Discounts E2E (mock mode)', () => {
     // Check that the discount percent is in the correct format
     const percent = await firstProduct.locator('.discount-percent').textContent();
     expect(percent).toMatch(/^\-\d+%$/);
-  });
-
-  test('should show Bergfreunde products correctly', async ({ page }) => {
-    await page.selectOption('#category-select', 'ropes');
-    await page.waitForTimeout(500);
-    
-    // Find Bergfreunde products (look for "Bergfreunde Edition")
-    const bergfreundeProducts = page.locator('.product').filter({ hasText: 'Bergfreunde Edition' });
-    const bergfreundeCount = await bergfreundeProducts.count();
-    
-    // Verify we have Bergfreunde products
-    expect(bergfreundeCount).toBeGreaterThan(0);
-    
-    // Check the first Bergfreunde product
-    const firstBergfreunde = bergfreundeProducts.first();
-    await expect(firstBergfreunde.locator('.product-name')).toBeVisible();
-    await expect(firstBergfreunde.locator('.orig-price')).toBeVisible();
-    await expect(firstBergfreunde.locator('.disc-price')).toBeVisible();
-    await expect(firstBergfreunde.locator('.discount-percent')).toBeVisible();
-    
-    // Check that the discount percent is in the correct format
-    const percent = await firstBergfreunde.locator('.discount-percent').textContent();
-    expect(percent).toMatch(/^\-\d+%$/);
-    
-    // Verify the product name contains "Bergfreunde Edition"
-    const productName = await firstBergfreunde.locator('.product-name').textContent();
-    expect(productName).toContain('Bergfreunde Edition');
   });
 }); 

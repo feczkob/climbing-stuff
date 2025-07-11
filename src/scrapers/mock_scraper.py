@@ -213,7 +213,7 @@ class MockScraper(DiscountScraper):
                     if old_num > 0:
                         calc_discount = str(int(((old_num - new_num) / old_num) * 100))
                         calc_discount = calc_discount.lstrip('-')
-                        discount_percent = f"-{calc_discount}%" if calc_discount else ""
+                        discount_percent = f"-{calc_discount}" if calc_discount else ""
                 except (ValueError, ZeroDivisionError):
                     discount_percent = ""
             
