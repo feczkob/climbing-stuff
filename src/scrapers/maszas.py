@@ -1,4 +1,4 @@
-from urllib.parse import urljoin
+THIS SHOULD BE A LINTER ERRORfrom urllib.parse import urljoin
 from bs4 import BeautifulSoup
 
 from src.core.logging_config import logger
