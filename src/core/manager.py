@@ -7,6 +7,7 @@ from src.core.config import config
 from src.scrapers.bergfreunde import BergfreundeScraper
 from src.scrapers.fourcamping import FourCampingScraper
 from src.scrapers.mountex import MountexScraper
+from src.scrapers.maszas import MaszasScraper
 from src.scrapers.mock_scraper import MockScraper
 from src.scrapers.discount_url import DiscountUrl
 
@@ -17,32 +18,59 @@ def get_project_root():
 class ScraperManager:
     """Manages scraper initialization and configuration."""
     
-    def __init__(self):
-        self.base_dir = get_project_root()
-        self.config_dir = os.path.join(self.base_dir, 'config')
-        self.categories_file = os.path.join(self.config_dir, 'categories.yaml')
-        
-        self.scraper_map = {}
-        
+    SCRAPER_CLASSES = {
+        'bergfreunde': BergfreundeScraper,
+        'mountex': MountexScraper,
+        '4camping': FourCampingScraper,
+        'maszas': MaszasScraper,
+    }
+
+    def __init__(self, config_path='config/categories.yaml'):
+        self.config_path = config_path
+        self.categories = self.load_categories()
+        self.scraper_map = self._initialize_scrapers()
+
+    def _initialize_scrapers(self) -> Dict[str, Any]:
+        scraper_map = {}
         # Choose scraper classes based on production mode
         if config.is_production():
-            self.scraper_classes = {
+            scraper_classes = {
                 'bergfreunde': BergfreundeScraper,
                 'mountex': MountexScraper,
                 '4camping': FourCampingScraper,
+                'maszas': MaszasScraper,
             }
             logger.info("Running in PRODUCTION mode - using real scrapers")
         else:
-            self.scraper_classes = {
+            scraper_classes = {
                 'bergfreunde': MockScraper,
                 'mountex': MockScraper,
                 '4camping': MockScraper,
+                'maszas': MockScraper,
             }
             logger.info("Running in DEVELOPMENT mode - using mock scrapers")
-    
+
+        for site, scraper_class in scraper_classes.items():
+            site_urls = []
+            for cat, urls_by_site in self.categories.items():
+                urls = urls_by_site.get(site)
+                if urls:
+                    if isinstance(urls, str):
+                        urls = [urls]
+                    for url in urls:
+                        site_urls.append(DiscountUrl(category=cat, url=url))
+
+            scraper_map[site] = scraper_class(site_urls)
+            logger.info(f"Initialized {site} scraper with {len(site_urls)} URLs")
+        return scraper_map
+
+    def get_scrapers(self) -> Dict[str, Any]:
+        """Get the initialized scrapers map."""
+        return self.scraper_map
+
     def load_categories(self) -> Dict[str, Any]:
         """Load categories configuration from YAML file."""
-        with open(self.categories_file, 'r') as f:
+        with open(self.config_path, 'r') as f:
             categories_yaml = yaml.safe_load(f)
         return categories_yaml['categories']
     
@@ -50,7 +78,7 @@ class ScraperManager:
         """Create DiscountUrl objects grouped by site from the categories configuration."""
         urls_by_site = {}
         categories = self.load_categories()
-        available_sites = self.scraper_classes.keys()
+        available_sites = self.SCRAPER_CLASSES.keys()
         
         for category_name, site_urls in categories.items():
             for site_name in available_sites:
@@ -74,14 +102,8 @@ class ScraperManager:
         urls_by_site = self.create_discount_urls_by_site()
         
         for site_name, urls in urls_by_site.items():
-            if site_name in self.scraper_classes:
-                self.scraper_map[site_name] = self.scraper_classes[site_name](urls)
+            if site_name in self.SCRAPER_CLASSES:
+                self.scraper_map[site_name] = self.SCRAPER_CLASSES[site_name](urls)
                 logger.info(f"Initialized {site_name} scraper with {len(urls)} URLs")
         
-        return self.scraper_map
-    
-    def get_scrapers(self) -> Dict[str, Any]:
-        """Get the initialized scrapers map."""
-        if not self.scraper_map:
-            self.initialize_scrapers()
         return self.scraper_map 

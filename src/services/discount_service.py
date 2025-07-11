@@ -35,19 +35,15 @@ def fetch_discounts_for_category(category: str) -> List[Discount]:
 
 def fetch_all_discounts() -> Dict[str, List[Discount]]:
     """Fetch all discounts using the new category-based architecture."""
-    scrapers = scraper_manager.get_scrapers()
-    
     categories = scraper_manager.load_categories()
     discounts_by_category = {cat: [] for cat in categories.keys()}
-    
+
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        # Submit all category fetching tasks
         future_to_category = {
             executor.submit(fetch_discounts_for_category, category): category 
             for category in categories.keys()
         }
-        
-        # Collect results as they complete
+
         for future in concurrent.futures.as_completed(future_to_category):
             category = future_to_category[future]
             try:
