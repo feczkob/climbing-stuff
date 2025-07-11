@@ -7,6 +7,7 @@ from src.core.config import config
 from src.scrapers.bergfreunde import BergfreundeScraper
 from src.scrapers.fourcamping import FourCampingScraper
 from src.scrapers.mountex import MountexScraper
+from src.scrapers.maszas import MaszasScraper
 from src.scrapers.mock_scraper import MockScraper
 from src.scrapers.discount_url import DiscountUrl
 
@@ -30,6 +31,7 @@ class ScraperManager:
                 'bergfreunde': BergfreundeScraper,
                 'mountex': MountexScraper,
                 '4camping': FourCampingScraper,
+                'maszas': MaszasScraper,
             }
             logger.info("Running in PRODUCTION mode - using real scrapers")
         else:
@@ -37,6 +39,7 @@ class ScraperManager:
                 'bergfreunde': MockScraper,
                 'mountex': MockScraper,
                 '4camping': MockScraper,
+                'maszas': MockScraper,
             }
             logger.info("Running in DEVELOPMENT mode - using mock scrapers")
     
