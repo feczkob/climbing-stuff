@@ -203,7 +203,11 @@ class MockScraper(DiscountScraper):
             product_url = urljoin("https://www.maszas.hu", product_url_tag["href"]) if product_url_tag and product_url_tag.has_attr("href") else None
             
             image_url_tag = product.select_one("a.img-thumbnail-link img")
-            image_url = urljoin("https://www.maszas.hu", image_url_tag["src"]) if image_url_tag and image_url_tag.has_attr("src") else None
+            image_url = None
+            if image_url_tag:
+                image_src = image_url_tag.get("data-src") or image_url_tag.get("src")
+                if image_src:
+                    image_url = urljoin("https://www.maszas.hu", image_src)
 
             discount_percent = ""
             if original_price and discounted_price:
@@ -217,7 +221,7 @@ class MockScraper(DiscountScraper):
                 except (ValueError, ZeroDivisionError):
                     discount_percent = ""
             
-            if not all([name, original_price, discounted_price, product_url, image_url]):
+            if not all([name, original_price, discounted_price, product_url]):
                 logger.warning(f"Could not extract all details for a product on {url}")
                 continue
 
