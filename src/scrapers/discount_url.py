@@ -3,11 +3,10 @@ DiscountUrl data transfer object.
 Represents a URL for a specific category that should be scraped.
 """
 
-from dataclasses import dataclass
+from pydantic import BaseModel
 
 
-@dataclass
-class DiscountUrl:
+class DiscountUrl(BaseModel):
     """Represents a URL for a specific category that should be scraped."""
     category: str
     url: str 
