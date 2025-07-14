@@ -12,7 +12,7 @@ class FourCampingScraper(DiscountScraper):
     def __init__(self, discount_urls=None):
         super().__init__(discount_urls)
 
-    def extract_discounts_from_category(self, url):
+    def extract_discounts_from_category(self, url: str, category: str, site: str):
         resp = requests.get(url)
         resp.raise_for_status()
         soup = BeautifulSoup(resp.text, "html.parser")
@@ -80,7 +80,8 @@ class FourCampingScraper(DiscountScraper):
                 image_url=image_url,
                 old_price=old_price,
                 new_price=new_price,
-                category=None,  # Will be set by the service layer
+                category=category,
+                site=site,
                 discount_percent=discount_percent
             )
             discounts.append(discount)

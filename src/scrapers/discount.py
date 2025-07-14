@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic import BaseModel
 
 
@@ -9,6 +7,6 @@ class Discount(BaseModel):
     image_url: str
     old_price: str
     new_price: str
-    category: Optional[str] = None
-    site: Optional[str] = None
-    discount_percent: Optional[str] = None
+    category: str
+    site: str
+    discount_percent: str

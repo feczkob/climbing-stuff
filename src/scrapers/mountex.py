@@ -16,7 +16,7 @@ class MountexScraper(DiscountScraper):
         super().__init__(discount_urls)
 
 
-    def extract_discounts_from_category(self, url):
+    def extract_discounts_from_category(self, url: str, category: str, site: str):
         options = Options()
         options.add_argument("--headless=new")
         options.add_argument("--disable-gpu")
@@ -70,7 +70,8 @@ class MountexScraper(DiscountScraper):
                     image_url=image_url,
                     old_price=orig_price,
                     new_price=disc_price,
-                    category=None,  # Will be set by the service layer
+                    category=category,
+                    site=site,
                     discount_percent=discount_percent
                 ))
 

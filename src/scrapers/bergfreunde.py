@@ -14,7 +14,7 @@ class BergfreundeScraper(DiscountScraper):
 
 
 
-    def extract_discounts_from_category(self, url):
+    def extract_discounts_from_category(self, url: str, category: str, site: str):
         response = requests.get(url)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, "html.parser")
@@ -62,7 +62,8 @@ class BergfreundeScraper(DiscountScraper):
                     image_url=image_url,
                     old_price=orig_price,
                     new_price=disc_price,
-                    category=None,  # Will be set by the service layer
+                    category=category,
+                    site=site,
                     discount_percent=discount_percent
                 ))
 

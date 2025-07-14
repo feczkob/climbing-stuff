@@ -1,57 +1,61 @@
 from abc import ABC, abstractmethod
-from typing import List, Dict
+from typing import List, Optional
+
+from src.core.logging_config import logger
+from src.scrapers.discount import Discount
 from src.scrapers.discount_url import DiscountUrl
 
 
 class DiscountScraper(ABC):
-    def __init__(self, discount_urls: List[DiscountUrl] = None):
-        """
-        Initialize scraper with category-specific URLs.
-        
-        Args:
-            discount_urls: List of DiscountUrl objects containing URLs for each category
-        """
-        self.discount_urls = discount_urls or []
-        self._urls_by_category = self._group_urls_by_category()
+    """Abstract base class for discount scrapers."""
 
-    def _group_urls_by_category(self):
-        urls_by_category = {}
-        for discount_url in self.discount_urls:
-            urls_by_category.setdefault(discount_url.category, []).append(discount_url.url)
-        return urls_by_category
+    def __init__(self, discount_urls: Optional[List[DiscountUrl]] = None):
+        """
+        Initialize a new DiscountScraper.
 
-    def get_urls_for_category(self, category: str) -> List[str]:
-        """Get all URLs configured for a specific category."""
-        return self._urls_by_category.get(category, [])
+        :param discount_urls: A list of DiscountUrl objects.
+        """
+        self.discount_urls = discount_urls if discount_urls is not None else []
+
+    def get_urls_by_category(self, category: str) -> List[str]:
+        """Get all URLs for a specific category."""
+        return [du.url for du in self.discount_urls if du.category == category]
 
     @abstractmethod
-    def extract_discounts_from_category(self, url):
-        """Extract discounts from a given category URL."""
+    def extract_discounts_from_category(self, url: str, category: str, site: str) -> List[Discount]:
+        """
+        Abstract method to extract discounts from a category page.
+
+        :param url: The URL of the category page.
+        :param category: The category being scraped.
+        :param site: The site being scraped.
+        :return: A list of Discount objects.
+        """
         pass
 
-    def extract_discounts_by_category(self, category: str) -> List:
+    def extract_discounts_by_category(self, category: str, site: str) -> List[Discount]:
         """
-        Extract discounts for a specific category using configured URLs.
-        
-        Args:
-            category: The category name to fetch discounts for
-            
-        Returns:
-            List of Discount objects
+        Extract all discounts for a given category.
+
+        This method iterates over all URLs registered for a category,
+        calls the scraper for each URL, and aggregates the results.
+
+        :param category: The category to scrape.
+        :param site: The site being scraped.
+        :return: A list of Discount objects.
         """
-        urls = self.get_urls_for_category(category)
-        all_discounts = []
-        
-        for url in urls:
+        logger.info(f"[{self.__class__.__name__}] Starting extraction for category '{category}'...")
+
+        urls_for_category = self.get_urls_by_category(category)
+        all_discounts: List[Discount] = []
+
+        for url in urls_for_category:
             try:
-                discounts = self.extract_discounts_from_category(url)
-                # Add category information to each discount
-                for discount in discounts:
-                    discount.category = category
+                logger.info(f"[{self.__class__.__name__}] Scraping URL: {url}")
+                discounts = self.extract_discounts_from_category(url, category, site)
                 all_discounts.extend(discounts)
             except Exception as e:
-                # Log error but continue with other URLs
-                from src.core.logging_config import logger
-                logger.error(f"Error extracting discounts from {url} for category {category}: {e}")
-                
+                logger.error(f"[{self.__class__.__name__}] Error scraping {url}: {e}")
+
+        logger.info(f"[{self.__class__.__name__}] Found {len(all_discounts)} discounts for category '{category}'.")
         return all_discounts

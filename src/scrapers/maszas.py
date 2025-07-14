@@ -26,7 +26,7 @@ class MaszasScraper(DiscountScraper):
             logger.error(f"Error fetching {url}: {e}")
             return None
 
-    def _get_discounts(self, soup, url):
+    def _get_discounts(self, soup: BeautifulSoup, url: str, category: str, site: str):
         products = soup.select("div.product-snapshot.list_div_item")
         discounts = []
 
@@ -76,17 +76,18 @@ class MaszasScraper(DiscountScraper):
                     image_url=image_url,
                     old_price=original_price,
                     new_price=discounted_price,
-                    category=None,
+                    category=category,
+                    site=site,
                     discount_percent=discount_percent
                 )
             )
         logger.info(f"[MaszasScraper] Found {len(discounts)} discounts.")
         return discounts
 
-    def extract_discounts_from_category(self, url):
+    def extract_discounts_from_category(self, url: str, category: str, site: str):
         html = self.get(url)
         if not html:
             return []
         
         soup = BeautifulSoup(html, 'html.parser')
-        return self._get_discounts(soup, url)
+        return self._get_discounts(soup, url, category, site)

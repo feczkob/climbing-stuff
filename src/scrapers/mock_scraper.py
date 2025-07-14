@@ -33,13 +33,8 @@ class MockScraper(DiscountScraper):
             return 'maszas'
         return 'unknown'
 
-    def extract_discounts_from_category(self, url):
+    def extract_discounts_from_category(self, url: str, category: str, site: str):
         """Extract discounts from a mock HTML file."""
-        category = self.category_by_url.get(url)
-        if not category:
-            logger.warning(f"[MockScraper] Category not found for URL: {url}")
-            return []
-
         mock_file_path = config.get_mock_file_path(self.site_name, category)
         
         if not os.path.exists(mock_file_path):
@@ -52,13 +47,13 @@ class MockScraper(DiscountScraper):
             
             # Use the appropriate scraper logic based on the site
             if self.site_name == 'bergfreunde':
-                return self._extract_bergfreunde_discounts(html_content, url)
+                return self._extract_bergfreunde_discounts(html_content, url, category, site)
             elif self.site_name == 'mountex':
-                return self._extract_mountex_discounts(html_content, url)
+                return self._extract_mountex_discounts(html_content, url, category, site)
             elif self.site_name == '4camping':
-                return self._extract_4camping_discounts(html_content, url)
+                return self._extract_4camping_discounts(html_content, url, category, site)
             elif self.site_name == 'maszas':
-                return self._extract_maszas_discounts(html_content, url)
+                return self._extract_maszas_discounts(html_content, url, category, site)
             else:
                 logger.warning(f"[MockScraper] Unknown site for mock extraction: {self.site_name}")
                 return []
@@ -67,7 +62,7 @@ class MockScraper(DiscountScraper):
             logger.error(f"[MockScraper] Error reading mock file {mock_file_path}: {e}")
             return []
     
-    def _extract_bergfreunde_discounts(self, html_content: str, url: str) -> List[Discount]:
+    def _extract_bergfreunde_discounts(self, html_content: str, url: str, category: str, site: str) -> List[Discount]:
         """Extract discounts from Bergfreunde HTML using the same logic as the real scraper."""
         from urllib.parse import urljoin
         
@@ -117,14 +112,15 @@ class MockScraper(DiscountScraper):
                     image_url=image_url,
                     old_price=orig_price,
                     new_price=disc_price,
-                    category=None,
+                    category=category,
+                    site=site,
                     discount_percent=discount_percent
                 ))
 
         logger.info(f"[MockScraper] Found {len(discounts)} Bergfreunde discounts from mock file.")
         return discounts
     
-    def _extract_mountex_discounts(self, html_content: str, url: str) -> List[Discount]:
+    def _extract_mountex_discounts(self, html_content: str, url: str, category: str, site: str) -> List[Discount]:
         """Extract discounts from Mountex HTML using the same logic as the real scraper."""
         from urllib.parse import urljoin
         
@@ -170,14 +166,15 @@ class MockScraper(DiscountScraper):
                     image_url=image_url,
                     old_price=orig_price,
                     new_price=disc_price,
-                    category=None,
+                    category=category,
+                    site=site,
                     discount_percent=discount_percent
                 ))
 
         logger.info(f"[MockScraper] Found {len(discounts)} Mountex discounts from mock file.")
         return discounts
     
-    def _extract_maszas_discounts(self, html_content: str, url: str) -> List[Discount]:
+    def _extract_maszas_discounts(self, html_content: str, url: str, category: str, site: str) -> List[Discount]:
         """Extract discounts from Maszas HTML using the same logic as the real scraper."""
         from urllib.parse import urljoin
         import re
@@ -231,14 +228,15 @@ class MockScraper(DiscountScraper):
                 image_url=image_url,
                 old_price=original_price,
                 new_price=discounted_price,
-                category=None,
+                category=category,
+                site=site,
                 discount_percent=discount_percent,
             ))
         
         logger.info(f"[MockScraper] Found {len(discounts)} Maszas discounts from mock file.")
         return discounts
 
-    def _extract_4camping_discounts(self, html_content: str, url: str) -> List[Discount]:
+    def _extract_4camping_discounts(self, html_content: str, url: str, category: str, site: str) -> List[Discount]:
         """Extract discounts from 4Camping HTML using the same logic as the real scraper."""
         import re
         
@@ -306,7 +304,8 @@ class MockScraper(DiscountScraper):
                 image_url=image_url,
                 old_price=old_price,
                 new_price=new_price,
-                category=None,
+                category=category,
+                site=site,
                 discount_percent=discount_percent
             )
             discounts.append(discount)

@@ -64,7 +64,7 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'PRODUCTION_MODE=false python run_app.py',
+    command: 'PRODUCTION_MODE=false python3 run_app.py',
     url: 'http://localhost:5000',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000, // 2 minutes
