@@ -62,7 +62,7 @@ def refresh_discounts_job():
     # Convert Discount objects to dictionaries for the cache
     discounts_dict = {}
     for category, discount_list in discounts.items():
-        discounts_dict[category] = [discount.to_dict() for discount in discount_list]
+        discounts_dict[category] = [discount.model_dump() for discount in discount_list]
     
     ALL_DISCOUNTS.clear()
     ALL_DISCOUNTS.update(discounts_dict)
