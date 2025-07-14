@@ -63,7 +63,7 @@ class MountexScraper(DiscountScraper):
 
             product_url = urljoin("https://mountex.hu", name_link["href"]) if name_link and name_link.has_attr("href") else None
 
-            if orig_price and disc_price and product_url:
+            if orig_price and disc_price and product_url and image_url:
                 discounts.append(Discount(
                     product=f"{brand} {product_name}".strip(),
                     url=product_url,

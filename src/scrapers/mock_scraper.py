@@ -110,7 +110,7 @@ class MockScraper(DiscountScraper):
             img_tag = product.select_one('a.product-link img.product-image')
             image_url = img_tag['src'] if img_tag and img_tag.has_attr('src') else None
 
-            if orig_price and disc_price and product_url:
+            if orig_price and disc_price and product_url and image_url:
                 discounts.append(Discount(
                     product=full_product_name,
                     url=product_url,
@@ -163,7 +163,7 @@ class MockScraper(DiscountScraper):
 
             product_url = urljoin("https://mountex.hu", name_link["href"]) if name_link and name_link.has_attr("href") else None
 
-            if orig_price and disc_price and product_url:
+            if orig_price and disc_price and product_url and image_url:
                 discounts.append(Discount(
                     product=f"{brand} {product_name}".strip(),
                     url=product_url,
@@ -221,7 +221,7 @@ class MockScraper(DiscountScraper):
                 except (ValueError, ZeroDivisionError):
                     discount_percent = ""
             
-            if not all([name, original_price, discounted_price, product_url]):
+            if not all([name, original_price, discounted_price, product_url, image_url]):
                 logger.warning(f"Could not extract all details for a product on {url}")
                 continue
 
@@ -270,7 +270,7 @@ class MockScraper(DiscountScraper):
                 full_name = base_name
 
             img_tag = card.select_one(".product-card__thumbnail img")
-            image_url = img_tag["src"] if img_tag else ""
+            image_url = img_tag["src"] if img_tag and img_tag.has_attr('src') else None
 
             old_price = old_price_tag.get_text(strip=True)
             new_price_tag = card.select_one(".card-price__full strong")
@@ -297,6 +297,9 @@ class MockScraper(DiscountScraper):
                 except (ValueError, ZeroDivisionError):
                     discount_percent = ""
 
+            if not all([full_name, product_url, image_url, old_price, new_price]):
+                continue
+            
             discount = Discount(
                 product=full_name,
                 url=product_url,

@@ -65,7 +65,7 @@ class MaszasScraper(DiscountScraper):
                 except (ValueError, ZeroDivisionError):
                     discount_percent = ""
             
-            if not all([name, original_price, discounted_price, product_url]):
+            if not all([name, original_price, discounted_price, product_url, image_url]):
                 logger.warning(f"Could not extract all details for a product on {url}")
                 continue
 

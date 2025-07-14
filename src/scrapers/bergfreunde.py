@@ -55,7 +55,7 @@ class BergfreundeScraper(DiscountScraper):
             img_tag = product.select_one('a.product-link img.product-image')
             image_url = img_tag['src'] if img_tag and img_tag.has_attr('src') else None
 
-            if orig_price and disc_price and product_url:
+            if orig_price and disc_price and product_url and image_url:
                 discounts.append(Discount(
                     product=full_product_name,
                     url=product_url,

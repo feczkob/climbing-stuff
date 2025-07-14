@@ -43,7 +43,7 @@ class FourCampingScraper(DiscountScraper):
                 full_name = base_name
 
             img_tag = card.select_one(".product-card__thumbnail img")
-            image_url = img_tag["src"] if img_tag else ""
+            image_url = img_tag["src"] if img_tag and img_tag.has_attr("src") else None
 
             old_price = old_price_tag.get_text(strip=True)
             new_price_tag = card.select_one(".card-price__full strong")
@@ -71,6 +71,9 @@ class FourCampingScraper(DiscountScraper):
                 except (ValueError, ZeroDivisionError):
                     discount_percent = ""
 
+            if not all([full_name, product_url, image_url, old_price, new_price]):
+                continue
+                
             discount = Discount(
                 product=full_name,
                 url=product_url,
