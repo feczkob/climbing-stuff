@@ -3,4 +3,4 @@ alwaysApply: true
 ---
 Always use the BeautifulSoup library for extracting value from the retrieved HTML files.
 Run the E2E tests always to verify your changes. When running the E2E tests, never show the HTML report. 
-Always write as few lines of code as possible.
+Always write as few lines of code as possible. Always activate the venv before executing python commands.
