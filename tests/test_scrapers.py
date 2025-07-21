@@ -13,9 +13,9 @@ from unittest.mock import patch
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.services.discount_service import fetch_discounts_for_category, fetch_all_discounts
-from src.scrapers.discount_url import DiscountUrl
+from src.dto.discount_url import DiscountUrl
+from src.core.content_loader import HttpContentLoader, MockContentLoader, SeleniumContentLoader
 from src.core.manager import ScraperManager
-from src.scrapers.content_loader import HttpContentLoader, MockContentLoader, SeleniumContentLoader
 
 
 class TestDiscountUrl(unittest.TestCase):

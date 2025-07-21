@@ -7,6 +7,6 @@ from .discount_service import fetch_discounts_for_category, fetch_all_discounts,
 
 __all__ = [
     'fetch_discounts_for_category',
-    'fetch_all_discounts', 
-    'refresh_discounts_job'
+    'fetch_all_discounts',
+    'refresh_discounts_job',
 ] 

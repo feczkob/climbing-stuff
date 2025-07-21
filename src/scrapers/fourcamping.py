@@ -1,9 +1,9 @@
 from bs4 import BeautifulSoup
 
 from src.core.logging_config import logger
-from src.scrapers.content_loader import ContentLoader
+from src.core.content_loader import ContentLoader
 from src.scrapers.discount_scraper import DiscountScraper
-from src.scrapers.discount import Discount
+from src.dto.discount import Discount
 import re
 
 class FourCampingScraper(DiscountScraper):

@@ -2,14 +2,14 @@ import yaml
 import os
 from typing import List, Dict, Any
 
-from src.core.logging_config import logger
 from src.core.config import config
+from src.core.logging_config import logger
 from src.scrapers.bergfreunde import BergfreundeScraper
 from src.scrapers.fourcamping import FourCampingScraper
 from src.scrapers.mountex import MountexScraper
 from src.scrapers.maszas import MaszasScraper
-from src.scrapers.content_loader import HttpContentLoader, MockContentLoader, SeleniumContentLoader
-from src.scrapers.discount_url import DiscountUrl
+from src.core.content_loader import HttpContentLoader, MockContentLoader, SeleniumContentLoader
+from src.dto.discount_url import DiscountUrl
 
 
 def get_project_root():

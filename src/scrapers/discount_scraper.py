@@ -2,8 +2,8 @@ from abc import ABC, abstractmethod
 from typing import List
 from bs4 import BeautifulSoup
 from src.core.config import config
-from src.scrapers.content_loader import ContentLoader, HttpContentLoader, MockContentLoader
-from src.scrapers.discount_url import DiscountUrl
+from src.core.content_loader import ContentLoader, HttpContentLoader, MockContentLoader
+from src.dto.discount_url import DiscountUrl
 
 
 class DiscountScraper(ABC):
