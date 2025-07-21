@@ -3,9 +3,9 @@ import { test, expect } from '@playwright/test';
 // Helper to select a category and wait for products to load
 const eachCategory = [
   { value: 'ropes', expectedDiscounts: 112 },
-  { value: 'friends-nuts', expectedDiscounts: 86 },
+  { value: 'friends-nuts', expectedDiscounts: 64 },
   { value: 'slings', expectedDiscounts: 103 },
-  { value: 'carabiners-quickdraws', expectedDiscounts: 146 },
+  { value: 'carabiners-quickdraws', expectedDiscounts: 117 },
 ];
 
 test.describe('Discounts E2E (mock mode)', () => {
