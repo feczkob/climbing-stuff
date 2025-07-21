@@ -1,0 +1,87 @@
+---
+description: Interface-First Design Philosophy
+globs: 
+alwaysApply: true
+---
+# Interface-First Design Philosophy
+
+This project follows the software design philosophy outlined in "A Philosophy of Software Design" by John Ousterhout. Our primary goal is to **fight complexity through thoughtful interface design**.
+
+## Core Principle: Deep Modules Over Shallow Modules
+
+**Always prioritize simple interfaces with complex implementations over complex interfaces with simple implementations.**
+
+- **Deep Module**: Simple interface, complex implementation → PREFERRED
+- **Shallow Module**: Complex interface, simple implementation → AVOID
+
+## Interface-First Development Workflow
+
+When adding or modifying functionality:
+
+1. **START WITH INTERFACE DESIGN**
+   - Define the interface first, before any implementation
+   - Focus on what the module should expose, not how it works internally
+   - Ask: "What is the simplest possible interface for this functionality?"
+
+2. **DESIGN IT TWICE**
+   - Consider at least 2 different interface approaches
+   - Document the alternatives and tradeoffs
+   - Present interface options for review BEFORE implementation
+
+3. **REVIEW GATE**
+   - **MANDATORY**: Interface changes must be reviewed before implementation begins
+   - Focus review on: simplicity, information hiding, future extensibility
+   - Only proceed to implementation after interface approval
+
+4. **IMPLEMENT AFTER APPROVAL**
+   - Implementation complexity is acceptable if it keeps the interface simple
+   - Hide internal complexity completely from the interface
+   
+
+## Interface Design Guidelines
+
+### Information Hiding
+- **Expose only what clients absolutely need to know**
+- Hide implementation details, data structures, and internal logic
+- Avoid "leaky abstractions" that expose internal concepts
+
+### Simplicity
+- **Prefer fewer methods with more capability over many specific methods**
+- Use consistent naming conventions
+- Avoid configuration parameters when possible - build intelligence into the module
+
+### Generalization
+- **Design for reuse when it doesn't add complexity**
+- General-purpose modules tend to have simpler interfaces
+- Avoid over-specialization that creates shallow modules
+
+### Layer Management
+- **Each abstraction layer should remove complexity, not add it**
+- Avoid pass-through methods or decorator patterns that just wrap other interfaces
+- If a layer doesn't hide significant complexity, consider eliminating it
+
+## Anti-Patterns to Avoid
+
+- **Complex interfaces with simple implementations** (shallow modules)
+- **Information leakage** - exposing internal concepts through the interface
+- **Pass-through layers** that add no abstraction value
+- **Implementation-first design** - building logic before defining clean interfaces
+
+## Questions to Ask During Interface Design
+
+1. **Depth**: Does this interface hide significant complexity?
+2. **Simplicity**: Can a client use this without understanding internal details?
+3. **Information Hiding**: Are we exposing only essential concepts?
+4. **Future-Proofing**: Will this interface remain stable as implementation evolves?
+5. **Generality**: Could this serve broader use cases without added complexity?
+
+## Review Checklist for Interface Changes
+
+- [ ] Interface serves a clear, single purpose
+- [ ] Implementation details are completely hidden
+- [ ] Method signatures are intuitive and consistent
+- [ ] Error handling is clean and predictable
+- [ ] Interface will remain stable as requirements evolve
+- [ ] Alternative designs were considered and documented
+
+Remember: **It's more important for a module to have a simple interface than a simple implementation.**
