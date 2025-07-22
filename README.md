@@ -75,7 +75,9 @@ curl http://localhost:5000/discounts/friends
 
 ---
 
-**Note:** Some scrapers use Selenium and require ChromeDriver installed.
+**Note:** Some scrapers may require additional setup (e.g. specific headers or handling for dynamic content).
+The application is configured to use mock data by default, which is stored in the `tests/mocks` directory.
+
 ## Running Tests
 
 ### E2E Tests

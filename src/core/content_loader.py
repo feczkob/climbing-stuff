@@ -25,20 +25,13 @@ class MockContentLoader(ContentLoader):
             return BeautifulSoup(f.read(), "html.parser")
 
 
-class SeleniumContentLoader(ContentLoader):
+class PlaywrightContentLoader(ContentLoader):
     def get_content(self, url: str) -> BeautifulSoup:
-        from selenium import webdriver
-        from selenium.webdriver.chrome.options import Options
-        import time
-
-        options = Options()
-        options.add_argument("--headless=new")
-        options.add_argument("--disable-gpu")
-        options.add_argument("--no-sandbox")
-        
-        driver = webdriver.Chrome(options=options)
-        driver.get(url)
-        time.sleep(5)
-        soup = BeautifulSoup(driver.page_source, "html.parser")
-        driver.quit()
-        return soup
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as p:
+            browser = p.chromium.launch()
+            page = browser.new_page()
+            page.goto(url)
+            content = page.content()
+            browser.close()
+            return BeautifulSoup(content, "html.parser")

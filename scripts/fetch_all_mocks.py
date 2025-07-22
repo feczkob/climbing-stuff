@@ -6,127 +6,65 @@ and save them as mock files for development/testing.
 
 import os
 import sys
-import yaml
-import requests
-from pathlib import Path
-from urllib.parse import urlparse
 import time
+from urllib.parse import urlparse
 
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
 from bs4 import BeautifulSoup
-from webdriver_manager.chrome import ChromeDriverManager
+from playwright.sync_api import sync_playwright
+import httpx
+
+from src.core.config import config
 
 # Add src to path
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# Import not needed for this script
-# from src.core.config import Config
+MOCKS_DIR = "tests/mocks"
 
-def fetch_html(url, headers=None, site_name=None):
-    """Fetch HTML content from URL with retry logic."""
-    if site_name == "mountex":
-        try:
-            print(f"  Fetching {url} using Selenium...")
-            options = Options()
-            options.add_argument("--headless=new")
-            options.add_argument("--disable-gpu")
-            options.add_argument("--no-sandbox")
-            
-            driver = webdriver.Chrome(options=options)
-            driver.get(url)
-            time.sleep(5)  # Wait for dynamic content
-            html = driver.page_source
-            driver.quit()
-            return html
-        except Exception as e:
-            print(f"  Error fetching {url} with Selenium: {e}")
-            return None
+# Define your URLs here
+URLS = config.get_all_urls()
 
-    if headers is None:
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-        }
-    
-    max_retries = 3
-    for attempt in range(max_retries):
-        try:
-            print(f"  Fetching {url} (attempt {attempt + 1})")
-            response = requests.get(url, headers=headers, timeout=30)
+
+def fetch_and_save(url, file_path, use_playwright=False):
+    """Fetch URL content and save to a file."""
+    try:
+        if use_playwright:
+            print(f"  Fetching {url} using Playwright...")
+            with sync_playwright() as p:
+                browser = p.chromium.launch()
+                page = browser.new_page()
+                page.goto(url)
+                content = page.content()
+                browser.close()
+        else:
+            print(f"  Fetching {url} using httpx...")
+            response = httpx.get(url, follow_redirects=True, timeout=30)
             response.raise_for_status()
-            return response.text
-        except Exception as e:
-            print(f"  Error fetching {url}: {e}")
-            if attempt < max_retries - 1:
-                print(f"  Retrying in 2 seconds...")
-                time.sleep(2)
-            else:
-                print(f"  Failed to fetch {url} after {max_retries} attempts")
-                return None
+            content = response.text
 
-def generate_mock_filename(site_name, url, category):
-    """Generate mock filename based on site, URL, and category."""
-    return f"{site_name}_{category}.html"
+        soup = BeautifulSoup(content, "html.parser")
+        with open(file_path, "w") as f:
+            f.write(str(soup.prettify()))
+    except Exception as e:
+        print(f"  Error fetching {url}: {e}")
+        if not use_playwright:
+            fetch_and_save(url, file_path, use_playwright=True)
+
 
 def main():
-    """Main function to fetch all mock files."""
-    # Load categories configuration
-    config_path = Path(__file__).parent.parent / 'config' / 'categories.yaml'
-    with open(config_path, 'r') as f:
-        categories_config = yaml.safe_load(f)
-    
-    # Create mocks directory
-    mocks_dir = Path(__file__).parent.parent / 'tests' / 'mocks'
-    mocks_dir.mkdir(parents=True, exist_ok=True)
-    
-    print("🚀 Starting to fetch HTML responses for all categories...")
-    print(f"📁 Mock files will be saved to: {mocks_dir}")
-    
-    total_files = 0
-    successful_files = 0
-    
-    for category_name, sites in categories_config['categories'].items():
-        print(f"\n📂 Processing category: {category_name}")
-        
-        for site_name, urls in sites.items():
-            if isinstance(urls, str):
-                urls = [urls]
-            
-            for url in urls:
-                total_files += 1
-                filename = generate_mock_filename(site_name, url, category_name)
-                filepath = mocks_dir / filename
-                
-                print(f"  📄 {filename}")
-                
-                # Skip if file already exists
-                if filepath.exists():
-                    print(f"    ⏭️  File already exists, skipping...")
-                    successful_files += 1
-                    continue
-                
-                # Fetch HTML content
-                html_content = fetch_html(url, site_name=site_name)
-                
-                if html_content:
-                    # Save to file
-                    with open(filepath, 'w', encoding='utf-8') as f:
-                        f.write(html_content)
-                    print(f"    ✅ Saved {len(html_content)} characters")
-                    successful_files += 1
-                else:
-                    print(f"    ❌ Failed to fetch content")
-                
-                # Small delay between requests
-                time.sleep(1)
-    
-    print(f"\n🎉 Fetching complete!")
-    print(f"📊 Summary: {successful_files}/{total_files} files successfully created")
-    
-    if successful_files < total_files:
-        print(f"⚠️  {total_files - successful_files} files failed to fetch")
-        print("   You may need to check the URLs or network connection")
+    if not os.path.exists(MOCKS_DIR):
+        os.makedirs(MOCKS_DIR)
+
+    for site, urls in URLS.items():
+        print(f"Processing site: {site}")
+        for category, url_list in urls.items():
+            for i, url in enumerate(url_list):
+                # Create a filename based on the site and category
+                file_name = f"{site.lower()}_{category}.html"
+                file_path = os.path.join(MOCKS_DIR, file_name)
+                # For mountex, use playwright
+                fetch_and_save(url, file_path, use_playwright=(site == "mountex"))
+    print("Done.")
+
 
 if __name__ == "__main__":
     main() 

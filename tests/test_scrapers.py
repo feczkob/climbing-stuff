@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.services.discount_service import fetch_discounts_for_category, fetch_all_discounts
 from src.dto.discount_url import DiscountUrl
-from src.core.content_loader import HttpContentLoader, MockContentLoader, SeleniumContentLoader
+from src.core.content_loader import HttpContentLoader, MockContentLoader, PlaywrightContentLoader
 from src.core.manager import ScraperManager
 
 
@@ -42,7 +42,7 @@ class TestScraperManager(unittest.TestCase):
         scrapers = scraper_manager.get_scrapers()
 
         for site_name, scraper in scrapers.items():
-            self.assertIsInstance(scraper.content_loader, (HttpContentLoader, SeleniumContentLoader),
+            self.assertIsInstance(scraper.content_loader, (HttpContentLoader, PlaywrightContentLoader),
                                   f"Scraper {site_name} has wrong content loader in production")
 
     @patch('src.core.config.config.is_production', return_value=False)

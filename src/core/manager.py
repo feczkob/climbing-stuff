@@ -8,7 +8,7 @@ from src.scrapers.bergfreunde import BergfreundeScraper
 from src.scrapers.fourcamping import FourCampingScraper
 from src.scrapers.mountex import MountexScraper
 from src.scrapers.maszas import MaszasScraper
-from src.core.content_loader import HttpContentLoader, MockContentLoader, SeleniumContentLoader
+from src.core.content_loader import HttpContentLoader, MockContentLoader, PlaywrightContentLoader
 from src.dto.discount_url import DiscountUrl
 
 
@@ -40,7 +40,7 @@ class ScraperManager:
             if config.is_production():
                 logger.info("Running in PRODUCTION mode - using real scrapers")
                 if site == "mountex":
-                    content_loader = SeleniumContentLoader()
+                    content_loader = PlaywrightContentLoader()
                 else:
                     content_loader = HttpContentLoader()
             else:
