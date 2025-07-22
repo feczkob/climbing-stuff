@@ -31,7 +31,10 @@ class PlaywrightContentLoader(ContentLoader):
         with sync_playwright() as p:
             browser = p.chromium.launch()
             page = browser.new_page()
-            page.goto(url)
-            content = page.content()
-            browser.close()
+            try:
+                page.goto(url)
+                page.wait_for_selector("div.bg-white.rounded-16", timeout=10000)
+                content = page.content()
+            finally:
+                browser.close()
             return BeautifulSoup(content, "html.parser")
