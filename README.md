@@ -38,6 +38,9 @@ To run in development mode:
 python3 run_app.py
 ```
 
+**Known Issues:**
+- In non-production mode, the `Mountex` scraper is initialized with 0 discounts due to issues with dynamic content in mock files. This is a known issue.
+
 ### Production Mode
 
 In production mode, the application uses live scrapers to fetch real-time data from the websites.
@@ -55,7 +58,7 @@ PRODUCTION_MODE=true python3 run_app.py
 
 Example:
 ```bash
-curl http://localhost:5000/discounts/friends
+curl http://localhost:5000/discounts/friends-nuts
 ```
 
 ## Adding New Scrapers
@@ -75,7 +78,9 @@ curl http://localhost:5000/discounts/friends
 
 ---
 
-**Note:** Some scrapers use Selenium and require ChromeDriver installed.
+**Note:** Some scrapers may require additional setup (e.g. specific headers or handling for dynamic content).
+The application is configured to use mock data by default, which is stored in the `tests/mocks` directory.
+
 ## Running Tests
 
 ### E2E Tests

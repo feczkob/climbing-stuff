@@ -18,9 +18,16 @@ test.describe('Discounts E2E (mock mode)', () => {
     await expect(page.locator('#category-select')).toBeVisible();
   });
 
-  for (const { value, expectedDiscounts } of eachCategory) {
-    test(`should show correct discounts for category: ${value}`, async ({ page }) => {
-      await page.selectOption('#category-select', value);
+  const testCases = [
+    { category: 'friends-nuts', expectedDiscounts: 39 },
+    { category: 'slings', expectedDiscounts: 95 },
+    { category: 'ropes', expectedDiscounts: 109 },
+    { category: 'carabiners-quickdraws', expectedDiscounts: 102 }
+  ];
+
+  testCases.forEach(({ category, expectedDiscounts }) => {
+    test(`should show correct discounts for category: ${category}`, async ({ page }) => {
+      await page.selectOption('#category-select', category);
       // Wait for products to load
       await page.waitForTimeout(500); // or use a better wait if you have a loading indicator
       const products = await page.locator('.product');
@@ -33,7 +40,7 @@ test.describe('Discounts E2E (mock mode)', () => {
         }
       }
     });
-  }
+  });
 
   test('should show product details for ropes', async ({ page }) => {
     await page.selectOption('#category-select', 'ropes');
