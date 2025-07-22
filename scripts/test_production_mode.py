@@ -6,8 +6,8 @@ Test script to demonstrate production mode functionality.
 import os
 import sys
 
-# Add the src directory to the Python path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+# Add the project root to the Python path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from src.core.config import config
 from src.services.discount_service import fetch_discounts_for_category
