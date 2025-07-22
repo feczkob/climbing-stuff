@@ -93,3 +93,11 @@ To run the tests without opening the browser report and see the output directly 
 ```bash
 npx playwright test --reporter=list
 ```
+
+### Python Unit Tests
+
+To run the Python unit tests, use the following command:
+
+```bash
+python -m unittest discover tests
+```

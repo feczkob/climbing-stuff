@@ -1,21 +1,18 @@
-import requests
 from bs4 import BeautifulSoup
 
 from src.core.logging_config import logger
+from src.core.content_loader import ContentLoader
 from src.scrapers.discount_scraper import DiscountScraper
-from src.scrapers.discount import Discount
+from src.dto.discount import Discount
 import re
 
 class FourCampingScraper(DiscountScraper):
     BASE_URL = "https://www.4camping.hu"
     
-    def __init__(self, discount_urls=None):
-        super().__init__(discount_urls)
+    def __init__(self, content_loader: ContentLoader, discount_urls=None):
+        super().__init__(content_loader, discount_urls)
 
-    def extract_discounts_from_category(self, url):
-        resp = requests.get(url)
-        resp.raise_for_status()
-        soup = BeautifulSoup(resp.text, "html.parser")
+    def extract_discounts_from_soup(self, soup: BeautifulSoup, url: str):
         discounts = []
 
         for card in soup.select(".product-card__inner"):

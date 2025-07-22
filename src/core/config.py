@@ -1,4 +1,5 @@
 import os
+import yaml
 from typing import Dict, Any
 
 class Config:
@@ -7,7 +8,19 @@ class Config:
     def __init__(self):
         self.production_mode = self._get_production_mode()
         self.mock_files_dir = self._get_mock_files_dir()
-    
+        self.categories = self._load_categories()
+
+    def _load_categories(self) -> Dict[str, Any]:
+        """Load categories from the YAML file."""
+        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        categories_path = os.path.join(project_root, 'config', 'categories.yaml')
+        with open(categories_path, 'r') as f:
+            return yaml.safe_load(f)['categories']
+
+    def get_categories(self) -> Dict[str, Any]:
+        """Get the loaded categories."""
+        return self.categories
+
     def _get_production_mode(self) -> bool:
         """Get production mode from environment variable."""
         return os.getenv('PRODUCTION_MODE', 'false').lower() == 'true'

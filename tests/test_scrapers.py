@@ -7,12 +7,14 @@ Tests the DiscountUrl architecture and category-based scraping.
 import sys
 import os
 import unittest
+from unittest.mock import patch
 
 # Add the project root to the path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.services.discount_service import fetch_discounts_for_category, fetch_all_discounts
-from src.scrapers.discount_url import DiscountUrl
+from src.dto.discount_url import DiscountUrl
+from src.core.content_loader import HttpContentLoader, MockContentLoader, SeleniumContentLoader
 from src.core.manager import ScraperManager
 
 
@@ -32,18 +34,27 @@ class TestDiscountUrl(unittest.TestCase):
 
 class TestScraperManager(unittest.TestCase):
     """Test cases for ScraperManager class."""
-    
-    def test_scraper_initialization(self):
-        """Test that scrapers are initialized with DiscountUrl objects."""
+
+    @patch('src.core.config.config.is_production', return_value=True)
+    def test_scraper_initialization_production(self, mock_is_production):
+        """Test that scrapers are initialized with correct content loaders in production."""
         scraper_manager = ScraperManager()
         scrapers = scraper_manager.get_scrapers()
-        
+
         for site_name, scraper in scrapers.items():
-            self.assertTrue(hasattr(scraper, 'discount_urls'), 
-                          f"Scraper {site_name} missing discount_urls")
-            self.assertTrue(hasattr(scraper, '_urls_by_category'), 
-                          f"Scraper {site_name} missing _urls_by_category")
-    
+            self.assertIsInstance(scraper.content_loader, (HttpContentLoader, SeleniumContentLoader),
+                                  f"Scraper {site_name} has wrong content loader in production")
+
+    @patch('src.core.config.config.is_production', return_value=False)
+    def test_scraper_initialization_development(self, mock_is_production):
+        """Test that scrapers are initialized with correct content loaders in development."""
+        scraper_manager = ScraperManager()
+        scrapers = scraper_manager.get_scrapers()
+
+        for site_name, scraper in scrapers.items():
+            self.assertIsInstance(scraper.content_loader, MockContentLoader,
+                                  f"Scraper {site_name} has wrong content loader in development")
+
     def test_load_categories(self):
         """Test that categories are loaded correctly."""
         scraper_manager = ScraperManager()
@@ -99,73 +110,5 @@ class TestServiceLayer(unittest.TestCase):
                                f"Discount in {category} has wrong category: {discount.category}")
 
 
-def run_integration_tests():
-    """Run integration tests that actually fetch data from websites."""
-    print("Running integration tests for scraper functionality...")
-    print("=" * 60)
-    
-    try:
-        # Test DiscountUrl creation
-        print("Testing DiscountUrl creation...")
-        discount_url = DiscountUrl(
-            category="friends-nuts",
-            url="https://www.bergfreunde.eu/camming-devices-friends/"
-        )
-        assert discount_url.category == "friends-nuts"
-        assert discount_url.url == "https://www.bergfreunde.eu/camming-devices-friends/"
-        print("✓ DiscountUrl creation works correctly")
-        
-        # Test scraper initialization
-        print("Testing scraper initialization...")
-        scraper_manager = ScraperManager()
-        scrapers = scraper_manager.get_scrapers()
-        
-        for site_name, scraper in scrapers.items():
-            assert hasattr(scraper, 'discount_urls')
-            assert hasattr(scraper, '_urls_by_category')
-            print(f"✓ {site_name} scraper initialized with {len(scraper.discount_urls)} URLs")
-        
-        print("✓ All scrapers initialized correctly")
-        
-        # Test category-based fetching
-        print("Testing category-based fetching...")
-        categories = ['friends-nuts', 'slings', 'ropes', 'carabiners-quickdraws']
-        
-        for category in categories:
-            print(f"  Testing category: {category}")
-            discounts = fetch_discounts_for_category(category)
-            
-            # Verify that all discounts have the correct category
-            for discount in discounts:
-                assert discount.category == category
-            
-            print(f"    ✓ Found {len(discounts)} discounts for {category}")
-        
-        print("✓ Category-based fetching works correctly")
-        
-        # Test all discounts fetching
-        print("Testing all discounts fetching...")
-        all_discounts = fetch_all_discounts()
-        
-        total_discounts = sum(len(discounts) for discounts in all_discounts.values())
-        print(f"✓ Found {total_discounts} total discounts across all categories")
-        
-        print("✓ All discounts fetching works correctly")
-        
-        print("=" * 60)
-        print("🎉 All integration tests passed!")
-        
-    except Exception as e:
-        print(f"❌ Integration test failed: {e}")
-        return False
-    
-    return True
-
-
 if __name__ == "__main__":
-    # Run unit tests
-    unittest.main(verbosity=2, exit=False)
-    
-    # Run integration tests
-    print("\n" + "="*60)
-    run_integration_tests() 
+    unittest.main(verbosity=2) 
